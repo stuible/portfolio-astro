@@ -1,0 +1,27 @@
+$breakpoints: (
+  phone: 450px, // Phones
+  thone: 600px, // Slightly Larger Phones
+  phablet: 750px, // Obnoxiously Large Phones
+  tablet: 950px, // Tablets
+  desktop: 1080px, // Desktops
+  desktophd: 1200px // Large Desktops
+);
+
+@mixin breakpoint($breakpoint) {
+    // If the breakpoint exists in the map.
+    @if map-has-key($breakpoints, $breakpoint) {
+        // Get the breakpoint value.
+        $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+        // Write the media query.
+        @media (min-width: $breakpoint-value) {
+            @content;
+        }
+
+        // If the breakpoint doesn't exist in the map.
+    }
+    @else {
+        // Log a warning.
+        @warn "Invalid breakpoint: #{$breakpoint}.";
+    }
+}

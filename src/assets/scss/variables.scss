@@ -1,0 +1,15 @@
+$top-nav-height: 75px;
+
+$colour-dark: #333333;
+$colour-medium: #ededed;
+$colour-light: #fafafa;
+
+$main-grid-columns: 1fr 1fr 1fr 1fr;
+
+$main-grid-gap: (
+    phone: 3em,
+    phablet: 3em,
+    tablet: 3em,
+    desktop: 4em,
+    desktophd: 4em,
+);

@@ -1,0 +1,41 @@
+//Import Neue Haas Grotesk
+
+@font-face {
+    font-family: "Neue Haas Grotesk";
+    src: url("~/assets/fonts/neue-haas-grotesk/neue-haas-grotesk-display-thin.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: "Neue Haas Grotesk";
+    src: url("~/assets/fonts/neue-haas-grotesk/neue-haas-grotesk-display-light.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: "Neue Haas Grotesk";
+    src: url("~/assets/fonts/neue-haas-grotesk/neue-haas-grotesk-display-roman.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: "Neue Haas Grotesk";
+    src: url("~/assets/fonts/neue-haas-grotesk/neue-haas-grotesk-display-bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: block;
+}
+
+// @font-face {
+//     font-family: 'Neue Haas Grotesk';
+//     src: url("~assets/fonts/neue-haas-grotesk/neue-haas-grotesk-display-black.woff2") format("woff2");
+//     font-weight: 900;
+//     font-style: normal;
+//     font-display: block;
+// }

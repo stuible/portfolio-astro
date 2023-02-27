@@ -1,0 +1,92 @@
+// ==========================================================================
+// Stuible Stylesheet
+// ==========================================================================
+
+//Normalize CSS
+// @import "~normalize.css";
+
+// Variables and Colours
+@import "variables";
+
+@import "fonts";
+
+// Breakpoints & Layout
+@import "breakpoints";
+@import "layout";
+
+//Hamburger Menu
+$hamburger-padding-x: 0px;
+$hamburger-padding-y: 0px;
+$hamburger-types: squeeze;
+$hamburger-layer-spacing: 8px;
+$hamburger-layer-width: 30px;
+$hamburger-layer-height: 1px;
+
+// @import "~hamburgers/_sass/hamburgers/hamburgers";
+
+html {
+    font-family: "Neue Haas Grotesk", sans-serif;
+    word-spacing: 0.01em;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+p {
+    // font-family: "Helvetica Neue", "Helvetica" , sans-serif;
+    line-height: 1.33em;
+}
+
+video {
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-weight: 200;
+    font-size: 4em;
+    letter-spacing: 0.05em;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: $colour-dark;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.hide-visually {
+    display: none;
+}

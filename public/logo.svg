@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="99px" height="173px" viewBox="0 0 99 173" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>jslogo</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy-4" transform="translate(-110.000000, -120.000000)" stroke="#333333" stroke-width="12">
+            <g id="jslogo" transform="translate(114.000000, 120.000000)">
+                <path d="M17,160.32 L17,0" id="Path"></path>
+                <path d="M73.64,13.12 L73.64,159.3" id="Path"></path>
+                <polyline id="Path" points="73.64 17 73.64 15.12 90.46 31.94"></polyline>
+                <polyline id="Path" points="73.64 156.24 73.64 158.32 56.82 141.5"></polyline>
+                <polyline id="Path" points="17 156.54 17 158.32 0.24 141.56"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
