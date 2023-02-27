@@ -22,7 +22,10 @@ const projects = await getCollection("projects");
               <img class="icon" src="/homehealth.svg" alt="Logo" />
             </td>
             <td data-label="Title">
-              <a href={`/${project.slug}`}>{project.data.title}</a>
+              <a href={`/${project.slug}`}>
+                <div class="title">{project.data.title}</div>
+                <div class="subtitle">{project.data.subtitle}</div>
+              </a>
             </td>
             <td data-label="Tags">Tags {index}</td>
           </tr>
@@ -39,11 +42,19 @@ const projects = await getCollection("projects");
   }
   th {
     text-align: left;
+    padding-right: 1rem;
   }
   tr {
     // padding-bottom: 1rem;
   }
   .icon {
     height: 1em;
+  }
+  .title {
+    margin-bottom: 0.25rem;
+    text-transform: lowercase;
+  }
+  .subtitle {
+    font-size: 0.75em;
   }
 </style>
