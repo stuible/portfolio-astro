@@ -17,11 +17,34 @@ const { Content } = await project.render();
 ---
 
 <Layout title="Project Page">
-  <Content class="content" />
+  <article class="portoflio:article">
+    <h1>{project.data.title}</h1>
+    <Content />
+  </article>
 </Layout>
 
-<style lang="scss">
-  .content {
-    margin-top: 2rem;
+<style lang="scss" is:global>
+  .portoflio\:article {
+    h1 {
+      font-size: 3rem;
+      font-weight: normal;
+      margin-bottom: 4rem;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: normal;
+      text-transform: lowercase;
+
+      &:not(:first-of-type) {
+        margin-top: 4rem;
+      }
+    }
+    p {
+      margin-bottom: 1rem;
+      max-width: 50ch;
+    }
   }
 </style>
+
+<style lang="scss"></style>
