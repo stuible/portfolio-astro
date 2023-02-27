@@ -29,7 +29,11 @@ const { title, noTopPadding = false } = Astro.props;
         <slot />
       </main>
       <footer>
-        {"Design & Implementation by Josh Stuible in Vancouver"}
+        design + implementation by
+        <!-- <span>Josh Stuible</span> -->
+        <img src="/logo-sideways.svg" alt="JS" class="logo" /> in
+        <!-- <span>Vancouver</span> -->
+        <img src="/logo-umbrella.svg" alt="JS" class="umbrella" />
       </footer>
     </div>
   </body>
@@ -56,6 +60,22 @@ const { title, noTopPadding = false } = Astro.props;
 
     &.no-top-padding {
       padding-top: 0;
+    }
+  }
+  footer {
+    display: flex;
+    align-items: center;
+    padding-bottom: 4rem;
+    img {
+      height: 1em;
+      margin: 0 0.5em;
+
+      &.logo {
+        height: 0.65em;
+      }
+      &.umbrella {
+        height: 0.4em;
+      }
     }
   }
 </style>
