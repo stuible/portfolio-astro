@@ -1,37 +1,12 @@
 ---
 import "~/assets/scss/_base.scss";
 
-import TopNav from "~/components/global/TopNav.vue";
 export interface Props {
   title: string;
+  noTopPadding?: boolean;
 }
 
-const { title } = Astro.props;
-
-const nav = [
-  {
-    name: "Josh Stuible",
-    link: "/",
-    scroll: "__layout",
-    hash: "",
-  },
-  {
-    name: "Portfolio",
-    link: "/",
-    scroll: "portfolio",
-    hash: "#portfolio",
-  },
-  {
-    name: "Activity",
-    link: "/",
-    scroll: "doing",
-    hash: "#doing",
-  },
-  {
-    name: "Contact",
-    link: "#",
-  },
-];
+const { title, noTopPadding = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -45,8 +20,14 @@ const nav = [
   </head>
   <body>
     <div class="container">
-      <header></header>
-      <slot />
+      <header>
+        <a href="/"
+          ><h1><img src="/logo-sideways.svg" alt="JS" />Josh Stuible</h1>
+        </a>
+      </header>
+      <main class={noTopPadding ? "no-top-padding" : ""}>
+        <slot />
+      </main>
       <footer>
         {"Design & Implementation by Josh Stuible in Vancouver"}
       </footer>
@@ -55,3 +36,26 @@ const nav = [
 </html>
 
 <style is:global lang="scss"></style>
+
+<style lang="scss">
+  header {
+    padding-top: 4rem;
+  }
+  h1 {
+    font-size: 1rem;
+    font-weight: normal;
+    text-transform: lowercase;
+    margin-bottom: 1rem;
+    img {
+      height: 1em;
+      margin-right: 0.5em;
+    }
+  }
+  main {
+    padding: 4rem 0;
+
+    &.no-top-padding {
+      padding-top: 0;
+    }
+  }
+</style>
