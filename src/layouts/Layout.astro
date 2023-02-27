@@ -2,7 +2,6 @@
 import "~/assets/scss/_base.scss";
 
 import TopNav from "~/components/global/TopNav.vue";
-
 export interface Props {
   title: string;
 }
@@ -45,89 +44,14 @@ const nav = [
     <title>{title}</title>
   </head>
   <body>
-    <div id="content" class="container">
-      <div class="sidebar">
-        <div class="absolute-wrapper">
-          <!-- LOGO -->
-          <a href="/" click="scrollTo('__layout')">
-            <img id="logo" src="/logocurvey.svg" alt="JS" />
-          </a>
-          <!-- /LOGO -->
-          <side-nav nav="nav" clicked="scrollTo"></side-nav>
-        </div>
-      </div>
-      <div class="scrollable">
-        <TopNav nav={nav} clicked="scrollTo" client:idle />
-        <slot />
-        <footer>
-          {"Design & Implementation by Josh Stuible in Vancouver"}
-        </footer>
-      </div>
-      <div class="sidebar"></div>
+    <div class="container">
+      <header></header>
+      <slot />
+      <footer>
+        {"Design & Implementation by Josh Stuible in Vancouver"}
+      </footer>
     </div>
   </body>
 </html>
-<style is:global lang="scss">
-  #content {
-    display: flex;
-    padding-top: 1em;
 
-    @include breakpoint(phone) {
-      padding-top: 5em;
-    }
-  }
-  $sidebarWidthSmall: 150px;
-  $sidebarWidthMedium: 200px;
-  $sidebarWidthLarge: 200px;
-  .sidebar {
-    min-width: $sidebarWidthSmall;
-    max-width: $sidebarWidthSmall;
-    display: none;
-
-    @include breakpoint(phablet) {
-      display: block;
-    }
-
-    @include breakpoint(tablet) {
-      min-width: $sidebarWidthMedium;
-      max-width: $sidebarWidthMedium;
-    }
-
-    @include breakpoint(desktophd) {
-      min-width: $sidebarWidthLarge;
-      max-width: $sidebarWidthLarge;
-    }
-
-    .absolute-wrapper {
-      position: fixed;
-      width: $sidebarWidthSmall;
-      display: block;
-      text-align: right;
-      padding-right: 3em;
-
-      @include breakpoint(tablet) {
-        width: $sidebarWidthMedium;
-        padding-right: 4em;
-      }
-
-      @include breakpoint(desktophd) {
-        width: $sidebarWidthLarge;
-        padding-right: 5em;
-      }
-    }
-
-    img#logo {
-      width: auto;
-      height: $top-nav-height;
-    }
-  }
-  .scrollable {
-    flex-grow: 1;
-  }
-
-  footer {
-    text-align: center;
-    padding: calc(4em + 20vh) 0 5em 0;
-    min-height: 50px;
-  }
-</style>
+<style is:global lang="scss"></style>

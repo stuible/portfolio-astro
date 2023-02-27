@@ -11,23 +11,26 @@ import vue from "@astrojs/vue";
 import image from "@astrojs/image";
 
 // https://astro.build/config
+import mdx from "@astrojs/mdx";
+
+// https://astro.build/config
 export default defineConfig({
-    vite: {
-        resolve: {
-            alias: {
-                '~/': `${path.resolve(__dirname, 'src')}/`
-            }
-        },
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    // path to your scss variables
-                    additionalData: `@use "sass:math"; @import "~/assets/scss/variables.scss"; @import "~/assets/scss/breakpoints.scss";`
-                }
-            }
-        }
+  vite: {
+    resolve: {
+      alias: {
+        '~/': `${path.resolve(__dirname, 'src')}/`
+      }
     },
-    integrations: [vue(), image({
-        serviceEntryPoint: '@astrojs/image/sharp'
-    })]
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // path to your scss variables
+          additionalData: `@use "sass:math"; @import "~/assets/scss/variables.scss"; @import "~/assets/scss/breakpoints.scss";`
+        }
+      }
+    }
+  },
+  integrations: [vue(), image({
+    serviceEntryPoint: '@astrojs/image/sharp'
+  }), mdx()]
 });

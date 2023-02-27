@@ -1,0 +1,49 @@
+---
+import { getCollection, getEntryBySlug } from "astro:content";
+
+const projects = await getCollection("projects");
+---
+
+<section class="section">
+  <table>
+    <!-- <caption>Statement Summary</caption> -->
+    <thead>
+      <tr>
+        <th scope="col">Icon</th>
+        <th scope="col">Project Name</th>
+        <th scope="col">Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        projects.map((project, index) => (
+          <tr>
+            <td data-label="Icon">
+              <img class="icon" src="/homehealth.svg" alt="Logo" />
+            </td>
+            <td data-label="Title">
+              <a href={`/${project.slug}`}>{project.data.title}</a>
+            </td>
+            <td data-label="Tags">Tags {index}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</section>
+
+<style lang="scss">
+  table {
+    width: 100%;
+    border-spacing: 0 1rem;
+  }
+  th {
+    text-align: left;
+  }
+  tr {
+    // padding-bottom: 1rem;
+  }
+  .icon {
+    height: 1em;
+  }
+</style>
