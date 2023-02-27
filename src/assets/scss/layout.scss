@@ -1,21 +1,21 @@
 .container {
     margin: 0 auto;
     max-width: 100%;
-    padding: 0 25px;
+    padding: 0 1rem;
 
     @include breakpoint(phone) {
         max-width: 100%;
-        padding: 0 25px;
+        padding: 0 2rem;
     }
 
     @include breakpoint(phablet) {
         max-width: map-get($breakpoints, phablet) + 100;
-        padding: 0;
+        // padding: 0;
     }
 
     @include breakpoint(tablet) {
         max-width: map-get($breakpoints, tablet);
-        padding: 0;
+        // padding: 0;
     }
 
     @include breakpoint(desktop) {
