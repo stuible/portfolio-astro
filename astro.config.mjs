@@ -13,6 +13,9 @@ import image from "@astrojs/image";
 // https://astro.build/config
 import mdx from "@astrojs/mdx";
 
+import behead from 'remark-behead';
+
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -30,7 +33,14 @@ export default defineConfig({
       }
     }
   },
-  integrations: [vue(), image({
-    serviceEntryPoint: '@astrojs/image/sharp'
-  }), mdx()]
+  integrations: [
+    vue(),
+    image({
+      serviceEntryPoint: '@astrojs/image/sharp'
+    }),
+    mdx()
+  ],
+  markdown: {
+    remarkPlugins: [[behead, { depth: 1 }]]
+  }
 });
