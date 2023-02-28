@@ -1,0 +1,40 @@
+p {
+    line-height: 1.4em;
+    // font-size: 2rem;
+}
+
+video {
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: $colour-dark;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}

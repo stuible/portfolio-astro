@@ -10,6 +10,8 @@
 
 @import "fonts";
 
+@import "resets";
+
 // Breakpoints & Layout
 @import "breakpoints";
 @import "layout";
@@ -28,54 +30,5 @@ html {
 body {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
+    // font-size: 2em;
 }
-
-p {
-    line-height: 1.4em;
-}
-
-video {
-    width: 100%;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0;
-    letter-spacing: 0.05em;
-}
-
-// h1 {
-//     text-transform: uppercase;
-//     font-weight: 200;
-//     font-size: 4em;
-//     letter-spacing: 0.05em;
-// }
-
-ul {
-    list-style: none;
-}
-
-a {
-    text-decoration: none;
-    color: $colour-dark;
-}
-
-pre {
-    white-space: pre-wrap;
-}
-
-*,
-*:before,
-*:after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-// .hide-visually {
-//     display: none;
-// }

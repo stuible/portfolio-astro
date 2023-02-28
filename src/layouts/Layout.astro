@@ -1,6 +1,8 @@
 ---
 import "~/assets/scss/_base.scss";
 
+import HoverLabel from "../components/global/HoverLabel.astro";
+
 export interface Props {
   title: string;
   noTopPadding?: boolean;
@@ -29,11 +31,22 @@ const { title, noTopPadding = false } = Astro.props;
         <slot />
       </main>
       <footer>
-        design + implementation by
+        <!-- design + implementation by -->
         <!-- <span>Josh Stuible</span> -->
-        <img src="/logo-sideways.svg" alt="JS" class="logo" /> in
-        <!-- <span>Vancouver</span> -->
-        <img src="/logo-umbrella.svg" alt="JS" class="umbrella" />
+        <p>
+          <span class="credits">design + implementation by</span>
+
+          <HoverLabel label="Josh Stuible">
+            <img src="/logo-sideways.svg" alt="Josh Stuible" class="logo" />
+          </HoverLabel>
+          <!-- <span class="label">Josh Stuible</span> -->
+          in
+          <!-- <span>Vancouver</span> -->
+          <HoverLabel label="Vancouver">
+            <img src="/logo-umbrella.svg" alt="Vancouver" class="umbrella" />
+          </HoverLabel>
+          <!-- <span class="label">Vancouver</span> -->
+        </p>
       </footer>
     </div>
   </body>
@@ -43,16 +56,16 @@ const { title, noTopPadding = false } = Astro.props;
 
 <style lang="scss">
   header {
-    padding-top: 4rem;
+    padding-top: 5em;
   }
   h1 {
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: normal;
     text-transform: lowercase;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     img {
-      height: 1em;
-      margin-right: 0.5em;
+      height: 0.8em;
+      margin-right: 1em;
     }
   }
   main {
@@ -63,19 +76,37 @@ const { title, noTopPadding = false } = Astro.props;
     }
   }
   footer {
-    display: flex;
+    // display: flex;
     align-items: center;
     padding-bottom: 4rem;
+    p {
+      // line-height: 2em;
+      font-size: 1em;
+    }
+    .credits {
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+    .image {
+      display: inline-flex;
+      // width: 4em;
+    }
     img {
       height: 1em;
+      // transform: rotate(-45deg);
       margin: 0 0.5em;
 
       &.logo {
         height: 0.65em;
       }
       &.umbrella {
-        height: 0.4em;
+        height: 0.45em;
       }
     }
+    // .label {
+    //   font-size: 0.75em;
+    //   margin-left: 1rem;
+    //   text-transform: lowercase;
+    // }
   }
 </style>

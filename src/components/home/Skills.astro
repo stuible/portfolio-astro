@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+
+const skills = await getCollection("skills");
+const techs = await getCollection("tech");
+---
+
+<section class="section">
+  <!-- Skills -->
+  <ol>
+    {
+      skills.map((skill) => (
+        <li>
+          <h3>{skill.data.title}</h3>
+        </li>
+      ))
+    }
+  </ol>
+  <!-- Tech -->
+  <ol>
+    {
+      techs.map((tech) => (
+        <li>
+          <h3>{tech.data.title}</h3>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style lang="scss">
+  section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+</style>
