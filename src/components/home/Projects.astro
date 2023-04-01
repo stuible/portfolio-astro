@@ -9,24 +9,26 @@ const projects = await getCollection("projects");
     <!-- <caption>Statement Summary</caption> -->
     <thead>
       <tr>
-        <th scope="col">Icon</th>
-        <th scope="col">Project Name</th>
-        <th scope="col">Tags</th>
+        <!-- <th scope="col">Icon</th> -->
+        <!-- <th scope="col">Project Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Tags</th> -->
       </tr>
     </thead>
     <tbody>
       {
         projects.map((project, index) => (
           <tr>
-            <td data-label="Icon">
+            {/*<td data-label="Icon">
               <img class="icon" src="/homehealth.svg" alt="Logo" />
-            </td>
+            </td>*/}
             <td data-label="Title">
               <a href={`/${project.slug}`}>
                 <div class="title">{project.data.title}</div>
                 <div class="subtitle">{project.data.subtitle}</div>
               </a>
             </td>
+            <td>12/30/2022</td>
             <td data-label="Tags">Tags {index}</td>
           </tr>
         ))
@@ -38,14 +40,23 @@ const projects = await getCollection("projects");
 <style lang="scss">
   table {
     width: 100%;
-    border-spacing: 0 1em;
+    border-collapse: collapse;
+    // border-spacing: 0 1em;
   }
   th {
     text-align: left;
     padding-right: 1em;
   }
   tr {
-    // padding-bottom: 1rem;
+    border-style: solid;
+    border-width: 0 0 2px 0; /*  1px top & bottom border,  0px left & right */
+    border-color: #000;
+  }
+  td {
+    padding: 0.5rem 0;
+    &:not(:last-of-type) {
+      padding-right: 1em;
+    }
   }
   .icon {
     height: 1em;

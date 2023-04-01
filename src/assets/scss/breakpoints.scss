@@ -1,10 +1,15 @@
 $breakpoints: (
-  phone: 450px, // Phones
-  thone: 600px, // Slightly Larger Phones
-  phablet: 750px, // Obnoxiously Large Phones
-  tablet: 950px, // Tablets
-  desktop: 1080px, // Desktops
-  desktophd: 1200px // Large Desktops
+    phone: 400px,
+    // Phones
+    thone: 500px,
+    // Slightly Larger Phones
+    phablet: 600px,
+    // Obnoxiously Large Phones
+    tablet: 1080px,
+    // Tablets
+    desktop: 1200px,
+    // Desktops
+    desktophd: 1400px // Large Desktops,,,,,
 );
 
 @mixin breakpoint($breakpoint) {
@@ -19,8 +24,7 @@ $breakpoints: (
         }
 
         // If the breakpoint doesn't exist in the map.
-    }
-    @else {
+    } @else {
         // Log a warning.
         @warn "Invalid breakpoint: #{$breakpoint}.";
     }

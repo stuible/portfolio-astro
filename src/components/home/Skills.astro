@@ -7,7 +7,7 @@ const techs = await getCollection("tech");
 
 <section class="section">
   <!-- Skills -->
-  <ol>
+  <ol class="skills">
     {
       skills.map((skill) => (
         <li>
@@ -17,10 +17,11 @@ const techs = await getCollection("tech");
     }
   </ol>
   <!-- Tech -->
-  <ol>
+  <ol class="tech">
     {
       techs.map((tech) => (
         <li>
+          <img class="logo" src="/jslogo.svg" alt="" />
           <h3>{tech.data.title}</h3>
         </li>
       ))
@@ -30,7 +31,43 @@ const techs = await getCollection("tech");
 
 <style lang="scss">
   section {
+    // display: grid;
+    grid-template-columns: 2fr 3fr;
+  }
+
+  .skills {
+    margin-bottom: 2rem;
+  }
+
+  .tech {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+
+    li {
+      // border: solid 1px #e7e7e7;
+      // margin-right: -1px;
+      // margin-top: -1px;
+      display: flex;
+      gap: 1rem;
+      // align-items: center;
+      // justify-content: center;
+      // border-radius: 0.5em;
+
+      // &::before {
+      //   content: "";
+      //   display: block;
+      //   padding-top: 100%;
+      // }
+    }
+
+    .logo {
+      height: 1em;
+    }
+
+    h3 {
+      font-size: 0.7rem;
+      // text-align: center;
+    }
   }
 </style>

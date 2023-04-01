@@ -11,8 +11,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/image": "^0.14.0",
-    "@astrojs/mdx": "^0.17.2",
+    "@astrojs/image": "^0.16.4",
+    "@astrojs/mdx": "^0.18.2",
     "@astrojs/vue": "^2.0.1",
     "astro": "^2.0.6",
     "remark-behead": "^3.1.0",
