@@ -1,0 +1,73 @@
+---
+import TreeNodeComponent, { type TreeNode } from "./TreeNode.astro";
+
+export interface Props {
+  tree: TreeNode[];
+}
+
+const { tree } = Astro.props;
+
+function childrenRecursive(nodes: TreeNode[]) {
+  return nodes.map(
+    (child, index) => `
+        <li ${!child.children ? 'class="last"' : ""}>
+          ${child.name}
+          ${
+            child.children
+              ? `<ul>${childrenRecursive(child.children)}</ul>`
+              : ""
+          }
+        </li>`
+  );
+}
+---
+
+<ul class="portfolio--tree">
+  <TreeNodeComponent nodes={tree} />
+</ul>
+
+<style lang="scss" is:global>
+  .portfolio--tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 1rem;
+    padding-top: 1rem;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin-left: 10px;
+    }
+
+    li {
+      margin: 0;
+      padding: 0 7px;
+      line-height: 20px;
+      font-size: 0.75rem;
+      // color: #369;
+      //   font-weight: bold;
+      border-left: 1px solid rgb(100, 100, 100);
+
+      &:last-child {
+        border-left: none;
+
+        &:before {
+          border-left: 1px solid rgb(100, 100, 100);
+        }
+      }
+      &:before {
+        position: relative;
+        top: -0.3em;
+        height: 1em;
+        width: 12px;
+        color: white;
+        border-bottom: 1px solid rgb(100, 100, 100);
+        content: "";
+        display: inline-block;
+        left: -7px;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+export type TreeNode = {
+  name: string;
+  children?: TreeNode[];
+};
+
+export interface Props {
+  tree: TreeNode[];
+}
+
+const { nodes } = Astro.props;
+---
+
+<div>
+  {
+    nodes.map((child, index) => (
+      <li class={child.children ? 'class="last"' : ""}>
+        {child.name}
+        {child.children ? (
+          <ul>
+            <Astro.self nodes={child.children} />
+          </ul>
+        ) : (
+          ""
+        )}
+      </li>
+    ))
+  }
+</div>

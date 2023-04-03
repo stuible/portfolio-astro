@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
+import Tree, { TreeNode } from "../components/project/Tree.astro";
 
 import Layout from "../layouts/Layout.astro";
 
@@ -14,11 +15,39 @@ const { project: projectSlug } = Astro.params;
 const project = await getEntryBySlug("projects", projectSlug);
 
 const { Content } = await project.render();
+
+const tree: TreeNode[] = [
+  {
+    name: "frontend",
+    children: [
+      {
+        name: "vue",
+      },
+      {
+        name: "scss",
+      },
+      {
+        name: "things",
+      },
+    ],
+  },
+  {
+    name: "backend",
+    children: [
+      {
+        name: "craft cms",
+      },
+    ],
+  },
+];
 ---
 
 <Layout title="Project Page">
   <article class="portoflio:article">
     <h1>{project.data.title}</h1>
+    <div class="stack">
+      <Tree tree={tree} />
+    </div>
     <Content />
   </article>
 </Layout>
@@ -28,8 +57,8 @@ const { Content } = await project.render();
     h1 {
       font-size: 3rem;
       font-weight: normal;
-      margin-bottom: 4rem;
     }
+
     h2 {
       margin-bottom: 1rem;
       font-size: 1.5rem;
@@ -47,4 +76,8 @@ const { Content } = await project.render();
   }
 </style>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .stack {
+    margin-bottom: 4rem;
+  }
+</style>
