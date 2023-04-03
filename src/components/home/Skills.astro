@@ -25,7 +25,7 @@ const techs = await getCollection("tech");
     {
       techs.map((tech) => (
         <li>
-          <img class="logo" src="/jslogo.svg" alt="" />
+          <!-- <img class="logo" src="/jslogo.svg" alt="" /> -->
           <h3>{tech.data.title}</h3>
         </li>
       ))
@@ -39,26 +39,26 @@ const techs = await getCollection("tech");
     grid-template-columns: 2fr 3fr;
   }
 
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+
+    h3 {
+      font-size: 0.7rem;
+      font-weight: normal;
+    }
+  }
+
   .tech {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    // grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
 
     li {
-      // border: solid 1px #e7e7e7;
-      // margin-right: -1px;
-      // margin-top: -1px;
       display: flex;
       gap: 1rem;
-      // align-items: center;
-      // justify-content: center;
-      // border-radius: 0.5em;
-
-      // &::before {
-      //   content: "";
-      //   display: block;
-      //   padding-top: 100%;
-      // }
     }
 
     .logo {
@@ -67,7 +67,7 @@ const techs = await getCollection("tech");
 
     h3 {
       font-size: 0.7rem;
-      // text-align: center;
+      font-weight: normal;
     }
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <a href="/">
+    <a href="/#">
 
         <div class="icon" ref="icon">
             <!-- <div class="intersection-tester-wrapper">
@@ -7,8 +7,9 @@
             </div> -->
             <transition name="spin-fade">
                 <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
-                <div v-else-if="currentIcon == 'skills'">?</div>
-                <div v-else-if="currentIcon == 'tech'">🔨</div>
+                <div v-else-if="currentIcon == 'skills'">{{ '<>' }}</div>
+                <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="JS" />
+                <!-- <div v-else-if="currentIcon == 'tech'">🔨</div> -->
                 <div v-else-if="currentIcon == 'projects'">―</div>
                 <div v-else-if="currentIcon == 'project'">=</div>
             </transition>
@@ -44,7 +45,6 @@ onMounted(() => {
 
         let activeTitleDiv = lastActiveTitleDiv;
 
-
         for (const hasIconDiv of scrollingDown ? hasIconDivs : [...hasIconDivs].reverse()) {
             const hasIconRect = hasIconDiv.getBoundingClientRect();
             const iconContainerRect = iconContainerDiv.getBoundingClientRect();
@@ -65,7 +65,7 @@ onMounted(() => {
         if (activeTitleDiv) {
             if (!lastActiveTitleDiv?.isEqualNode(activeTitleDiv)) {
                 currentIcon.value = activeTitleDiv.dataset.icon;
-                console.log("updated dom");
+                // console.log("updated dom");
             }
         }
 
@@ -83,6 +83,10 @@ onMounted(() => {
 <style scoped lang="scss">
 .icon {
     position: relative;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
         width: 100%;
@@ -92,7 +96,8 @@ onMounted(() => {
 
     div {
         text-align: center;
-        font-size: 2rem;
+        font-weight: 500;
+        font-size: 1.5rem;
     }
 }
 
@@ -112,12 +117,12 @@ onMounted(() => {
 
 .spin-fade-enter-active,
 .spin-fade-leave-active {
-    transition: opacity 0.25s, transform 0.5s;
+    transition: opacity 0.15s, transform 0.5s;
 }
 
 .spin-fade-enter-from {
     opacity: 0;
-    transform: rotate(-360deg);
+    transform: rotate(-180deg);
     position: absolute;
     top: 0;
     left: 0;
@@ -128,7 +133,7 @@ onMounted(() => {
 
 .spin-fade-leave-to {
     opacity: 0;
-    transform: rotate(360deg);
+    transform: rotate(180deg);
     position: absolute;
     top: 0;
     left: 0;
@@ -142,7 +147,7 @@ onMounted(() => {
     }
 
     to {
-        transform: rotate(360deg);
+        transform: rotate(180deg);
     }
 }
 </style>
