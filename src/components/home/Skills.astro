@@ -5,7 +5,7 @@ const skills = await getCollection("skills");
 const techs = await getCollection("tech");
 ---
 
-<section class="section">
+<section class="section has-icon" data-icon="skills">
   <!-- Skills -->
   <h2 class="section-title">What I Do</h2>
   <ol class="skills">
@@ -17,6 +17,8 @@ const techs = await getCollection("tech");
       ))
     }
   </ol>
+</section>
+<section class="section has-icon" data-icon="tech">
   <!-- Tech -->
   <h2 class="section-title">Stuff I Use</h2>
   <ol class="tech">
@@ -35,10 +37,6 @@ const techs = await getCollection("tech");
   section {
     // display: grid;
     grid-template-columns: 2fr 3fr;
-  }
-
-  .skills {
-    margin-bottom: 2rem;
   }
 
   .tech {

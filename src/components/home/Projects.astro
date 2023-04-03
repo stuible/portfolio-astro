@@ -5,11 +5,11 @@ const projects = await getCollection("projects");
 ---
 
 <section class="section">
-  <h2 class="section-title">Projects</h2>
+  <h2 class="section-title has-icon" data-icon="logo">Projects</h2>
   <ol class="projects">
     {
       projects.map((project, index) => (
-        <li>
+        <li class="has-icon" data-icon="logo" data-project={index}>
           <a class="project-card" href={`/${project.slug}`}>
             <div class="title">{project.data.title}</div>
             <div class="subtitle">{project.data.subtitle}</div>

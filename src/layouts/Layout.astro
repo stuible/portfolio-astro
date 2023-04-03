@@ -3,6 +3,8 @@ import "~/assets/scss/_base.scss";
 
 import HoverLabel from "../components/global/HoverLabel.astro";
 
+import Sidebar from "../components/layout/Sidebar.vue";
+
 export interface Props {
   title: string;
   noTopPadding?: boolean;
@@ -24,17 +26,11 @@ const { title, noTopPadding = false } = Astro.props;
     <div class="container layout-container">
       <!-- Left -->
       <div class="left">
-        <a href="/"
-          ><h1>
-            <div class="logo">
-              <img src="/logo-sideways.svg" alt="JS" />
-            </div>
-          </h1>
-        </a>
+        <Sidebar client:idle />
       </div>
       <!-- Center -->
       <div class="center">
-        <header>josh stuible</header>
+        <header class="has-icon" data-icon="logo">josh stuible</header>
         <main class={noTopPadding ? "no-top-padding" : ""}>
           <slot />
         </main>
@@ -85,12 +81,6 @@ const { title, noTopPadding = false } = Astro.props;
     position: sticky;
     top: 0;
     padding-top: 5rem;
-
-    .logo {
-      img {
-        width: 100%;
-      }
-    }
   }
   .center {
     // width: 100%;
@@ -108,10 +98,10 @@ const { title, noTopPadding = false } = Astro.props;
     font-weight: normal;
     text-transform: lowercase;
     margin-bottom: 2rem;
-    img {
-      height: 0.8em;
-      // margin-right: 1em;
-    }
+    // img {
+    //   height: 0.8em;
+    //   // margin-right: 1em;
+    // }
   }
   main {
     padding: 4rem 0;
