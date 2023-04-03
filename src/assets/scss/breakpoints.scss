@@ -1,15 +1,16 @@
 $breakpoints: (
-    phone: 400px,
     // Phones
-    thone: 500px,
+    phone: 400px,
     // Slightly Larger Phones
-    phablet: 600px,
+    thone: 500px,
     // Obnoxiously Large Phones
-    tablet: 1080px,
+    phablet: 600px,
     // Tablets
-    desktop: 1200px,
+    tablet: 1080px,
     // Desktops
-    desktophd: 1400px // Large Desktops,,,,,
+    desktop: 1200px,
+    // Large Desktops
+    desktophd: 1000px
 );
 
 @mixin breakpoint($breakpoint) {
