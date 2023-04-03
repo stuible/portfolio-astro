@@ -23,7 +23,22 @@ import { onMounted, ref } from 'vue';
 
 const currentIcon = ref("logo");
 
-const offset = 50;
+const offset = -25;
+
+
+function debounce(func, timeout) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}
+
+function updateSidebarIcon(newIcon) {
+    currentIcon.value = newIcon;
+}
+
+const updateSidebarIconDebounced = debounce((newIcon) => updateSidebarIcon(newIcon), 50);
 
 onMounted(() => {
     // Get all the elements with the class .has-icon
@@ -56,7 +71,7 @@ onMounted(() => {
             const totalMarginY = hasIconDivMarginTop + hasIconDivMarginBottom;
 
 
-            if ((scrollingDown && hasIconRect.top <= iconContainerRect.bottom) || (!scrollingDown && hasIconRect.bottom + hasIconDivMarginBottom >= iconContainerRect.top)) {
+            if ((scrollingDown && hasIconRect.top + offset <= iconContainerRect.bottom) || (!scrollingDown && hasIconRect.bottom + hasIconDivMarginBottom + offset >= iconContainerRect.top)) {
 
                 activeTitleDiv = hasIconDiv;
             }
@@ -64,7 +79,9 @@ onMounted(() => {
 
         if (activeTitleDiv) {
             if (!lastActiveTitleDiv?.isEqualNode(activeTitleDiv)) {
-                currentIcon.value = activeTitleDiv.dataset.icon;
+
+                updateSidebarIconDebounced(activeTitleDiv.dataset.icon);
+                // currentIcon.value = activeTitleDiv.dataset.icon;
                 // console.log("updated dom");
             }
         }
