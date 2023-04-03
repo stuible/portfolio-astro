@@ -78,16 +78,19 @@ const { title, noTopPadding = false } = Astro.props;
     // }
   }
   .left {
-    position: sticky;
     top: 0;
     padding-top: 5rem;
+
+    @include breakpoint(tablet) {
+      position: sticky;
+    }
   }
   .center {
     // width: 100%;
   }
 
   header {
-    padding-top: calc(5rem + 25px);
+    padding-top: calc(5rem + 16px);
     margin-bottom: 1.5rem;
     font-weight: 500;
     font-size: 1.25rem;
