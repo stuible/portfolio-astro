@@ -51,7 +51,7 @@ onMounted(() => {
     let lastActiveTitleDiv = null;
 
 
-    // Define the Intersection Observer callback function
+    // Define Scroll callback function
     const onScroll = (event) => {
 
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
