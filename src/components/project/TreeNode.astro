@@ -1,6 +1,7 @@
 ---
 export type TreeNode = {
   name: string;
+  url?: string;
   children?: TreeNode[];
 };
 
@@ -15,7 +16,13 @@ const { nodes } = Astro.props;
   {
     nodes.map((child, index) => (
       <li class={child.children ? 'class="last"' : ""}>
-        {child.name}
+        {child.url ? (
+          <a href={child.url} target="_blank">
+            {child.name}
+          </a>
+        ) : (
+          <span>{child.name}</span>
+        )}
         {child.children ? (
           <ul>
             <Astro.self nodes={child.children} />

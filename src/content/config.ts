@@ -7,6 +7,7 @@ const treeNodeSchema: z.ZodSchema<TreeNode[]> = z.lazy(() =>
   z.array(
     z.object({
       name: z.string(),
+      url: z.string().url().optional(),
       children: treeNodeSchema.optional(),
     })
   )
