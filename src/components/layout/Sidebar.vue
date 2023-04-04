@@ -2,9 +2,6 @@
     <a href="/#">
 
         <div class="icon" ref="icon">
-            <!-- <div class="intersection-tester-wrapper">
-                <div class="intersection-tester"></div>
-            </div> -->
             <transition name="spin-fade">
                 <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="JS" />
@@ -127,19 +124,7 @@ onMounted(() => {
     }
 }
 
-// .intersection-tester-wrapper {
-//     position: fixed;
-//     background-color: red;
-//     opacity: 0.15;
-//     width: 100vw;
-//     left: 0;
-//     // top: 0;
-//     height: 100px;
-// }
-
-// .intersection-tester {
-//     position: relative;
-// }
+// Vue Transition
 
 .spin-fade-enter-active,
 .spin-fade-leave-active {
