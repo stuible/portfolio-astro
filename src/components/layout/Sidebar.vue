@@ -7,7 +7,7 @@
             </div> -->
             <transition name="spin-fade">
                 <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
-                <div v-else-if="currentIcon == 'skills'">{{ '<>' }}</div>
+                <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="JS" />
                 <!-- <div v-else-if="currentIcon == 'tech'">🔨</div> -->
                 <div v-else-if="currentIcon == 'projects'">―</div>
@@ -71,7 +71,7 @@ onMounted(() => {
             const totalMarginY = hasIconDivMarginTop + hasIconDivMarginBottom;
 
 
-            if ((scrollingDown && hasIconRect.top + offset <= iconContainerRect.bottom) || (!scrollingDown && hasIconRect.bottom + hasIconDivMarginBottom + offset >= iconContainerRect.top)) {
+            if ((scrollingDown && hasIconRect.top + offset <= iconContainerRect.bottom) || (!scrollingDown && hasIconRect.bottom + hasIconDivMarginBottom + offset >= iconContainerRect.bottom)) {
 
                 activeTitleDiv = hasIconDiv;
             }
@@ -100,15 +100,24 @@ onMounted(() => {
 <style scoped lang="scss">
 .icon {
     position: relative;
-    aspect-ratio: 1/1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-width: 3rem;
+
+
+    @include breakpoint(tablet) {
+        aspect-ratio: 1/1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
 
     img {
+
         width: 100%;
         height: 100%;
         display: block;
+
     }
 
     div {
