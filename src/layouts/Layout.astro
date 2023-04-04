@@ -30,7 +30,9 @@ const { title, noTopPadding = false } = Astro.props;
       </div>
       <!-- Center -->
       <div class="center">
-        <header class="has-icon" data-icon="logo">josh stuible</header>
+        <header class="has-icon" data-icon="logo">
+          <a href="/">josh stuible</a>
+        </header>
         <main class={noTopPadding ? "no-top-padding" : ""}>
           <slot />
         </main>
@@ -79,9 +81,10 @@ const { title, noTopPadding = false } = Astro.props;
   }
   .left {
     top: 0;
-    padding-top: 5rem;
+    padding-top: 2rem;
 
     @include breakpoint(tablet) {
+      padding-top: 5rem;
       position: sticky;
     }
   }
@@ -90,10 +93,13 @@ const { title, noTopPadding = false } = Astro.props;
   }
 
   header {
-    padding-top: calc(5rem + 16px);
     margin-bottom: 1.5rem;
     font-weight: 500;
     font-size: 1.25rem;
+
+    @include breakpoint(tablet) {
+      padding-top: calc(5rem + 16px);
+    }
   }
 
   h1 {

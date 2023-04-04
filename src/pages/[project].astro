@@ -15,38 +15,13 @@ const { project: projectSlug } = Astro.params;
 const project = await getEntryBySlug("projects", projectSlug);
 
 const { Content } = await project.render();
-
-const tree: TreeNode[] = [
-  {
-    name: "frontend",
-    children: [
-      {
-        name: "vue",
-      },
-      {
-        name: "scss",
-      },
-      {
-        name: "things",
-      },
-    ],
-  },
-  {
-    name: "backend",
-    children: [
-      {
-        name: "craft cms",
-      },
-    ],
-  },
-];
 ---
 
 <Layout title="Project Page">
   <article class="portoflio:article">
     <h1>{project.data.title}</h1>
     <div class="stack">
-      <Tree tree={tree} />
+      {project.data.stack ? <Tree tree={project.data.stack} /> : null}
     </div>
     <Content />
   </article>
