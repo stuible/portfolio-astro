@@ -52,7 +52,7 @@ onMounted(() => {
 
 
     // Define the Intersection Observer callback function
-    const handleIntersection = (event) => {
+    const onScroll = (event) => {
 
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollingDown = scrollTop > lastScrollTop;
@@ -91,7 +91,7 @@ onMounted(() => {
     };
 
     // Attach the callback function to the window scroll event
-    window.addEventListener('scroll', handleIntersection);
+    window.addEventListener('scroll', onScroll);
 
 });
 
