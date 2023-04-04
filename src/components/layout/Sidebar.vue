@@ -35,7 +35,7 @@ function updateSidebarIcon(newIcon) {
     currentIcon.value = newIcon;
 }
 
-const updateSidebarIconDebounced = debounce((newIcon) => updateSidebarIcon(newIcon), 50);
+const updateSidebarIconDebounced = debounce((newIcon) => updateSidebarIcon(newIcon), 90);
 
 onMounted(() => {
     // Get all the elements with the class .has-icon
