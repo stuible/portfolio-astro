@@ -79,12 +79,13 @@ const { title, noTopPadding = false } = Astro.props;
     //   grid-template-columns: 4rem auto 4rem;
     // }
   }
+  $top-padding: 7rem;
   .left {
     top: 0;
     padding-top: 2rem;
 
     @include breakpoint(tablet) {
-      padding-top: 5rem;
+      padding-top: $top-padding;
       position: sticky;
     }
   }
@@ -98,7 +99,7 @@ const { title, noTopPadding = false } = Astro.props;
     font-size: 1.25rem;
 
     @include breakpoint(tablet) {
-      padding-top: calc(5rem + 16px);
+      padding-top: calc(#{$top-padding} + 18px);
     }
   }
 

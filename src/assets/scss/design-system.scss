@@ -1,5 +1,8 @@
 .body {
     max-width: 50ch;
+    font-size: 20px;
+    widows: 3;
+    orphans: 3;
 }
 
 .section {
@@ -8,4 +11,6 @@
 
 .section-title {
     margin-bottom: 2rem;
+    font-weight: 500;
+    font-size: 1.5rem;
 }
