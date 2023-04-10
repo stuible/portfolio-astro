@@ -2,7 +2,7 @@
     <a href="/#">
 
         <div class="icon" ref="icon">
-            <transition name="spin-fade">
+            <transition name="spin-fade" @enter-cancelled="onEnterCancel" @leave-cancelled="">
                 <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="JS" />
@@ -21,6 +21,11 @@ import { onMounted, ref } from 'vue';
 const currentIcon = ref("logo");
 
 const offset = -25;
+
+function onEnterCancel(event: Element) {
+    event.classList.add('cancelled');
+    // console.log(event);
+}
 
 
 function debounce(func, timeout) {
@@ -129,6 +134,11 @@ onMounted(() => {
 .spin-fade-enter-active,
 .spin-fade-leave-active {
     transition: opacity 0.15s, transform 0.5s;
+
+    &.cancelled {
+        transition: none;
+        opacity: 0;
+    }
 }
 
 .spin-fade-enter-from {
