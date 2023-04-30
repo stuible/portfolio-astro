@@ -1,9 +1,70 @@
+---
+import LinkButton from "../global/LinkButton.astro";
+import IconPill from "../global/IconPill.astro";
+
+import github from "../../assets/icons/github.svg";
+import vue from "../../assets/icons/vue.svg";
+import linkedin from "../../assets/icons/linkedin.svg";
+---
+
 <section class="section has-icon" data-icon="logo">
-  <p class="body">
+  <p class="body bio">
     I am a Vancouver-based full stack web developer who’s obsessed with clean
     and intuitive experiences. Using the latest web technologies, I add value
     and identity to digital brands with clean and expressive websites.
   </p>
+
+  <ul class="contact-links">
+    <li>
+      <LinkButton label="github" url="https://google.com" icon={github} />
+    </li>
+    <li>
+      <LinkButton label="linkedin" url="https://google.com" icon={linkedin} />
+    </li>
+    <li>
+      <LinkButton
+        label="josh@stuible.com"
+        url="https://google.com"
+        icon={github}
+      />
+    </li>
+  </ul>
+
+  <!-- <br />
+  <ul class="contact-links">
+    <li>
+      <IconPill label="Icon Pill" icon={vue} colour="#EBF2EF" />
+    </li>
+    <li>
+      <IconPill label="Another Pill" icon={vue} colour="#EBF0F2" />
+    </li>
+    <li>
+      <IconPill label="Pill" icon={vue} colour="#F2EBF0" />
+    </li>
+    <li>
+      <IconPill label="Reall Long Pill" icon={vue} colour="#F2F0EB" />
+    </li>
+    <li>
+      <IconPill label="Last Pill" icon={vue} colour="#FAE9E9" />
+    </li>
+  </ul> -->
+
+  <!-- <p>
+    <LinkButton
+      label="Need a website?  Check out Q5, my freelancing company"
+      url="https://q-5.ca"
+    />
+  </p> -->
 </section>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .contact-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .bio {
+    margin-bottom: $spacing-md;
+  }
+</style>

@@ -10,7 +10,7 @@ $breakpoints: (
     // Desktops
     desktop: 1200px,
     // Large Desktops
-    desktophd: 1000px
+    desktophd: 1080px
 );
 
 @mixin breakpoint($breakpoint) {

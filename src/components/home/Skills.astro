@@ -1,35 +1,47 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntryBySlug } from "astro:content";
+import IconPill from "../global/IconPill.astro";
+
+import vue from "../../assets/icons/vue.svg";
+
+// const tech = frontmatter;
 
 const skills = await getCollection("skills");
-const techs = await getCollection("tech");
+// const techs = await getCollection("tech");
+
+const {
+  data: { frontend, backend },
+} = await getEntryBySlug("categories", "tech");
 ---
 
 <section class="section has-icon" data-icon="skills">
   <!-- Skills -->
   <h2 class="section-title">What I Do</h2>
   <ol class="skills">
-    {
-      skills.map((skill) => (
-        <li>
-          <h3>{skill.data.title}</h3>
-        </li>
-      ))
-    }
-  </ol>
-</section>
-<section class="section has-icon" data-icon="tech">
-  <!-- Tech -->
-  <h2 class="section-title">Stuff I Use</h2>
-  <ol class="tech">
-    {
-      techs.map((tech) => (
-        <li>
-          <!-- <img class="logo" src="/jslogo.svg" alt="" /> -->
-          <h3>{tech.data.title}</h3>
-        </li>
-      ))
-    }
+    <li>
+      <h3>Backend</h3>
+      <ol class="tech">
+        {
+          backend.map((item) => (
+            <li>
+              <IconPill label={item.name} icon={vue} />
+            </li>
+          ))
+        }
+      </ol>
+    </li>
+    <li>
+      <h3>Frontend</h3>
+      <ol class="tech">
+        {
+          frontend.map((item) => (
+            <li>
+              <IconPill label={item.name} icon={vue} />
+            </li>
+          ))
+        }
+      </ol>
+    </li>
   </ol>
 </section>
 
@@ -47,11 +59,13 @@ const techs = await getCollection("tech");
     h3 {
       font-size: 0.7rem;
       font-weight: normal;
+      margin-bottom: $spacing-sm;
     }
   }
 
   .tech {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     // grid-template-columns: repeat(5, 1fr);
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;

@@ -1,0 +1,53 @@
+---
+export interface Props {
+  label: string;
+  url: string;
+  icon?: {
+    src: string;
+    width: number;
+    height: number;
+  };
+}
+
+const { label, url, icon } = Astro.props;
+---
+
+<a class="link-button" href={url} target="_blank">
+  {
+    icon && (
+      <div class="icon">
+        <img src={icon.src} alt="" />
+      </div>
+    )
+  }
+  <span class="label">{label}</span>
+</a>
+
+<style lang="scss">
+  .link-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.5rem;
+    padding-right: 0.5rem;
+    border: 1px solid #edecec;
+    background-color: #fafafa;
+    border-radius: 0.6rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f3f2f2;
+    }
+  }
+  .label {
+    font-size: 14px;
+    // font-weight: 500;
+  }
+  .icon {
+    display: flex;
+    img {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+  }
+</style>
