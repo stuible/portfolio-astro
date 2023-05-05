@@ -71,7 +71,7 @@ const { title, noTopPadding = false } = Astro.props;
     align-items: start;
     gap: 2rem;
 
-    @include breakpoint(tablet) {
+    @include breakpoint(xl) {
       grid-template-columns: 3rem auto 3rem;
     }
 
@@ -84,7 +84,7 @@ const { title, noTopPadding = false } = Astro.props;
     top: 0;
     padding-top: 2rem;
 
-    @include breakpoint(tablet) {
+    @include breakpoint(xl) {
       padding-top: $top-padding;
       position: sticky;
     }
@@ -98,7 +98,7 @@ const { title, noTopPadding = false } = Astro.props;
     font-weight: 500;
     font-size: 1.25rem;
 
-    @include breakpoint(tablet) {
+    @include breakpoint(xl) {
       padding-top: calc(#{$top-padding} + 18px);
     }
   }
@@ -126,7 +126,7 @@ const { title, noTopPadding = false } = Astro.props;
     padding-bottom: 4rem;
     p {
       // line-height: 2em;
-      font-size: 1em;
+      font-size: 0.75rem;
     }
     .credits {
       margin-bottom: 1.5rem;

@@ -105,7 +105,7 @@ onMounted(() => {
     max-width: 3rem;
 
 
-    @include breakpoint(tablet) {
+    @include breakpoint(md) {
         aspect-ratio: 1/1;
         display: flex;
         justify-content: center;

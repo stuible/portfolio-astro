@@ -3,26 +3,26 @@
     max-width: 100%;
     padding: 0 1rem;
 
-    @include breakpoint(phone) {
+    @include breakpoint(xs) {
         max-width: 100%;
         padding: 0 2rem;
     }
 
-    @include breakpoint(phablet) {
-        max-width: map-get($breakpoints, phablet) + 100;
+    @include breakpoint(sm) {
+        max-width: map-get($breakpoints, sm);
         // padding: 0;
     }
 
-    @include breakpoint(tablet) {
-        max-width: map-get($breakpoints, tablet);
+    @include breakpoint(md) {
+        max-width: map-get($breakpoints, md);
         // padding: 0;
     }
 
-    @include breakpoint(desktop) {
-        max-width: map-get($breakpoints, desktop);
+    @include breakpoint(lg) {
+        max-width: map-get($breakpoints, lg);
     }
 
-    @include breakpoint(desktophd) {
-        max-width: map-get($breakpoints, desktophd);
+    @include breakpoint(xl) {
+        max-width: map-get($breakpoints, xl);
     }
 }
