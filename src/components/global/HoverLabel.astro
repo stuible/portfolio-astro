@@ -14,9 +14,6 @@ const { label } = Astro.props;
 <style lang="scss">
   .hover-label {
     position: relative;
-    // width: 100%;
-
-    // cursor: help;
 
     &:hover {
       .label {
@@ -31,6 +28,7 @@ const { label } = Astro.props;
     left: 0;
     opacity: 0;
     z-index: 0;
+    pointer-events: none;
     width: max-content;
     transition: opacity 0.25s ease, top 0.25s ease;
     font-size: 0.75em;
