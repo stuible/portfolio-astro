@@ -7,39 +7,51 @@ export interface Props {
     height: number;
   };
   colour: string;
+  small?: boolean;
 }
 
-const { label, url, icon, colour } = Astro.props;
+const { label, url, icon, colour, small } = Astro.props;
 
 const backgroundColor = colour;
 ---
 
-<a class="pill">
+<button class:list={["pill", { small: small }]}>
   <div class="icon">
     <img src={icon.src} alt="" />
   </div>
   <span class="label">{label}</span>
-</a>
+</button>
 
 <style lang="scss" define:vars={{ backgroundColor }}>
   .pill {
     display: inline-flex;
     align-items: center;
+    border: none;
+    font-size: 1em;
     // gap: 0.15rem;
     // padding: 0.1rem;
     padding-right: 0.5rem;
     border-radius: 1rem;
     --backgroundColor: #f5f5f5;
     background-color: var(--backgroundColor);
+
+    &.small {
+      font-size: 0.75em;
+    }
   }
   .icon {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.25em;
+    height: 1.25em;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.3);
+
+    img {
+      width: 0.5em;
+      height: 0.5em;
+    }
   }
   .label {
     font-size: 0.45em;

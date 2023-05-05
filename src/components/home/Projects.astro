@@ -1,5 +1,8 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
+import IconPill from "../global/IconPill.astro";
+
+import vue from "../../assets/icons/vue.svg";
 
 const projects = await getCollection("projects");
 ---
@@ -15,7 +18,14 @@ const projects = await getCollection("projects");
             <div class="subtitle">{project.data.subtitle}</div>
             <ul class="tags">
               {project.data.tags?.map((tag, index) => (
-                <li class="tag">{tag}</li>
+                <li class="tag">
+                  <IconPill
+                    label={tag}
+                    icon={vue}
+                    colour="#EBF2EF"
+                    small={true}
+                  />
+                </li>
               ))}
             </ul>
           </a>
@@ -27,41 +37,55 @@ const projects = await getCollection("projects");
 
 <style lang="scss">
   .projects {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     flex-direction: column;
-    gap: 3rem;
+    gap: 1.5rem;
+
+    @include breakpoint(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
   .project-card {
     // background-color: white;
     // box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.02);
     // padding: 1.5rem;
+    height: 100%;
+    border: solid 1px #ebebeb;
+    padding: 1.25rem 1.25rem 1rem 1.25rem;
+    background-color: white;
 
-    // border: solid 1px #ebebeb;
-    // padding: 1.5rem;
-    // background-color: white;
-
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    // flex-direction: column;
     border-radius: 1rem;
+
+    > * {
+      flex: 0 0 100%;
+    }
 
     .title {
       font-weight: 500;
       margin-bottom: 0.5rem;
+      font-size: 0.75rem;
       // margin-bottom: 2rem;
     }
     .subtitle {
       font-size: 0.5em;
       color: gray;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
     .tags {
       display: flex;
-      gap: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      align-self: flex-end;
     }
-    .tag {
-      font-size: 0.5rem;
-      background-color: rgb(231, 231, 231);
-      padding: 0.4em 0.75em;
-      border-radius: 10em;
-    }
+    // .tag {
+    //   font-size: 0.5rem;
+    //   background-color: rgb(231, 231, 231);
+    //   padding: 0.4em 0.75em;
+    //   border-radius: 10em;
+    // }
   }
 </style>
