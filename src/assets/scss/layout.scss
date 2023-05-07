@@ -5,11 +5,12 @@
 
     @include breakpoint(xs) {
         max-width: 100%;
-        padding: 0 2rem;
+        padding: 0 1rem;
     }
 
     @include breakpoint(sm) {
-        max-width: map-get($breakpoints, sm);
+        max-width: 100%;
+        padding: 0 2rem;
         // padding: 0;
     }
 
