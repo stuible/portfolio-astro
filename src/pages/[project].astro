@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
-import Tree, { TreeNode } from "../components/project/Tree.astro";
+import Tree from "../components/project/Tree.astro";
 
 import Layout from "../layouts/Layout.astro";
 
@@ -29,8 +29,11 @@ const { Content } = await project.render();
 
 <style lang="scss" is:global>
   .portoflio\:article {
+    font-size: 20px;
+    font-weight: 300;
+
     h1 {
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: normal;
     }
 
@@ -45,6 +48,8 @@ const { Content } = await project.render();
       }
     }
     p {
+      // font-size: 20px;
+      // font-weight: 300;
       margin-bottom: 1rem;
       max-width: 50ch;
     }
