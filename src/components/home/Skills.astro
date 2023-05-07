@@ -19,24 +19,24 @@ const {
   <h2 class="section-title">What I Do</h2>
   <ol class="skills">
     <li>
-      <h3>Backend</h3>
+      <h3 class="title">Backend</h3>
       <ol class="tech">
         {
           backend.map((item) => (
             <li>
-              <IconPill label={item.name} icon={vue} />
+              <IconPill label={item.name} icon={vue} tooltip={item.tooltip} />
             </li>
           ))
         }
       </ol>
     </li>
     <li>
-      <h3>Frontend</h3>
+      <h3 class="title">Frontend</h3>
       <ol class="tech">
         {
           frontend.map((item) => (
             <li>
-              <IconPill label={item.name} icon={vue} />
+              <IconPill label={item.name} icon={vue} tooltip={item.tooltip} />
             </li>
           ))
         }
@@ -56,10 +56,25 @@ const {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
 
-    h3 {
-      font-size: 0.7rem;
-      font-weight: normal;
+    .title {
+      font-size: 0.75rem;
+      font-weight: 500;
       margin-bottom: $spacing-sm;
+      // font-family: monospace;
+
+      // &::before,
+      // &::after {
+      //   color: #ebebeb;
+      // }
+
+      // &::before {
+      //   content: "<";
+      //   margin-right: 0.25em;
+      // }
+      // &::after {
+      //   content: "/>";
+      //   margin-left: 0.25em;
+      // }
     }
   }
 
