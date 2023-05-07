@@ -1,6 +1,7 @@
 ---
 export interface Props {
   label: string;
+  tooltip?: string;
   icon: {
     src: string;
     width: number;
@@ -10,18 +11,38 @@ export interface Props {
   small?: boolean;
 }
 
-const { label, url, icon, colour, small } = Astro.props;
+import Tooltip from "./Tooltip.vue";
+
+const { label, url, icon, colour, small, tooltip } = Astro.props;
 
 const backgroundColor = colour;
 ---
 
-<button class:list={["pill", { small: small }]}>
-  <div class="icon">
-    <img src={icon.src} alt="" />
-  </div>
-  <span class="label">{label}</span>
-</button>
+{
+  tooltip ? (
+    <Tooltip
+      client:visible
+      distance={15}
+      triggers={["hover", "focus", "click"]}
+    >
+      <button class:list={["pill", { small: small }]}>
+        <div class="icon">
+          <img src={icon.src} alt="" />
+        </div>
+        <span class="label">{label}</span>
+      </button>
 
+      <div slot="popper">{tooltip}</div>
+    </Tooltip>
+  ) : (
+    <button class:list={["pill", { small: small }]}>
+      <div class="icon">
+        <img src={icon.src} alt="" />
+      </div>
+      <span class="label">{label}</span>
+    </button>
+  )
+}
 <style lang="scss" define:vars={{ backgroundColor }}>
   .pill {
     display: inline-flex;
