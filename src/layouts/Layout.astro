@@ -4,6 +4,7 @@ import "~/assets/scss/_base.scss";
 import HoverLabel from "../components/global/HoverLabel.astro";
 
 import Sidebar from "../components/layout/Sidebar.vue";
+import Bar from "../components/layout/Bar.astro";
 
 export interface Props {
   title: string;
@@ -30,6 +31,7 @@ const { title, noTopPadding = false } = Astro.props;
       </div>
       <!-- Center -->
       <div class="center">
+        <!-- <Bar>Need a website? Check out Q5, my freelancing company</Bar> -->
         <header class="has-icon" data-icon="logo">
           <a href="/">josh stuible</a>
         </header>
@@ -40,20 +42,31 @@ const { title, noTopPadding = false } = Astro.props;
         <footer>
           <!-- design + implementation by -->
           <!-- <span>Josh Stuible</span> -->
-          <p>
-            <span class="credits">design + implementation by</span>
-
-            <HoverLabel label="Josh Stuible">
-              <img src="/logo-sideways.svg" alt="Josh Stuible" class="logo" />
-            </HoverLabel>
-            <!-- <span class="label">Josh Stuible</span> -->
-            in
-            <!-- <span>Vancouver</span> -->
-            <HoverLabel label="Vancouver">
-              <img src="/logo-umbrella.svg" alt="Vancouver" class="umbrella" />
-            </HoverLabel>
-            <!-- <span class="label">Vancouver</span> -->
-          </p>
+          <div class="blurb">
+            <span class="credits">design + implementation</span>
+            <span>
+              by
+              <HoverLabel label="Josh Stuible">
+                <span class="image">
+                  <img
+                    src="/logo-sideways.svg"
+                    alt="Josh Stuible"
+                    class="logo"
+                  />
+                </span>
+              </HoverLabel>
+              in
+              <HoverLabel label="Vancouver">
+                <span class="image">
+                  <img
+                    src="/logo-umbrella.svg"
+                    alt="Vancouver"
+                    class="umbrella"
+                  />
+                </span>
+              </HoverLabel>
+            </span>
+          </div>
         </footer>
       </div>
       <!-- Right -->
@@ -99,6 +112,7 @@ const { title, noTopPadding = false } = Astro.props;
     font-size: 1.25rem;
 
     @include breakpoint(xl) {
+      // $top-padding: 5rem;
       padding-top: calc(#{$top-padding} + 20px);
     }
   }
@@ -121,19 +135,34 @@ const { title, noTopPadding = false } = Astro.props;
     }
   }
   footer {
+    // opacity: 0.5;
     // display: flex;
     align-items: center;
     padding-bottom: 4rem;
-    p {
+    font-weight: 500;
+    line-height: 1em;
+
+    .blurb {
       // line-height: 2em;
-      font-size: 0.75rem;
+      font-size: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      // transform: rotate(-90deg);x
+
+      @include breakpoint(sm) {
+        font-size: 0.5rem;
+      }
+
+      @include breakpoint(md) {
+        font-size: 0.6rem;
+      }
     }
     .credits {
-      margin-bottom: 1.5rem;
       display: inline-block;
     }
     .image {
       display: inline-flex;
+      justify-items: center;
       // width: 4em;
     }
     img {
@@ -142,10 +171,12 @@ const { title, noTopPadding = false } = Astro.props;
       margin: 0 0.5em;
 
       &.logo {
-        height: 0.65em;
+        // height: 0.65em;
+        width: 43px;
       }
       &.umbrella {
-        height: 0.45em;
+        // height: 0.4em;
+        width: 50px;
       }
     }
     // .label {
