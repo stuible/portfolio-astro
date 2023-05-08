@@ -33,7 +33,9 @@ const { title, noTopPadding = false } = Astro.props;
       <div class="center">
         {/* <Bar>Need a website? Check out Q5, my freelancing company</Bar> */}
         <header class="has-icon" data-icon="logo">
-          <a href="/">josh stuible</a>
+          <div class="section-title">
+            <a href="/">josh stuible</a>
+          </div>
         </header>
         <main class={noTopPadding ? "no-top-padding" : ""}>
           <slot />
@@ -105,10 +107,6 @@ const { title, noTopPadding = false } = Astro.props;
   }
 
   header {
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-    font-size: 1.25rem;
-
     @include breakpoint(xl) {
       // $top-padding: 5rem;
       padding-top: calc(#{$top-padding} + 20px);
