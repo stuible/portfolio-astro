@@ -1,10 +1,10 @@
 <script lang="ts">
-import { PopperWrapper, options } from "floating-vue";
+import FloatingVue from "floating-vue";
 
 import { onMounted } from 'vue';
 
 
-options.themes['stuible-tooltip'] = {
+FloatingVue.options.themes['stuible-tooltip'] = {
   $extend: 'tooltip',
   placement: 'top',
   delay: 100,
@@ -12,14 +12,15 @@ options.themes['stuible-tooltip'] = {
 }
 
 export default {
-  ...PopperWrapper,
+  // @ts-ignore
+  ...FloatingVue.PopperWrapper,
   name: "Tooltip",
   vPopperTheme: "stuible-tooltip",
   setup() {
     onMounted(() => {
       const boundary = document != undefined ? document.querySelector('.layout-container .center') : undefined;
 
-      options.boundary = boundary;
+      FloatingVue.options.boundary = boundary;
     })
   }
 }
