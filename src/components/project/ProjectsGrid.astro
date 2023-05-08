@@ -1,0 +1,28 @@
+---
+import { CollectionEntry } from "astro:content";
+import ProjectCard from "~/components/project/ProjectCard.astro";
+
+export interface Props {
+  projects: CollectionEntry<"projects">[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ol class="projects">
+  {projects.map((project, index) => <ProjectCard project={project} />)}
+</ol>
+
+<style lang="scss">
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    @include breakpoint(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
