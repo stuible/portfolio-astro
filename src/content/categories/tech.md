@@ -1,32 +1,61 @@
 ---
-frontend:
+tech:
   - {
       slug: vue,
       name: Vue,
-      icon: vue.svg,
+      icon: vue,
       tooltip: "A reactive framework with great DX",
+      colour: "#EBF2EF",
     }
   - {
-      slug: css,
+      slug: nuxt,
+      name: Nuxt.js,
+      icon: nuxt,
+      tooltip: "A Vue meta-Framework",
+      colour: "#EAF3F0",
+    }
+  - {
+      slug: react,
       name: React,
-      icon: vue.svg,
-      tooltip: "The reactive framework right now",
+      icon: react,
+      tooltip: "The reactive framework now",
+      colour: "#EBF0F2",
     }
   - {
-      slug: css,
+      slug: ts,
       name: Typescript,
-      icon: vue.svg,
+      icon: ts,
       tooltip: "Strongly-typed Javascript",
+      colour: "#ECF0F6",
     }
-  - { slug: css, name: Astro, icon: vue.svg }
-  - { slug: css, name: Tailwind, icon: vue.svg }
-backend:
-  - { slug: php, name: PHP, icon: vue.svg }
-  - { slug: laravel, name: Laravel, icon: vue.svg }
+  - {
+      slug: astro,
+      name: Astro,
+      icon: astro,
+      tooltip: "A really cool SSG that I used to build this very site",
+    }
+  - {
+      slug: sass,
+      name: Sass,
+      icon: sass,
+      colour: "#F2EBF0",
+      tooltip: "A CSS superset that still has a place in my stack",
+    }
+  - { slug: tailwind, name: Tailwind, icon: tailwind, colour: "#ECFAFA" }
+  - {
+      slug: php,
+      name: PHP,
+      icon: php,
+      colour: "#EAEDF8",
+      tooltip: "You know it, you love (?) it",
+    }
+  - { slug: laravel, name: Laravel, icon: laravel, colour: "#FBEFEF" }
+  - { slug: graphql, name: Graph QL, icon: gql, colour: "#FAEAF6" }
   - {
       slug: craft,
       name: Craft CMS,
-      icon: vue.svg,
+      icon: craft,
       tooltip: "A great PHP-based CMS that has served me well",
+      colour: "#F6EEED",
     }
 ---

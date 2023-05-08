@@ -2,7 +2,7 @@
 export interface Props {
   label: string;
   tooltip?: string;
-  icon: {
+  icon?: {
     src: string;
     width: number;
     height: number;
@@ -18,32 +18,37 @@ const { label, url, icon, colour, small, tooltip } = Astro.props;
 const backgroundColor = colour;
 ---
 
-{
-  tooltip ? (
-    <Tooltip
-      client:visible
-      distance={15}
-      triggers={["hover", "focus", "click"]}
-    >
+<div class="pill-wrapper">
+  {
+    tooltip ? (
+      <Tooltip
+        client:visible
+        distance={15}
+        triggers={["hover", "focus", "touch"]}
+      >
+        <button class:list={["pill", { small: small }]}>
+          <div class="icon">
+            <img src={icon ? icon.src : ""} alt="" />
+          </div>
+          <span class="label">{label}</span>
+        </button>
+
+        <div slot="popper">{tooltip}</div>
+      </Tooltip>
+    ) : (
       <button class:list={["pill", { small: small }]}>
         <div class="icon">
-          <img src={icon.src} alt="" />
+          <img src={icon ? icon.src : ""} alt="" />
         </div>
         <span class="label">{label}</span>
       </button>
-
-      <div slot="popper">{tooltip}</div>
-    </Tooltip>
-  ) : (
-    <button class:list={["pill", { small: small }]}>
-      <div class="icon">
-        <img src={icon.src} alt="" />
-      </div>
-      <span class="label">{label}</span>
-    </button>
-  )
-}
+    )
+  }
+</div>
 <style lang="scss" define:vars={{ backgroundColor }}>
+  .pill-wrapper {
+    --backgroundColor: #f5f5f5;
+  }
   .pill {
     display: inline-flex;
     align-items: center;
@@ -53,7 +58,7 @@ const backgroundColor = colour;
     // padding: 0.1rem;
     padding-right: 0.5rem;
     border-radius: 1rem;
-    --backgroundColor: #f5f5f5;
+
     background-color: var(--backgroundColor);
 
     &.small {
@@ -67,7 +72,7 @@ const backgroundColor = colour;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.3);
+    // background-color: rgba(255, 255, 255, 0.3);
 
     img {
       width: 0.5em;
@@ -77,5 +82,6 @@ const backgroundColor = colour;
   .label {
     font-size: 0.45em;
     font-weight: 500;
+    opacity: 0.8;
   }
 </style>

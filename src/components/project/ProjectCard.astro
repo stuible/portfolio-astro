@@ -1,0 +1,95 @@
+---
+import { CollectionEntry, getEntryBySlug } from "astro:content";
+import IconPill from "~/components/global/IconPill.astro";
+
+// import vue from "~/assets/icons/vue";
+
+export interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+
+const {
+  data: { tech },
+} = await getEntryBySlug("categories", "tech");
+
+const techWithIcons = await Promise.all(
+  await project.data.tags.map(async (techSlug) => {
+    const techItem = tech.find((x) => x.slug === techSlug);
+
+    return {
+      ...techItem,
+      icon: (
+        await import(
+          /* @vite-ignore */ `../../assets/icons/${techItem.icon}.svg`
+        )
+      ).default,
+    };
+  })
+);
+---
+
+<a class="project-card" href={`/project/${project.slug}`}>
+  <div class="title">{project.data.title}</div>
+  <div class="subtitle">{project.data.subtitle}</div>
+  <ul class="tags">
+    {
+      techWithIcons.map((item, index) => (
+        <li class="tag">
+          <IconPill
+            label={item.name}
+            icon={item.icon}
+            colour={item.colour}
+            small={true}
+          />
+        </li>
+      ))
+    }
+  </ul>
+</a>
+
+<style lang="scss">
+  .project-card {
+    // background-color: white;
+    // box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.02);
+    // padding: 1.5rem;
+    height: 100%;
+    border: solid 1px #ebebeb;
+    padding: 1.25rem 1.25rem 1rem 1.25rem;
+    background-color: white;
+
+    display: flex;
+    flex-wrap: wrap;
+    // flex-direction: column;
+    border-radius: 1rem;
+
+    > * {
+      flex: 0 0 100%;
+    }
+
+    .title {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      // margin-bottom: 2rem;
+    }
+    .subtitle {
+      font-size: 0.5em;
+      color: gray;
+      margin-bottom: 0.5rem;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      align-self: flex-end;
+    }
+    // .tag {
+    //   font-size: 0.5rem;
+    //   background-color: rgb(231, 231, 231);
+    //   padding: 0.4em 0.75em;
+    //   border-radius: 10em;
+    // }
+  }
+</style>
