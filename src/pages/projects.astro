@@ -1,0 +1,18 @@
+---
+import Layout from "~/layouts/Layout.astro";
+
+import { getCollection, getEntryBySlug } from "astro:content";
+import ProjectsGrid from "~/components/project/ProjectsGrid.astro";
+
+// const home = await getEntryBySlug("pages", "home");
+
+const projects = await getCollection("projects");
+---
+
+<Layout title="Projects - Josh Stuible">
+  <!-- <Intro /> -->
+  <h1 class="section-title">projects</h1>
+  <ProjectsGrid projects={projects} />
+</Layout>
+
+<style lang="scss"></style>
