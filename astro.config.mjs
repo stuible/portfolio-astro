@@ -31,7 +31,8 @@ export default defineConfig({
           additionalData: `@use "sass:math"; @import "~/assets/scss/variables.scss"; @import "~/assets/scss/breakpoints.scss";`
         }
       }
-    }
+    },
+    ssr: { noExternal: ['floating-vue'] }
   },
   integrations: [
     vue(),
