@@ -1,9 +1,5 @@
 ---
-export type TreeNode = {
-  name: string;
-  url?: string;
-  children?: TreeNode[];
-};
+import { TreeNode } from "~/types";
 
 export interface Props {
   tree: TreeNode[];
