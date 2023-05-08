@@ -18,7 +18,7 @@ tech:
       slug: react,
       name: React,
       icon: react,
-      tooltip: "The reactive framework now",
+      tooltip: "The most popular reactive framework",
       colour: "#EBF0F2",
     }
   - {
@@ -32,7 +32,7 @@ tech:
       slug: astro,
       name: Astro,
       icon: astro,
-      tooltip: "A really cool SSG that I used to build this very site",
+      tooltip: "A really neat SSG that I used to build this very site",
     }
   - {
       slug: sass,
@@ -41,7 +41,7 @@ tech:
       colour: "#F2EBF0",
       tooltip: "A CSS superset that still has a place in my stack",
     }
-  - { slug: tailwind, name: Tailwind, icon: tailwind, colour: "#ECFAFA" }
+  - { slug: tailwind, name: Tailwind, icon: tailwind, colour: "#EFF6F6" }
   - {
       slug: php,
       name: PHP,
@@ -50,7 +50,7 @@ tech:
       tooltip: "You know it, you love (?) it",
     }
   - { slug: laravel, name: Laravel, icon: laravel, colour: "#FBEFEF" }
-  - { slug: graphql, name: Graph QL, icon: gql, colour: "#FAEAF6" }
+  - { slug: graphql, name: Graph QL, icon: gql, colour: "#FCF0F9" }
   - {
       slug: craft,
       name: Craft CMS,
