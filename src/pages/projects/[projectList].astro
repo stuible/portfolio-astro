@@ -1,0 +1,62 @@
+---
+import { getCollection, getEntryBySlug } from "astro:content";
+import Tree from "~/components/project/Tree.astro";
+
+import Layout from "~/layouts/Layout.astro";
+
+import ProjectsGrid from "~/components/project/ProjectsGrid.astro";
+
+export async function getStaticPaths() {
+  const projectLists = await getCollection("project-lists");
+
+  return projectLists.map((x) => ({ params: { projectList: x.slug } }));
+}
+
+const { projectList: projectListSlug } = Astro.params;
+
+const projectListEntry = await getEntryBySlug("project-lists", projectListSlug);
+const allProjects = await getCollection("projects");
+
+const projects = projectListEntry.data.projects.map((projectSlug) =>
+  allProjects.find((x) => x.slug === projectSlug)
+);
+
+const { Content } = await projectListEntry.render();
+---
+
+<Layout title="Projects">
+  <article class="portoflio:article">
+    <h1>{projectListEntry.data.title}</h1>
+    <Content />
+  </article>
+  <ProjectsGrid projects={projects} />
+</Layout>
+
+<style lang="scss" is:global>
+  .portoflio\:article {
+    font-size: 20px;
+    font-weight: 300;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: normal;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: normal;
+      text-transform: lowercase;
+
+      &:not(:first-of-type) {
+        margin-top: 4rem;
+      }
+    }
+    p {
+      // font-size: 20px;
+      // font-weight: 300;
+      margin-bottom: 1rem;
+      max-width: 50ch;
+    }
+  }
+</style>
