@@ -1,9 +1,7 @@
 ---
 import LinkButton from "../global/LinkButton.astro";
-import IconPill from "../global/IconPill.astro";
 
 import github from "../../assets/icons/github.svg";
-import vue from "../../assets/icons/vue.svg";
 import linkedin from "../../assets/icons/linkedin.svg";
 import mail from "../../assets/icons/mail.svg";
 ---
@@ -17,15 +15,23 @@ import mail from "../../assets/icons/mail.svg";
 
   <ul class="contact-links">
     <li>
-      <LinkButton label="github" url="https://google.com" icon={github} />
+      <LinkButton
+        label="github"
+        url="https://github.com/stuible"
+        icon={github}
+      />
     </li>
     <li>
-      <LinkButton label="linkedin" url="https://google.com" icon={linkedin} />
+      <LinkButton
+        label="linkedin"
+        url="https://www.linkedin.com/in/stuible/"
+        icon={linkedin}
+      />
     </li>
     <li>
       <LinkButton
         label="josh@stuible.com"
-        url="https://google.com"
+        url="mailto:josh@stuible.com"
         icon={mail}
       />
     </li>
