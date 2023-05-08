@@ -41,7 +41,13 @@ tech:
       colour: "#F2EBF0",
       tooltip: "A CSS superset that still has a place in my stack",
     }
-  - { slug: tailwind, name: Tailwind, icon: tailwind, colour: "#EFF6F6" }
+  - {
+      slug: tailwind,
+      name: Tailwind,
+      icon: tailwind,
+      colour: "#EFF6F6",
+      tooltip: "Utility-first CSS framework that I like sometimes",
+    }
   - {
       slug: php,
       name: PHP,
@@ -49,8 +55,20 @@ tech:
       colour: "#EAEDF8",
       tooltip: "You know it, you love (?) it",
     }
-  - { slug: laravel, name: Laravel, icon: laravel, colour: "#FBEFEF" }
-  - { slug: graphql, name: Graph QL, icon: gql, colour: "#FCF0F9" }
+  - {
+      slug: laravel,
+      name: Laravel,
+      icon: laravel,
+      colour: "#FBEFEF",
+      tooltip: 'The "it just works" PHP Framework',
+    }
+  - {
+      slug: graphql,
+      name: Graph QL,
+      icon: gql,
+      colour: "#FCF0F9",
+      tooltip: "Makes API's easy (some of the time)",
+    }
   - {
       slug: craft,
       name: Craft CMS,
