@@ -25,13 +25,13 @@ const { title, noTopPadding = false } = Astro.props;
   </head>
   <body>
     <div class="container layout-container">
-      <!-- Left -->
+      {/* Left */}
       <div class="left">
         <Sidebar client:idle />
       </div>
-      <!-- Center -->
+      {/* Center */}
       <div class="center">
-        <!-- <Bar>Need a website? Check out Q5, my freelancing company</Bar> -->
+        {/* <Bar>Need a website? Check out Q5, my freelancing company</Bar> */}
         <header class="has-icon" data-icon="logo">
           <a href="/">josh stuible</a>
         </header>
@@ -40,8 +40,6 @@ const { title, noTopPadding = false } = Astro.props;
         </main>
 
         <footer>
-          <!-- design + implementation by -->
-          <!-- <span>Josh Stuible</span> -->
           <div class="blurb">
             <span class="credits">design + implementation&nbsp;</span>
             <span>
@@ -69,7 +67,7 @@ const { title, noTopPadding = false } = Astro.props;
           </div>
         </footer>
       </div>
-      <!-- Right -->
+      {/* Right */}
       <div class="right"></div>
     </div>
   </body>

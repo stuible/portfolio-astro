@@ -6,12 +6,11 @@
                 <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="JS" />
-                <!-- <div v-else-if="currentIcon == 'tech'">🔨</div> -->
                 <div v-else-if="currentIcon == 'projects'">―</div>
                 <div v-else-if="currentIcon == 'project'">=</div>
             </transition>
         </div>
-        <!-- {{ currentIcon }} -->
+        <!-- {{ currentIcon }}  -->
     </a>
 </template>
 

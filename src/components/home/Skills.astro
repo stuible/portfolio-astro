@@ -25,7 +25,7 @@ const techWithIcons = await Promise.all(
 ---
 
 <section class="section has-icon" data-icon="skills">
-  <!-- Skills -->
+  {/* Skills */}
   <h2 class="section-title">What I Do</h2>
   <p class="body">
     With knowledge spanning the full stack, my goal is to constantly learn as I
@@ -79,18 +79,30 @@ const techWithIcons = await Promise.all(
     // }
   }
 
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-  }
+  // .skills {
+  //   display: grid;
+  //   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  //   gap: 1rem;
+  // }
 
   .tech {
     display: flex;
     flex-wrap: wrap;
     // grid-template-columns: repeat(5, 1fr);
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
+    // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.4rem;
+
+    @include breakpoint(sm) {
+      gap: 0.5rem;
+    }
+
+    @include breakpoint(md) {
+      gap: 0.6rem;
+    }
+
+    @include breakpoint(lg) {
+      gap: 0.7rem;
+    }
 
     li {
       display: flex;
