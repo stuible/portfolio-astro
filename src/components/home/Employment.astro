@@ -1,0 +1,67 @@
+---
+import { getCollection, getEntryBySlug } from "astro:content";
+
+import lt from "~/assets/icons/lt.svg";
+import q5 from "~/assets/icons/q5.svg";
+---
+
+<section class="section has-icon" data-icon="work">
+  <h2 class="section-title">My Roles</h2>
+  <div class="posiitons">
+    <div class="position">
+      <h3 class="section-subtitle">
+        <img src={lt.src} alt="" class="logo" /> Vancouver Costal Health
+      </h3>
+      <p class="body vch">
+        I currently work on <a href="https://www.vch.ca/"
+          >Vancouver Coastal Health</a
+        >'s Learning Technologies team. There, I implement both patient and
+        clinician-facing web experiences.
+      </p>
+    </div>
+    <div class="position">
+      <h3 class="section-subtitle">
+        <img src={q5.src} alt="" class="logo" /> Q5
+      </h3>
+      <p class="body">
+        I also run a freelance web development consulatancy where we focus on
+        small businesses. Need a website? <a
+          href="https://q-5.ca"
+          target="_blank"
+          class="link">Check us out!</a
+        >
+      </p>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  // .vch {
+  //   margin-bottom: 2rem;
+  // }
+
+  .posiitons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @include breakpoint(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .position {
+    .body {
+      font-size: 16px;
+      // font-weight: normal;
+    }
+    .section-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .logo {
+      height: 1.25em;
+    }
+  }
+</style>
