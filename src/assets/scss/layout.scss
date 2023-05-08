@@ -5,17 +5,18 @@
 
     @include breakpoint(xs) {
         max-width: 100%;
-        padding: 0 1rem;
+        // padding: 0 1rem;
     }
 
     @include breakpoint(sm) {
         max-width: 100%;
-        padding: 0 2rem;
+        // padding: 0 1.5rem;
         // padding: 0;
     }
 
     @include breakpoint(md) {
         max-width: map-get($breakpoints, md);
+        padding: 0 2rem;
         // padding: 0;
     }
 
