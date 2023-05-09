@@ -1,11 +1,15 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
-import LinkButton from "~/components/global/LinkButton.astro";
-import Tree from "~/components/project/Tree.astro";
 
 import Layout from "~/layouts/Layout.astro";
 
+import LinkButton from "~/components/global/LinkButton.astro";
+import Tree from "~/components/project/Tree.astro";
+import TLDR from "~/components/project/TLDR.astro";
+
 import globe from "~/assets/icons/globe.svg";
+import Callout from "~/components/project/Callout.astro";
+import IconPill from "~/components/global/IconPill.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -17,49 +21,76 @@ const { project: projectSlug } = Astro.params;
 
 const project = await getEntryBySlug("projects", projectSlug);
 
+const {
+  data: { tech },
+} = await getEntryBySlug("categories", "tech");
+
+const techWithIcons = await Promise.all(
+  await project.data.tags.map(async (techSlug) => {
+    const techItem = tech.find((x) => x.slug === techSlug);
+
+    return {
+      ...techItem,
+      icon: (
+        await import(
+          /* @vite-ignore */ `../../assets/icons/${techItem.icon}.svg`
+        )
+      ).default,
+    };
+  })
+);
+
 const { Content } = await project.render();
 ---
 
 <Layout title="Project Page">
-  <article class="portoflio:article">
+  <article class="project">
     <header>
+      <p class="when">Summer 2022</p>
       <h1>{project.data.title}</h1>
+      <ul class="tags">
+        {
+          techWithIcons.map((item, index) => (
+            <li class="tag">
+              <IconPill
+                label={item.name}
+                icon={item.icon}
+                colour={item.colour}
+              />
+            </li>
+          ))
+        }
+      </ul>
       <!-- <div class="stack">
       {project.data.stack ? <Tree tree={project.data.stack} /> : null}
     </div> -->
 
-      {
-        project.data.link && (
-          <LinkButton
-            label="check it out"
-            url={project.data.link}
-            icon={globe}
-          />
-        )
-      }
+      <div class="info">
+        <TLDR text={project.data.tldr} />
+        <!-- <Callout>Tags</Callout> -->
+      </div>
     </header>
-    <Content />
+    <section class="content">
+      <Content />
+    </section>
+    {
+      project.data.link && (
+        <LinkButton label="check it out" url={project.data.link} icon={globe} />
+      )
+    }
   </article>
 </Layout>
 
 <style lang="scss" is:global>
-  .portoflio\:article {
-    font-size: 20px;
-    font-weight: 300;
-
+  .content {
     h2 {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      font-weight: normal;
-      text-transform: lowercase;
+      @include section-title;
 
       &:not(:first-of-type) {
         margin-top: 4rem;
       }
     }
     p {
-      // font-size: 20px;
-      // font-weight: 300;
       margin-bottom: 1rem;
       max-width: 50ch;
     }
@@ -67,6 +98,21 @@ const { Content } = await project.render();
 </style>
 
 <style lang="scss">
+  .project {
+    font-size: 16px;
+    font-weight: 300;
+
+    @include breakpoint(sm) {
+      font-size: 20px;
+    }
+  }
+  .when {
+    color: gray;
+    font-size: 0.5rem;
+    margin-left: 0.25em;
+    margin-bottom: 0.25rem;
+    // font-weight: 500;
+  }
   .stack {
     // margin-bottom: 4rem;
   }
@@ -74,11 +120,34 @@ const { Content } = await project.render();
     margin-bottom: 4rem;
   }
   h1 {
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: normal;
+    margin-bottom: 0.5rem !important;
 
-    &:not(:last-child) {
-      margin-bottom: 1rem;
+    @include breakpoint(sm) {
+      font-size: 1.5rem;
+    }
+
+    @include breakpoint(md) {
+      font-size: 1.6rem;
+    }
+    @include breakpoint(lg) {
+      font-size: 2rem;
+    }
+  }
+  .info {
+    // display: grid;
+    // grid-template-columns: 1fr 1fr;
+    // gap: 1rem;
+  }
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+    font-size: 0.75rem;
+
+    @include breakpoint(sm) {
+      font-size: 1rem;
     }
   }
 </style>

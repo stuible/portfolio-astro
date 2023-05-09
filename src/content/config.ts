@@ -18,6 +18,7 @@ const projectCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string(),
+    tldr: z.string().optional(),
     tags: z.array(z.string()).optional(),
     stack: treeNodeSchema.optional(),
     featured: z.boolean(),

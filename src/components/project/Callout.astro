@@ -1,0 +1,18 @@
+---
+export interface Props {}
+
+const {} = Astro.props;
+---
+
+<div class="callout"><slot /></div>
+
+<style lang="scss">
+  .callout {
+    border: solid 1px #ebebeb;
+    padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    // margin-left: 10%;
+    // max-width: 570px;
+  }
+</style>

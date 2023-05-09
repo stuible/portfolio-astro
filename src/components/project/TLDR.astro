@@ -1,0 +1,36 @@
+---
+import LinkButton from "../global/LinkButton.astro";
+import Callout from "./Callout.astro";
+import globe from "~/assets/icons/globe.svg";
+
+export interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<!-- <Callout> -->
+<section class="tldr">
+  <h2 class="section-title">tl;dr</h2>
+  <p>{text}</p>
+  <!-- <LinkButton label="check it out" url={"project.data.link"} icon={globe} /> -->
+</section>
+<!-- </Callout> -->
+
+<style lang="scss">
+  .tldr {
+    // margin-bottom: 1rem;
+  }
+  h2.section-subtitle {
+    // font-size: 1rem;
+    // margin-bottom: 0.75rem;
+  }
+  p {
+    // font-size: 14px;
+    // font-weight: normal;
+    // color: gray;
+    // margin-bottom: 1rem;
+    // line-height: 1.25em;
+  }
+</style>
