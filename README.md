@@ -1,6 +1,6 @@
 # My Portfolio - BETA
 
-This is my portfolio website build with Astro 🚀
+This is my portfolio website built with Astro 🚀
 
 ## Project Structure
 
