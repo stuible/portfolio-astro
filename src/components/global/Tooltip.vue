@@ -31,6 +31,8 @@ export default {
 
 .v-popper--theme-stuible-tooltip {
 
+  display: inline-block;
+
   .v-popper__inner {
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(4px);
