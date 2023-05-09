@@ -8,21 +8,30 @@ import q5 from "~/assets/icons/q5.svg";
 <section class="section has-icon" data-icon="work">
   <h2 class="section-title">My Roles</h2>
   <div class="posiitons">
-    <div class="position">
-      <h3 class="section-subtitle">
-        <img src={lt.src} alt="" class="logo" /> Vancouver Costal Health
-      </h3>
+    <article class="position">
+      <header>
+        <img src={lt.src} alt="" class="logo" />
+        <div class="titles">
+          <h3 class="section-subtitle">VCH</h3>
+          <span class="details">Programmer & Analyst</span>
+        </div>
+      </header>
+
       <p class="body vch">
-        I currently work on <a href="https://www.vch.ca/"
+        I currently work on <a href="https://www.vch.ca/" target="_blank"
           >Vancouver Coastal Health</a
         >'s Learning Technologies team. There, I implement both patient and
         clinician-facing web experiences.
       </p>
-    </div>
-    <div class="position">
-      <h3 class="section-subtitle">
-        <img src={q5.src} alt="" class="logo" /> Q5
-      </h3>
+    </article>
+    <article class="position">
+      <header>
+        <img src={q5.src} alt="" class="logo" />
+        <div class="titles">
+          <h3 class="section-subtitle">Q5</h3>
+          <span class="details">Web Developer & Designer</span>
+        </div>
+      </header>
       <p class="body">
         I also run a freelance web development consulatancy where we focus on
         small businesses. Need a website? <a
@@ -31,7 +40,7 @@ import q5 from "~/assets/icons/q5.svg";
           class="link">Check us out!</a
         >
       </p>
-    </div>
+    </article>
   </div>
 </section>
 
@@ -55,13 +64,30 @@ import q5 from "~/assets/icons/q5.svg";
       font-size: 16px;
       // font-weight: normal;
     }
-    .section-subtitle {
+    header {
       display: flex;
       align-items: center;
       gap: 0.5em;
+      margin-bottom: 1rem;
+
+      .titles {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .section-subtitle {
+        margin-bottom: 0.15rem;
+      }
+
+      .details {
+        font-weight: 400;
+        color: gray;
+        font-size: 16px;
+      }
     }
+
     .logo {
-      height: 1.25em;
+      height: 1.4em;
     }
   }
 </style>
