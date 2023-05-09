@@ -1,8 +1,11 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
+import LinkButton from "~/components/global/LinkButton.astro";
 import Tree from "~/components/project/Tree.astro";
 
 import Layout from "~/layouts/Layout.astro";
+
+import globe from "~/assets/icons/globe.svg";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -19,10 +22,22 @@ const { Content } = await project.render();
 
 <Layout title="Project Page">
   <article class="portoflio:article">
-    <h1>{project.data.title}</h1>
-    <div class="stack">
+    <header>
+      <h1>{project.data.title}</h1>
+      <!-- <div class="stack">
       {project.data.stack ? <Tree tree={project.data.stack} /> : null}
-    </div>
+    </div> -->
+
+      {
+        project.data.link && (
+          <LinkButton
+            label="check it out"
+            url={project.data.link}
+            icon={globe}
+          />
+        )
+      }
+    </header>
     <Content />
   </article>
 </Layout>
@@ -31,11 +46,6 @@ const { Content } = await project.render();
   .portoflio\:article {
     font-size: 20px;
     font-weight: 300;
-
-    h1 {
-      font-size: 2rem;
-      font-weight: normal;
-    }
 
     h2 {
       margin-bottom: 1rem;
@@ -58,6 +68,17 @@ const { Content } = await project.render();
 
 <style lang="scss">
   .stack {
+    // margin-bottom: 4rem;
+  }
+  header {
     margin-bottom: 4rem;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: normal;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 </style>
