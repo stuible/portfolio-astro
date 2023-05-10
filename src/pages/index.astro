@@ -6,17 +6,12 @@ import Skills from "~/components/home/Skills.astro";
 import Employment from "~/components/home/Employment.astro";
 import Projects from "~/components/home/Projects.astro";
 
-// import { Image, Picture } from "@astrojs/image/components";
-
 import { getCollection, getEntryBySlug } from "astro:content";
 
 const home = await getEntryBySlug("pages", "home");
-
-// const allServices = await getCollection("services");
-const allSkills = await getCollection("skills");
 ---
 
-<Layout title="Josh Stuible" noTopPadding={true}>
+<Layout noTopPadding={true}>
   <Intro />
   <Skills />
   <Employment />

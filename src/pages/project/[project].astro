@@ -43,7 +43,7 @@ const techWithIcons = await Promise.all(
 const { Content } = await project.render();
 ---
 
-<Layout title="Project Page">
+<Layout title={project.data.title}>
   <article class="project">
     <header>
       <p class="when">Summer 2022</p>

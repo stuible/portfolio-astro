@@ -6,7 +6,7 @@ import Bar from "../components/layout/Bar.astro";
 import Tooltip from "~/components/global/Tooltip.vue";
 
 export interface Props {
-  title: string;
+  title?: string;
   noTopPadding?: boolean;
 }
 
@@ -20,7 +20,7 @@ const { title, noTopPadding = false } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{title ? `${title} - ` : ""}Josh Stuible</title>
   </head>
   <body>
     <div class="container layout-container">
