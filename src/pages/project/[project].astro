@@ -87,11 +87,11 @@ const { Content } = await project.render();
       @include section-title;
 
       &:not(:first-of-type) {
-        margin-top: 4rem;
+        margin-top: $spacing-lg;
       }
     }
     p {
-      margin-bottom: 1rem;
+      margin-bottom: $spacing-sm;
       max-width: 50ch;
     }
   }
@@ -114,10 +114,10 @@ const { Content } = await project.render();
     // font-weight: 500;
   }
   .stack {
-    // margin-bottom: 4rem;
+    // margin-bottom: $spacing-lg;
   }
   header {
-    margin-bottom: 4rem;
+    margin-bottom: $spacing-lg;
   }
   h1 {
     font-size: 1rem;
@@ -142,7 +142,7 @@ const { Content } = await project.render();
   }
   .tags {
     display: flex;
-    gap: 0.5rem;
+    gap: $spacing-xs;
     margin-bottom: 3rem;
     font-size: 0.75rem;
 

@@ -1,7 +1,7 @@
 .container {
     margin: 0 auto;
     max-width: 100%;
-    padding: 0 1rem;
+    padding: 0 $spacing-sm;
 
     @include breakpoint(xs) {
         max-width: 100%;
@@ -16,7 +16,7 @@
 
     @include breakpoint(md) {
         max-width: map-get($breakpoints, md);
-        padding: 0 2rem;
+        padding: 0 $spacing-md;
         // padding: 0;
     }
 
