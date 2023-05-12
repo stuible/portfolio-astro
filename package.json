@@ -18,7 +18,7 @@
     "floating-vue": "^2.0.0-beta.20",
     "remark-behead": "^3.1.0",
     "sass": "^1.57.1",
-    "sharp": "^0.31.3",
+    "sharp": "^0.32.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
