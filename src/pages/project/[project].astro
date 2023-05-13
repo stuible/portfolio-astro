@@ -46,7 +46,7 @@ const { Content } = await project.render();
 <Layout title={project.data.title}>
   <article class="project">
     <header>
-      <p class="when">Summer 2022</p>
+      <p class="when">{project.data.when}</p>
       <h1>{project.data.title}</h1>
       <ul class="tags">
         {
@@ -69,15 +69,23 @@ const { Content } = await project.render();
         <TLDR text={project.data.tldr} />
         <!-- <Callout>Tags</Callout> -->
       </div>
+
+      {
+        project.data.link && (
+          <div class="link">
+            <LinkButton
+              label="check it out"
+              url={project.data.link}
+              icon={globe}
+            />
+          </div>
+        )
+      }
     </header>
+
     <section class="content">
       <Content />
     </section>
-    {
-      project.data.link && (
-        <LinkButton label="check it out" url={project.data.link} icon={globe} />
-      )
-    }
   </article>
 </Layout>
 
@@ -117,7 +125,7 @@ const { Content } = await project.render();
     // margin-bottom: $spacing-lg;
   }
   header {
-    margin-bottom: $spacing-lg;
+    margin-bottom: $spacing-md;
   }
   h1 {
     font-size: 1rem;
@@ -139,6 +147,12 @@ const { Content } = await project.render();
     // display: grid;
     // grid-template-columns: 1fr 1fr;
     // gap: 1rem;
+
+    margin-bottom: $spacing-md;
+
+    &:last-child {
+      margin-bottom: $spacing-lg;
+    }
   }
   .tags {
     display: flex;
@@ -149,5 +163,8 @@ const { Content } = await project.render();
     @include breakpoint(sm) {
       font-size: 1rem;
     }
+  }
+  .link {
+    margin-bottom: $spacing-md;
   }
 </style>

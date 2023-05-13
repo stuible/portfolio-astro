@@ -17,6 +17,7 @@ const treeNodeSchema: z.ZodSchema<TreeNode[]> = z.lazy(() =>
 const projectCollection = defineCollection({
   schema: z.object({
     title: z.string(),
+    when: z.string().optional(),
     subtitle: z.string(),
     tldr: z.string().optional(),
     tags: z.array(z.string()).optional(),
