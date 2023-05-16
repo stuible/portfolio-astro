@@ -67,7 +67,7 @@ tech:
       name: Graph QL,
       icon: gql,
       colour: "#FCF0F9",
-      tooltip: "Makes API's easy (some of the time)",
+      tooltip: "Makes API's easy (most of the time)",
     }
   - {
       slug: craft,
