@@ -65,10 +65,12 @@ const { Content } = await project.render();
       {project.data.stack ? <Tree tree={project.data.stack} /> : null}
     </div> -->
 
-      <div class="info">
-        <TLDR text={project.data.tldr} />
-        <!-- <Callout>Tags</Callout> -->
-      </div>
+      {project.data.tldr && (
+            <div class="info">
+              <TLDR text={project.data.tldr} />
+              <!-- <Callout>Tags</Callout> -->
+            </div>
+      )}
 
       {
         project.data.link && (
@@ -98,9 +100,16 @@ const { Content } = await project.render();
         margin-top: $spacing-lg;
       }
     }
+    h3 {
+      @include section-subtitle;
+    }
     p {
       margin-bottom: $spacing-sm;
       max-width: 50ch;
+
+      a {
+        @include highlight-link;
+      }
     }
   }
 </style>
