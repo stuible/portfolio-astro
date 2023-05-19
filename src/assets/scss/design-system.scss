@@ -22,12 +22,7 @@
     }
 }
 
-.section-title {
-    @include section-title;
-}
-
-.section-subtitle {
-    font-size: 22px;
+@mixin section-subtitle {
     font-weight: 500;
     margin-bottom: $spacing-sm;
     // font-family: monospace;
@@ -47,14 +42,26 @@
     // }
 }
 
+@mixin highlight-link {
+    color: #5282fd;
+    font-weight: 400;
+}
+
+.section-title {
+    @include section-title;
+}
+
+.section-subtitle {
+    @include section-subtitle;
+}
+
 .link {
     color: gray;
     font-size: 16px;
 }
 
 .highlight-link {
-    color: #5282fd;
-    font-weight: 400;
+    @include highlight-link;
 }
 
 .center-text {
