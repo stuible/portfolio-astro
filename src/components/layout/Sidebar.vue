@@ -31,6 +31,7 @@ function onEnterCancel(event: Element) {
     // console.log(event);
 }
 
+// Add preload links for the icons used by sidebar
 function preloadIcons() {
     hasBegunScrolling.value = true;
 
@@ -39,6 +40,8 @@ function preloadIcons() {
         preloadTag.rel = "preload"
         preloadTag.as = "image"
         preloadTag.href = icon;
+        // Only preload icons if the sidebar is sticky (large breakpoint)
+        preloadTag.media = `media="(min-width: 1100px)"`;
         document.head.appendChild(preloadTag);
     })
 
