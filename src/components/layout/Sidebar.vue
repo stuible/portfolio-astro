@@ -41,7 +41,7 @@ function preloadIcons() {
         preloadTag.as = "image"
         preloadTag.href = icon;
         // Only preload icons if the sidebar is sticky (large breakpoint)
-        preloadTag.media = `media="(min-width: 1100px)"`;
+        // preloadTag.media = `media="(min-width: 1100px)"`;
         document.head.appendChild(preloadTag);
     })
 
