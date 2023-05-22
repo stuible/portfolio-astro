@@ -10,7 +10,13 @@ const { projects } = Astro.props;
 ---
 
 <ol class="projects">
-  {projects.map((project, index) => <ProjectCard project={project} />)}
+  {
+    projects.map((project, index) => (
+      <li>
+        <ProjectCard project={project} />
+      </li>
+    ))
+  }
 </ol>
 
 <style lang="scss">
