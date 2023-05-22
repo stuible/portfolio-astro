@@ -2,6 +2,7 @@
 import "~/assets/scss/_base.scss";
 
 import { SEO } from "astro-seo";
+import { Image } from "@astrojs/image/components";
 
 import Sidebar from "../components/layout/Sidebar.vue";
 import Bar from "../components/layout/Bar.astro";
@@ -83,8 +84,13 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
                 triggers={["hover", "focus", "touch"]}
               >
                 <div class="image">
-                  <img
+                  <!-- <img
                     src="/logo-sideways.svg"
+                    alt="Josh Stuible"
+                    class="logo"
+                  /> -->
+                  <Image
+                    src={import("~/../public/logo-sideways.svg")}
                     alt="Josh Stuible"
                     class="logo"
                   />
@@ -98,8 +104,13 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
                 triggers={["hover", "focus", "touch"]}
               >
                 <div class="image">
-                  <img
+                  <!-- <img
                     src="/logo-umbrella.svg"
+                    alt="Vancouver"
+                    class="umbrella"
+                  /> -->
+                  <Image
+                    src={import("~/../public/logo-umbrella.svg")}
                     alt="Vancouver"
                     class="umbrella"
                   />
@@ -201,7 +212,7 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
           // width: 4em;
         }
         img {
-          // height: 1em;
+          height: auto;
           // align-self: center;
           // transform: rotate(-45deg);
           // margin: 0 0.5em;

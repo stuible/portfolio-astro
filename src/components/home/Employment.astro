@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
+import { Image } from "@astrojs/image/components";
 
 import lt from "~/assets/icons/lt.svg";
 import q5 from "~/assets/icons/q5.svg";
@@ -10,7 +11,8 @@ import q5 from "~/assets/icons/q5.svg";
   <div class="posiitons">
     <article class="position">
       <header>
-        <img src={lt.src} alt="" class="logo" />
+        <!-- <img src={lt.src} alt="" class="logo" /> -->
+        <Image src={lt} alt="Learning Technologies Logo" class="logo" />
         <div class="titles">
           <h3 class="section-subtitle">VCH</h3>
           <span class="details">Programmer + Analyst</span>
@@ -28,7 +30,8 @@ import q5 from "~/assets/icons/q5.svg";
     </article>
     <article class="position">
       <header>
-        <img src={q5.src} alt="" class="logo" />
+        <!-- <img src={q5.src} alt="" class="logo" /> -->
+        <Image src={q5} alt="Learning Technologies Logo" class="logo" />
         <div class="titles">
           <h3 class="section-subtitle">Q5</h3>
           <span class="details">Web Developer + Designer</span>
@@ -90,6 +93,7 @@ import q5 from "~/assets/icons/q5.svg";
 
     .logo {
       height: 1.3em;
+      width: auto;
     }
   }
 </style>
