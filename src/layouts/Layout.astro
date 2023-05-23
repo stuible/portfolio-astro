@@ -202,23 +202,24 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
             font-size: 0.6rem;
           }
         }
+        .attribution {
+          display: flex;
+        }
         .credits {
           display: inline-block;
         }
         .image {
           display: flex;
-          padding: 0.25em 0.5em;
+          padding: 0.25em 0.75em;
+          height: 100%;
 
           // width: 4em;
         }
         img {
           height: auto;
-          // align-self: center;
-          // transform: rotate(-45deg);
-          // margin: 0 0.5em;
 
           &.logo {
-            // height: 0.65em;
+            margin-top: 3px;
             width: 43px;
           }
           &.umbrella {
