@@ -24,6 +24,7 @@ const projectCollection = defineCollection({
     stack: treeNodeSchema.optional(),
     featured: z.boolean(),
     link: z.string().url().optional(),
+    enabled: z.boolean().default(true),
   }),
 });
 // 3. Export a single `collections` object to register your collection(s)

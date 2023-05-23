@@ -6,7 +6,9 @@ import ProjectsGrid from "~/components/project/ProjectsGrid.astro";
 
 // const home = await getEntryBySlug("pages", "home");
 
-const projects = await getCollection("projects");
+const projects = await getCollection("projects", ({ data }) => {
+  return data.enabled;
+});
 ---
 
 <Layout title="Projects - Josh Stuible">

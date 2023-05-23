@@ -12,7 +12,9 @@ import Callout from "~/components/project/Callout.astro";
 import IconPill from "~/components/global/IconPill.astro";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+  const projects = await getCollection("projects", ({ data }) => {
+  return data.enabled;
+});
 
   return projects.map((x) => ({ params: { project: x.slug } }));
 }
