@@ -22,6 +22,13 @@ tech:
       colour: "#EBF0F2",
     }
   - {
+      slug: electron,
+      name: Electron,
+      icon: electron,
+      tooltip: "Desktop apps written with web tech",
+      colour: "#e9f2f3",
+    }
+  - {
       slug: ts,
       name: Typescript,
       icon: ts,
