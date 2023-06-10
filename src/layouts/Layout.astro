@@ -74,6 +74,11 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
     />
   </head>
   <body>
+    <script>
+      addEventListener("load", () => {
+        document.documentElement.style.setProperty("scroll-behavior", "smooth");
+      });
+    </script>
     <div class="container layout-container">
       {/* Left */}
       <div class="left">
