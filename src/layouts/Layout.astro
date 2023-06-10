@@ -47,7 +47,7 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
         basic: {
           title: title,
           type: "website",
-          image: ogImage ?? "/opengraph.png",
+          image: ogImage ?? import.meta.env.SITE_URL + "/opengraph.png",
         },
         optional: {
           description: description,
@@ -63,7 +63,7 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
         meta: [
           {
             name: "twitter:image",
-            content: ogImage ?? "/opengraph.png",
+            content: ogImage ?? import.meta.env.SITE_URL + "/og.png",
           },
           { name: "twitter:title", content: title },
           { name: "twitter:description", content: description },
