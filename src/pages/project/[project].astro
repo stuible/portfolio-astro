@@ -45,7 +45,7 @@ const techWithIcons = await Promise.all(
 const { Content } = await project.render();
 ---
 
-<Layout title={project.data.title}>
+<Layout title={project.data.title} ogImage={`${import.meta.env.SITE_URL}/open-graph/projects/${project.slug}.png`} description={project.data.subtitle}>
   <article class="project">
     <header>
       <p class="when">{project.data.when}</p>
