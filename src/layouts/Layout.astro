@@ -48,7 +48,8 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
         basic: {
           title: title,
           type: "website",
-          image: ogImage ?? import.meta.env.SITE_URL + "/opengraph.png",
+          image: ogImage ?? import.meta.env.SITE_URL + "/og.png",
+          url: import.meta.env.SITE_URL + Astro.url.pathname,
         },
         optional: {
           description: description,
