@@ -41,6 +41,7 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <SEO
+      canonical={import.meta.env.SITE_URL + Astro.url.pathname}
       title={title}
       description={description}
       openGraph={{
