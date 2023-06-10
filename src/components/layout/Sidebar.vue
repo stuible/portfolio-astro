@@ -22,9 +22,29 @@ const currentIcon = ref("logo");
 
 const offset = -25;
 
+const hasBegunScrolling = ref(false);
+
+const icons = ["/logo-sideways.svg", "/code.svg", "/hammer.svg"];
+
 function onEnterCancel(event: Element) {
     event.classList.add('cancelled');
     // console.log(event);
+}
+
+// Add preload links for the icons used by sidebar
+function preloadIcons() {
+    hasBegunScrolling.value = true;
+
+    icons.forEach(icon => {
+        const preloadTag = document.createElement('link');
+        preloadTag.rel = "preload"
+        preloadTag.as = "image"
+        preloadTag.href = icon;
+        // Only preload icons if the sidebar is sticky (large breakpoint)
+        // preloadTag.media = `media="(min-width: 1100px)"`;
+        document.head.appendChild(preloadTag);
+    })
+
 }
 
 
@@ -43,6 +63,7 @@ function updateSidebarIcon(newIcon) {
 const updateSidebarIconDebounced = debounce((newIcon) => updateSidebarIcon(newIcon), 90);
 
 onMounted(() => {
+
     // Get all the elements with the class .has-icon
     const hasIconDivs = document.querySelectorAll('.has-icon');
 
@@ -55,6 +76,9 @@ onMounted(() => {
 
     // Define Scroll callback function
     const onScroll = (event) => {
+
+        // If this is the first time a user has scrolled, preload the rest of the icons
+        if (!hasBegunScrolling.value) preloadIcons();
 
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollingDown = scrollTop > lastScrollTop;

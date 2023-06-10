@@ -65,7 +65,7 @@ export default {
     transition: opacity 0.15s, visibility 0.15s;
 
     .v-popper__wrapper {
-      transform: translateY(25px);
+      transform: translateY(15px);
       transition: transform 0.15s;
     }
   }

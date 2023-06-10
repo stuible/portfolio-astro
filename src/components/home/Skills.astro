@@ -2,11 +2,6 @@
 import { getCollection, getEntryBySlug } from "astro:content";
 import IconPill from "~/components/global/IconPill.astro";
 
-// const tech = frontmatter;
-
-const skills = await getCollection("skills");
-// const techs = await getCollection("tech");
-
 const {
   data: { tech },
 } = await getEntryBySlug("categories", "tech");
@@ -25,11 +20,12 @@ const techWithIcons = await Promise.all(
 ---
 
 <section class="section has-icon" data-icon="skills">
-  {/* Skills */}
-  <h2 class="section-title">What I Know</h2>
+  <h2 class="section-title">My Focus</h2>
   <p class="body">
-    With knowledge spanning the full stack, my goal is to constantly learn as I
-    bring modern web experiences to life.
+    With knowledge spanning the full stack, my goal is to never stand still as I
+    look to the future of web developement. I'm currently using JavaScript
+    (TypeScript) on both the backend and frontend but I'll always have a soft
+    spot for PHP.
   </p>
 
   <h3 class="section-subtitle">Skills</h3>
@@ -58,17 +54,9 @@ const techWithIcons = await Promise.all(
     }
   }
 
-  // .skills {
-  //   display: grid;
-  //   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  //   gap: 1rem;
-  // }
-
   .tech {
     display: flex;
     flex-wrap: wrap;
-    // grid-template-columns: repeat(5, 1fr);
-    // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 0.4rem;
 
     @include breakpoint(sm) {

@@ -1,0 +1,29 @@
+---
+title: Snafu
+featured: false
+when: Fall 2019
+subtitle: How I designed and developed a desktop glitch art creation application
+link: https://snafu.stuible.com/
+tldr: Snafu is a desktop app that makes creating glitch art more accessible to beginners and more creative for professionals. It processes images using audio effects using a technique known as databending to create truly bizarre creations from even the most banal images.
+tags:
+  - vue
+  - electron
+---
+
+import { Image, Picture } from "@astrojs/image/components";
+
+# Background
+
+In a 4th year SIAT course, we were tasked with creating a tool that would “help people be creative”. We decided to create a glitch art creation tool. This tool works by running images through audio effects, creating unique and surrealist distortions.
+
+# Design
+
+The app's design was a collaboration between me and Taylor. We used Figma to explore various User Interfaces. Taking inspiration from design patterns found in many audio applications such as Izotope's Ozone, we settled on the above design.
+
+# Development
+
+I opted to use Electron so I could bring my current web development skills to the desktop. I used Vue.js to create and implement the interface using reactive templates. I also utilized the Web Audio API to apply the audio effects to the image along with an audio effects library called Tuna.js.
+
+# Challenges
+
+The biggest challenge was with the technical implementation of the glitch effects. Surprising as it may be, audio effects libraries are not designed to process images so converting compressed images into raw image data that could then be converted into PCM sound data was a fun challenge that involved a combination of external libraries and type conversion.

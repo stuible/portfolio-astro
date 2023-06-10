@@ -8,9 +8,10 @@ import mail from "../../assets/icons/mail.svg";
 
 <section class="section has-icon" data-icon="logo">
   <p class="body bio">
-    I am a Vancouver-based full stack web developer who’s obsessed with clean
-    and intuitive experiences. Using the latest web technologies, I add value
-    and identity to digital brands with clean and expressive websites.
+    I am a Vancouver-based full stack developer who brings clean and intuitive
+    interfaces to life on the web. I add value and delight to digital
+    experiences using reactive frameworks, serverless models, and sometimes
+    plain old {"<html>"}.
   </p>
 
   <ul class="contact-links">
@@ -36,23 +37,14 @@ import mail from "../../assets/icons/mail.svg";
       />
     </li>
   </ul>
-
-  {
-    /* <p>
-    <LinkButton
-      label="Need a website?  Check out Q5, my freelancing company"
-      url="https://q-5.ca"
-    />
-  </p> */
-  }
 </section>
 
 <style lang="scss">
   .contact-links {
     display: flex;
-    gap: 1rem;
+    gap: $spacing-sm;
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-md;
   }
   .bio {
     margin-bottom: $spacing-md;

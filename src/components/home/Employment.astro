@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
+import { Image } from "@astrojs/image/components";
 
 import lt from "~/assets/icons/lt.svg";
 import q5 from "~/assets/icons/q5.svg";
@@ -10,7 +11,8 @@ import q5 from "~/assets/icons/q5.svg";
   <div class="posiitons">
     <article class="position">
       <header>
-        <img src={lt.src} alt="" class="logo" />
+        <!-- <img src={lt.src} alt="" class="logo" /> -->
+        <Image src={lt} alt="Learning Technologies Logo" class="logo" />
         <div class="titles">
           <h3 class="section-subtitle">VCH</h3>
           <span class="details">Programmer + Analyst</span>
@@ -18,15 +20,18 @@ import q5 from "~/assets/icons/q5.svg";
       </header>
 
       <p class="body vch">
-        I currently work on <a href="https://www.vch.ca/" target="_blank"
-          >Vancouver Coastal Health</a
-        >'s Learning Technologies team. There, I implement both patient and
-        clinician-facing web experiences.
+        I currently work on <a
+          class="highlight-link"
+          href="https://www.vch.ca/"
+          target="_blank">Vancouver Coastal Health's</a
+        > Learning Technologies team. There, I implement both patient and clinician-facing
+        web experiences.
       </p>
     </article>
     <article class="position">
       <header>
-        <img src={q5.src} alt="" class="logo" />
+        <!-- <img src={q5.src} alt="" class="logo" /> -->
+        <Image src={q5} alt="Learning Technologies Logo" class="logo" />
         <div class="titles">
           <h3 class="section-subtitle">Q5</h3>
           <span class="details">Web Developer + Designer</span>
@@ -37,7 +42,7 @@ import q5 from "~/assets/icons/q5.svg";
         small businesses. Need a website? <a
           href="https://q-5.ca"
           target="_blank"
-          class="link">Check us out!</a
+          class="highlight-link">Check us out!</a
         >
       </p>
     </article>
@@ -52,7 +57,7 @@ import q5 from "~/assets/icons/q5.svg";
   .posiitons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: $spacing-md;
 
     @include breakpoint(lg) {
       grid-template-columns: 1fr 1fr;
@@ -88,6 +93,7 @@ import q5 from "~/assets/icons/q5.svg";
 
     .logo {
       height: 1.3em;
+      width: auto;
     }
   }
 </style>

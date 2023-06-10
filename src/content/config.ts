@@ -17,12 +17,14 @@ const treeNodeSchema: z.ZodSchema<TreeNode[]> = z.lazy(() =>
 const projectCollection = defineCollection({
   schema: z.object({
     title: z.string(),
+    when: z.string().optional(),
     subtitle: z.string(),
     tldr: z.string().optional(),
     tags: z.array(z.string()).optional(),
     stack: treeNodeSchema.optional(),
     featured: z.boolean(),
     link: z.string().url().optional(),
+    enabled: z.boolean().default(true),
   }),
 });
 // 3. Export a single `collections` object to register your collection(s)

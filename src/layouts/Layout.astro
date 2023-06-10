@@ -1,16 +1,37 @@
 ---
 import "~/assets/scss/_base.scss";
 
+import { SEO } from "astro-seo";
+import { Image } from "@astrojs/image/components";
+
 import Sidebar from "../components/layout/Sidebar.vue";
 import Bar from "../components/layout/Bar.astro";
 import Tooltip from "~/components/global/Tooltip.vue";
+import { getImage } from "@astrojs/image";
 
 export interface Props {
-  title: string;
+  title?: string;
+  description?: string;
   noTopPadding?: boolean;
+  ogImage?: string;
 }
 
-const { title, noTopPadding = false } = Astro.props;
+const {
+  title: titleProp,
+  noTopPadding = false,
+  description,
+  ogImage,
+} = Astro.props;
+
+const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
+
+// const { src: OGImageSrc } = await getImage({
+//   src: "/open-graph/image.svg",
+//   alt: "My OG Image",
+//   width: 1200,
+//   height: 630,
+//   format: "png",
+// });
 ---
 
 <!DOCTYPE html>
@@ -18,15 +39,50 @@ const { title, noTopPadding = false } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <SEO
+      canonical={import.meta.env.SITE_URL + Astro.url.pathname}
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: ogImage ?? import.meta.env.SITE_URL + "/og.png",
+          url: import.meta.env.SITE_URL + Astro.url.pathname,
+        },
+        optional: {
+          description: description,
+        },
+      }}
+      twitter={{
+        creator: "@joshstuible",
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: "twitter:image",
+            content: ogImage ?? import.meta.env.SITE_URL + "/og.png",
+          },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: description },
+        ],
+      }}
+    />
   </head>
   <body>
+    <script>
+      addEventListener("load", () => {
+        document.documentElement.style.setProperty("scroll-behavior", "smooth");
+      });
+    </script>
     <div class="container layout-container">
       {/* Left */}
       <div class="left">
-        <Sidebar client:idle />
+        <Sidebar client:media="(min-width: 1100px)" />
       </div>
       {/* Center */}
       <div class="center">
@@ -51,8 +107,13 @@ const { title, noTopPadding = false } = Astro.props;
                 triggers={["hover", "focus", "touch"]}
               >
                 <div class="image">
-                  <img
+                  <!-- <img
                     src="/logo-sideways.svg"
+                    alt="Josh Stuible"
+                    class="logo"
+                  /> -->
+                  <Image
+                    src={import("~/../public/logo-sideways.svg")}
                     alt="Josh Stuible"
                     class="logo"
                   />
@@ -66,8 +127,13 @@ const { title, noTopPadding = false } = Astro.props;
                 triggers={["hover", "focus", "touch"]}
               >
                 <div class="image">
-                  <img
+                  <!-- <img
                     src="/logo-umbrella.svg"
+                    alt="Vancouver"
+                    class="umbrella"
+                  /> -->
+                  <Image
+                    src={import("~/../public/logo-umbrella.svg")}
                     alt="Vancouver"
                     class="umbrella"
                   />
@@ -81,115 +147,115 @@ const { title, noTopPadding = false } = Astro.props;
       {/* Right */}
       <div class="right"></div>
     </div>
+    <style is:global lang="scss"></style>
+
+    <style lang="scss">
+      .layout-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: $spacing-md;
+
+        @include breakpoint(xl) {
+          grid-template-columns: 3rem auto 3rem;
+        }
+
+        // @include breakpoint(desktophd) {
+        //   grid-template-columns: $spacing-lg auto $spacing-lg;
+        // }
+      }
+      $top-padding: 7rem;
+      .left {
+        top: 0;
+        padding-top: $spacing-md;
+
+        @include breakpoint(xl) {
+          padding-top: $top-padding;
+          position: sticky;
+        }
+      }
+      .center {
+        // width: 100%;
+      }
+
+      header {
+        @include breakpoint(xl) {
+          // $top-padding: 5rem;
+          padding-top: calc(#{$top-padding} + 24px);
+        }
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: normal;
+        text-transform: lowercase;
+        margin-bottom: $spacing-md;
+        // img {
+        //   height: 0.8em;
+        //   // margin-right: 1em;
+        // }
+      }
+      main {
+        padding: $spacing-md 0 $spacing-lg 0;
+
+        &.no-top-padding {
+          padding-top: 0;
+        }
+      }
+      footer {
+        // opacity: 0.5;
+        // display: flex;
+        align-items: center;
+        padding-bottom: $spacing-lg;
+        font-weight: 500;
+        line-height: 1em;
+
+        .blurb {
+          // line-height: 2em;
+          font-size: 0.5rem;
+          display: flex;
+          flex-wrap: wrap;
+          // transform: rotate(-90deg);x
+
+          @include breakpoint(sm) {
+            font-size: 0.5rem;
+          }
+
+          @include breakpoint(md) {
+            font-size: 0.6rem;
+          }
+        }
+        .attribution {
+          display: flex;
+        }
+        .credits {
+          display: inline-block;
+        }
+        .image {
+          display: flex;
+          padding: 0.25em 0.75em;
+          height: 100%;
+
+          // width: 4em;
+        }
+        img {
+          height: auto;
+
+          &.logo {
+            margin-top: 3px;
+            width: 43px;
+          }
+          &.umbrella {
+            // height: 0.4em;
+            width: 50px;
+          }
+        }
+        // .label {
+        //   font-size: 0.75em;
+        //   margin-left: 1rem;
+        //   text-transform: lowercase;
+        // }
+      }
+    </style>
   </body>
 </html>
-
-<style is:global lang="scss"></style>
-
-<style lang="scss">
-  .layout-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 2rem;
-
-    @include breakpoint(xl) {
-      grid-template-columns: 3rem auto 3rem;
-    }
-
-    // @include breakpoint(desktophd) {
-    //   grid-template-columns: 4rem auto 4rem;
-    // }
-  }
-  $top-padding: 7rem;
-  .left {
-    top: 0;
-    padding-top: 2rem;
-
-    @include breakpoint(xl) {
-      padding-top: $top-padding;
-      position: sticky;
-    }
-  }
-  .center {
-    // width: 100%;
-  }
-
-  header {
-    @include breakpoint(xl) {
-      // $top-padding: 5rem;
-      padding-top: calc(#{$top-padding} + 20px);
-    }
-  }
-
-  h1 {
-    font-size: 1.5rem;
-    font-weight: normal;
-    text-transform: lowercase;
-    margin-bottom: 2rem;
-    // img {
-    //   height: 0.8em;
-    //   // margin-right: 1em;
-    // }
-  }
-  main {
-    padding: 2rem 0 4rem 0;
-
-    &.no-top-padding {
-      padding-top: 0;
-    }
-  }
-  footer {
-    // opacity: 0.5;
-    // display: flex;
-    align-items: center;
-    padding-bottom: 4rem;
-    font-weight: 500;
-    line-height: 1em;
-
-    .blurb {
-      // line-height: 2em;
-      font-size: 0.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      // transform: rotate(-90deg);x
-
-      @include breakpoint(sm) {
-        font-size: 0.5rem;
-      }
-
-      @include breakpoint(md) {
-        font-size: 0.6rem;
-      }
-    }
-    .credits {
-      display: inline-block;
-    }
-    .image {
-      display: flex;
-      padding: 0.25em 0.5em;
-
-      // width: 4em;
-    }
-    img {
-      // height: 1em;
-      // align-self: center;
-      // transform: rotate(-45deg);
-      // margin: 0 0.5em;
-
-      &.logo {
-        // height: 0.65em;
-        width: 43px;
-      }
-      &.umbrella {
-        // height: 0.4em;
-        width: 50px;
-      }
-    }
-    // .label {
-    //   font-size: 0.75em;
-    //   margin-left: 1rem;
-    //   text-transform: lowercase;
-    // }
-  }
-</style>

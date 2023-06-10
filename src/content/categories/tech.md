@@ -22,6 +22,13 @@ tech:
       colour: "#EBF0F2",
     }
   - {
+      slug: electron,
+      name: Electron,
+      icon: electron,
+      tooltip: "Desktop apps written with web tech",
+      colour: "#e9f2f3",
+    }
+  - {
       slug: ts,
       name: Typescript,
       icon: ts,
@@ -67,7 +74,7 @@ tech:
       name: Graph QL,
       icon: gql,
       colour: "#FCF0F9",
-      tooltip: "Makes API's easy (some of the time)",
+      tooltip: "Makes API's easy (most of the time)",
     }
   - {
       slug: craft,

@@ -12,7 +12,9 @@ import Callout from "~/components/project/Callout.astro";
 import IconPill from "~/components/global/IconPill.astro";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+  const projects = await getCollection("projects", ({ data }) => {
+  return data.enabled;
+});
 
   return projects.map((x) => ({ params: { project: x.slug } }));
 }
@@ -43,10 +45,10 @@ const techWithIcons = await Promise.all(
 const { Content } = await project.render();
 ---
 
-<Layout title="Project Page">
+<Layout title={project.data.title} ogImage={`${import.meta.env.SITE_URL}/open-graph/projects/${project.slug}.png`} description={project.data.subtitle}>
   <article class="project">
     <header>
-      <p class="when">Summer 2022</p>
+      <p class="when">{project.data.when}</p>
       <h1>{project.data.title}</h1>
       <ul class="tags">
         {
@@ -65,19 +67,29 @@ const { Content } = await project.render();
       {project.data.stack ? <Tree tree={project.data.stack} /> : null}
     </div> -->
 
-      <div class="info">
-        <TLDR text={project.data.tldr} />
-        <!-- <Callout>Tags</Callout> -->
-      </div>
+      {project.data.tldr && (
+            <div class="info">
+              <TLDR text={project.data.tldr} />
+              <!-- <Callout>Tags</Callout> -->
+            </div>
+      )}
+
+      {
+        project.data.link && (
+          <div class="link">
+            <LinkButton
+              label="check it out"
+              url={project.data.link}
+              icon={globe}
+            />
+          </div>
+        )
+      }
     </header>
+
     <section class="content">
       <Content />
     </section>
-    {
-      project.data.link && (
-        <LinkButton label="check it out" url={project.data.link} icon={globe} />
-      )
-    }
   </article>
 </Layout>
 
@@ -87,12 +99,19 @@ const { Content } = await project.render();
       @include section-title;
 
       &:not(:first-of-type) {
-        margin-top: 4rem;
+        margin-top: $spacing-lg;
       }
     }
+    h3 {
+      @include section-subtitle;
+    }
     p {
-      margin-bottom: 1rem;
+      margin-bottom: $spacing-sm;
       max-width: 50ch;
+
+      a {
+        @include highlight-link;
+      }
     }
   }
 </style>
@@ -114,10 +133,10 @@ const { Content } = await project.render();
     // font-weight: 500;
   }
   .stack {
-    // margin-bottom: 4rem;
+    // margin-bottom: $spacing-lg;
   }
   header {
-    margin-bottom: 4rem;
+    margin-bottom: $spacing-md;
   }
   h1 {
     font-size: 1rem;
@@ -139,15 +158,24 @@ const { Content } = await project.render();
     // display: grid;
     // grid-template-columns: 1fr 1fr;
     // gap: 1rem;
+
+    margin-bottom: $spacing-md;
+
+    &:last-child {
+      margin-bottom: $spacing-lg;
+    }
   }
   .tags {
     display: flex;
-    gap: 0.5rem;
+    gap: $spacing-xs;
     margin-bottom: 3rem;
     font-size: 0.75rem;
 
     @include breakpoint(sm) {
       font-size: 1rem;
     }
+  }
+  .link {
+    margin-bottom: $spacing-md;
   }
 </style>

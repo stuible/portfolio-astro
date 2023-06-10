@@ -1,23 +1,20 @@
 ---
 title: "Youth Mental Health Clinic Finder"
+when: Spring 2023
 featured: true
 subtitle: "How I created a location-based triage tool for VCH's Child & Youth Mental Health clinics"
 link: https://cymhsu.vch.ca/
+tldr: Vancouver Coastal Health began integrating a third-party, digital intake solution for Child & Youth Mental Health (CYMHSU) clinics.  Because the platform did not offer the ability to triage new patients based on location,  my team was brought in to connect new patients with the new intake flow.  Using the Mapbox API and Vue.js, I created an interactive triaging tool that connects patients with a mental health clinic within their respective catchment area.
 tags:
   - craft
   - vue
   - ts
 stack:
-  - name: infrastructure
-    children:
-      - name: jenkins
-        url: https://netlify.com
   - name: frontend
     children:
-      - name: nuxt.js
       - name: vue
       - name: scss
-      - name: snipcart
+      - name: mapbox
   - name: backend
     children:
       - name: craft cms
@@ -25,4 +22,16 @@ stack:
 
 # Background
 
-A web­site pro­vid­ing per­son­al­ized ori­en­ta­tion time­lines for all new hires. A unique link is gen­er­at­ed for each user to help keep track of all required actions, sta­tus and due dates. This aims to guide the ori­en­ta­tion expe­ri­ence and to sup­port the com­ple­tion of onboard­ing actions on time.
+As a part of Vancouver Coastal Health's Child & Youth Mental Health & Substance Use strategy, the decision was made to offer digital intake for new patients. Digital patient intake forms allow for the rapid collection and processing of medical history data. It allows the clinic to efficiently gather essential details about the patient, streamlining the intake process and improving data accuracy.
+
+{/* During a recent push to digitize the intake process for new mental health clinic patients. */}
+
+# Role
+
+I was tasked with the development and implementation of a geolocation-based triage tool that efficiently directed new patients to the appropriate clinic's intake form. By leveraging the power of Vue.js, TypeScript, and the Mapbox API, I created an interactive solution that streamlined the triage process and improved patient access to healthcare services.
+
+# Challenges
+
+Each catchment area was presented to us as a list of complicated rules. This list was very much designed for a human to triage patients over the phone rather than something that could be used programmatically by an algorithm. To solve this, I converted the catchment area rules to a set of coordinate polygons that would represent the boundaries of each catchment area. With this set of polygons, I then transform the user's address to coordinates using the Mapbox Geocoding API and determine which catchment area it falls into using [a small library](https://www.npmjs.com/package/point-in-polygon-hao) which does a great job of implementing this [point-in-polygon algorithm](https://www.researchgate.net/publication/328261365_Optimal_Reliable_Point-in-Polygon_Test_and_Differential_Coding_Boolean_Operations_on_Polygons).
+
+{/* # Insights */}
