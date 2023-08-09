@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 82 26">
-	<path d="M37.1364 12.96L9.02406 12.9599C5.40963 12.9599 3 10.7912 3 7.81934C3 4.84747 5.40963 3.00008 9.02406 3.00008" stroke="black" stroke-width="5" />
-	<path d="M45.2488 13.04L73.3612 13.0401C76.9756 13.0401 79.3853 15.2088 79.3853 18.1807C79.3853 21.1525 76.9756 22.9999 73.3612 22.9999" stroke="black" stroke-width="5" />
-	<style>
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 82 82" style="enable-background:new 0 0 82 82;">
+	<style type="text/css">
 		@media (prefers-color-scheme:dark){:root{filter:invert(100%)}}
+		.st0{fill:none;stroke:#000000;stroke-width:5;}
 	</style>
+	<path class="st0" d="M37.1,41L9,41c-3.6,0-6-2.2-6-5.1c0-3,2.4-4.8,6-4.8" />
+	<path class="st0" d="M45.2,41l28.1,0c3.6,0,6,2.2,6,5.1c0,3-2.4,4.8-6,4.8" />
 </svg>
