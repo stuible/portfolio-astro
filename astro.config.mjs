@@ -7,8 +7,6 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 import vue from "@astrojs/vue";
 
-// https://astro.build/config
-import image from "@astrojs/image";
 
 // https://astro.build/config
 import mdx from "@astrojs/mdx";
@@ -36,9 +34,6 @@ export default defineConfig({
   },
   integrations: [
     vue(),
-    image({
-      serviceEntryPoint: '@astrojs/image/sharp'
-    }),
     mdx()
   ],
   markdown: {
