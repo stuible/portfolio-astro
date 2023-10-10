@@ -1,5 +1,5 @@
 import { OGImageRoute } from 'astro-og-canvas';
-import type { FontConfig } from 'node_modules/astro-og-canvas/dist/types';
+import { FontConfig } from 'astro-og-canvas/dist/types';
 
 const fontConfig: FontConfig = {
     color: [0, 0, 0]
@@ -16,7 +16,7 @@ const pages = Object.entries(rawPages).reduce(
     {}
 );
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, get } = OGImageRoute({
     // Tell us the name of your dynamic route segment.
     // In this case it’s `route`, because the file is named `[...route].ts`.
     param: 'route',
