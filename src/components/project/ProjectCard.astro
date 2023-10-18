@@ -22,7 +22,7 @@ const techWithIcons = await Promise.all(
 
     return {
       ...techItem,
-      icon: icons.find((x) => x.includes(techItem.icon + ".svg")),
+      icon: icons.find((x) => x.includes(techItem.icon)),
     };
   })
 );

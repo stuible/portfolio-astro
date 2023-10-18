@@ -6,8 +6,6 @@ const skillIcons = (await Astro.glob("~/assets/icons/*.svg")).map(
   (x) => x.default.src
 );
 
-// console.log(skillIcons.find((x) => x.includes("vue.svg")));
-
 const {
   data: { tech },
 } = await getEntryBySlug("categories", "tech");
@@ -17,7 +15,7 @@ const techWithIcons = await Promise.all(
     return {
       ...item,
 
-      icon: skillIcons.find((x) => x.includes(item.icon + ".svg")),
+      icon: skillIcons.find((x) => x.includes(item.icon)),
     };
   })
 );
