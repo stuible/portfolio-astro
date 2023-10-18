@@ -16,7 +16,7 @@ const { label, url, icon } = Astro.props;
   {
     icon && (
       <div class="icon">
-        <img src={icon.src} alt="" />
+        <img src={icon.src} alt={`${label} Icon`} />
       </div>
     )
   }
