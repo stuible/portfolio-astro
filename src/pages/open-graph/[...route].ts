@@ -5,7 +5,7 @@ const fontConfig: FontConfig = {
     color: [0, 0, 0]
 }
 
-const directory = "/src/content";
+const directory = "/src/content/";
 
 // Import all pages from the content directory
 const rawPages = await import.meta.glob('/src/content/projects/**/*.mdx', { eager: true });
@@ -39,6 +39,8 @@ export const { getStaticPaths, GET } = OGImageRoute({
         bgGradient: [[255, 255, 255]],
 
         // fonts: [""],
+
+        padding: 100,
 
         font: {
             title: fontConfig,
