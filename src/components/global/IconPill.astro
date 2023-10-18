@@ -2,11 +2,7 @@
 export interface Props {
   label: string;
   tooltip?: string;
-  icon?: {
-    src: string;
-    width: number;
-    height: number;
-  };
+  icon?: string;
   colour: string;
   small?: boolean;
 }
@@ -28,7 +24,7 @@ const backgroundColor = colour;
       >
         <button class:list={["pill", { small: small }]}>
           <div class="icon">
-            <img src={icon ? icon.src : ""} alt="" />
+            <img src={icon ? icon : ""} alt="" />
           </div>
           <span class="label">{label}</span>
         </button>
@@ -38,7 +34,7 @@ const backgroundColor = colour;
     ) : (
       <button class:list={["pill", { small: small }]}>
         <div class="icon">
-          <img src={icon ? icon.src : ""} alt="" />
+          <img src={icon ? icon : ""} alt="" />
         </div>
         <span class="label">{label}</span>
       </button>

@@ -2,6 +2,10 @@
 import { getCollection, getEntryBySlug } from "astro:content";
 import IconPill from "~/components/global/IconPill.astro";
 
+const skillIcons = (await Astro.glob("~/assets/icons/*.svg")).map(
+  (x) => x.default.src
+);
+
 const {
   data: { tech },
 } = await getEntryBySlug("categories", "tech");
@@ -11,12 +15,12 @@ const techWithIcons = await Promise.all(
     return {
       ...item,
 
-      icon: (
-        await import(/* @vite-ignore */ `../../assets/icons/${item.icon}.svg`)
-      ).default,
+      icon: skillIcons.find((x) => x.includes(item.icon)),
     };
   })
 );
+
+// console.log(techWithIcons);
 ---
 
 <section class="section has-icon" data-icon="skills">

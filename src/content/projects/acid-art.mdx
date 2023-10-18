@@ -21,7 +21,7 @@ stack:
       - name: snipcart
 ---
 
-import { Image, Picture } from "@astrojs/image/components";
+import { Image, Picture } from "astro:assets";
 
 # Background
 
@@ -29,7 +29,7 @@ John is a visual artist, fashion designer, and founder of the streetwear brand A
 
 # Discovery
 
-John approached us with a desire to overhaul the ACiD e-commerce website. Our initial meetings revealed that he wanted the experience to be more in-line with other streetwear brands. A survey of key precedents led us to prioritize speed, simplicity, and clear navigation.
+John approached us with a desire to overhaul the ACiD e-commerce website. Our initial meetings revealed that he wanted the experience to be more in line with other streetwear brands. A survey of key precedents led us to prioritize speed, simplicity, and clear navigation.
 
 The original website's shopping & checkout flow was slow & difficult to navigate for users. The inconsistent design elements made it hard to use, especially on mobile. All this was for a monthly operational cost that was hurting John's bottom line.
 
@@ -48,6 +48,7 @@ The original website's shopping & checkout flow was slow & difficult to navigate
     // for 2x pixel density displays
     1000, 1600,
   ]}
+  formats={["avif", "webp"]}
   alt="The Google logo"
   class="markdown-image"
 />

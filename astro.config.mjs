@@ -4,15 +4,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
 import vue from "@astrojs/vue";
 
 // https://astro.build/config
-import image from "@astrojs/image";
-
-// https://astro.build/config
 import mdx from "@astrojs/mdx";
-
+import sitemap from "@astrojs/sitemap";
 import behead from 'remark-behead';
 
 
@@ -32,16 +28,15 @@ export default defineConfig({
         }
       }
     },
-    ssr: { noExternal: ['floating-vue'] }
+    ssr: {
+      noExternal: ['floating-vue']
+    }
   },
-  integrations: [
-    vue(),
-    image({
-      serviceEntryPoint: '@astrojs/image/sharp'
-    }),
-    mdx()
-  ],
+  site: "https://stuible.com",
+  integrations: [vue(), mdx(), sitemap()],
   markdown: {
-    remarkPlugins: [[behead, { depth: 1 }]]
+    remarkPlugins: [[behead, {
+      depth: 1
+    }]]
   }
 });

@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry, getEntryBySlug } from "astro:content";
+import { type CollectionEntry, getEntryBySlug } from "astro:content";
 import IconPill from "~/components/global/IconPill.astro";
 
 export interface Props {
@@ -12,17 +12,17 @@ const {
   data: { tech },
 } = await getEntryBySlug("categories", "tech");
 
+const icons = (await Astro.glob("~/assets/icons/*.svg")).map(
+  (x) => x.default.src
+);
+
 const techWithIcons = await Promise.all(
   await project.data.tags.map(async (techSlug) => {
     const techItem = tech.find((x) => x.slug === techSlug);
 
     return {
       ...techItem,
-      icon: (
-        await import(
-          /* @vite-ignore */ `../../assets/icons/${techItem.icon}.svg`
-        )
-      ).default,
+      icon: icons.find((x) => x.includes(techItem.icon)),
     };
   })
 );

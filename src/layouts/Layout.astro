@@ -2,12 +2,11 @@
 import "~/assets/scss/_base.scss";
 
 import { SEO } from "astro-seo";
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 
 import Sidebar from "../components/layout/Sidebar.vue";
 import Bar from "../components/layout/Bar.astro";
 import Tooltip from "~/components/global/Tooltip.vue";
-import { getImage } from "@astrojs/image";
 
 export interface Props {
   title?: string;
@@ -24,22 +23,15 @@ const {
 } = Astro.props;
 
 const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
-
-// const { src: OGImageSrc } = await getImage({
-//   src: "/open-graph/image.svg",
-//   alt: "My OG Image",
-//   width: 1200,
-//   height: 630,
-//   format: "png",
-// });
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <SEO
       canonical={import.meta.env.SITE_URL + Astro.url.pathname}
       title={title}
@@ -107,11 +99,6 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
                 triggers={["hover", "focus", "touch"]}
               >
                 <div class="image">
-                  <!-- <img
-                    src="/logo-sideways.svg"
-                    alt="Josh Stuible"
-                    class="logo"
-                  /> -->
                   <Image
                     src={import("~/../public/logo-sideways.svg")}
                     alt="Josh Stuible"
@@ -120,18 +107,13 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
                 </div>
                 <div slot="popper">Josh Stuible</div>
               </Tooltip>
-              in
+               in
               <Tooltip
                 client:visible
                 distance={15}
                 triggers={["hover", "focus", "touch"]}
               >
                 <div class="image">
-                  <!-- <img
-                    src="/logo-umbrella.svg"
-                    alt="Vancouver"
-                    class="umbrella"
-                  /> -->
                   <Image
                     src={import("~/../public/logo-umbrella.svg")}
                     alt="Vancouver"
@@ -159,10 +141,6 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
         @include breakpoint(xl) {
           grid-template-columns: 3rem auto 3rem;
         }
-
-        // @include breakpoint(desktophd) {
-        //   grid-template-columns: $spacing-lg auto $spacing-lg;
-        // }
       }
       $top-padding: 7rem;
       .left {
@@ -180,7 +158,6 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
 
       header {
         @include breakpoint(xl) {
-          // $top-padding: 5rem;
           padding-top: calc(#{$top-padding} + 24px);
         }
       }
@@ -190,10 +167,6 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
         font-weight: normal;
         text-transform: lowercase;
         margin-bottom: $spacing-md;
-        // img {
-        //   height: 0.8em;
-        //   // margin-right: 1em;
-        // }
       }
       main {
         padding: $spacing-md 0 $spacing-lg 0;
@@ -203,19 +176,15 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
         }
       }
       footer {
-        // opacity: 0.5;
-        // display: flex;
         align-items: center;
         padding-bottom: $spacing-lg;
         font-weight: 500;
         line-height: 1em;
 
         .blurb {
-          // line-height: 2em;
           font-size: 0.5rem;
           display: flex;
           flex-wrap: wrap;
-          // transform: rotate(-90deg);x
 
           @include breakpoint(sm) {
             font-size: 0.5rem;
@@ -235,8 +204,6 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
           display: flex;
           padding: 0.25em 0.75em;
           height: 100%;
-
-          // width: 4em;
         }
         img {
           height: auto;
@@ -246,15 +213,9 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
             width: 43px;
           }
           &.umbrella {
-            // height: 0.4em;
             width: 50px;
           }
         }
-        // .label {
-        //   font-size: 0.75em;
-        //   margin-left: 1rem;
-        //   text-transform: lowercase;
-        // }
       }
     </style>
   </body>

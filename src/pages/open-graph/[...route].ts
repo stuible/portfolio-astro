@@ -1,11 +1,11 @@
 import { OGImageRoute } from 'astro-og-canvas';
-import { FontConfig } from 'astro-og-canvas/dist/types';
+import type { FontConfig } from 'node_modules/astro-og-canvas/dist/types';
 
 const fontConfig: FontConfig = {
     color: [0, 0, 0]
 }
 
-const directory = "/src/content";
+const directory = "/src/content/";
 
 // Import all pages from the content directory
 const rawPages = await import.meta.glob('/src/content/projects/**/*.mdx', { eager: true });
@@ -16,7 +16,7 @@ const pages = Object.entries(rawPages).reduce(
     {}
 );
 
-export const { getStaticPaths, get } = OGImageRoute({
+export const { getStaticPaths, GET } = OGImageRoute({
     // Tell us the name of your dynamic route segment.
     // In this case it’s `route`, because the file is named `[...route].ts`.
     param: 'route',
@@ -39,6 +39,8 @@ export const { getStaticPaths, get } = OGImageRoute({
         bgGradient: [[255, 255, 255]],
 
         // fonts: [""],
+
+        padding: 100,
 
         font: {
             title: fontConfig,
