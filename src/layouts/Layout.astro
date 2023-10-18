@@ -12,17 +12,21 @@ export interface Props {
   title?: string;
   description?: string;
   noTopPadding?: boolean;
+  h1Title?: boolean;
   ogImage?: string;
 }
 
 const {
   title: titleProp,
+  h1Title = false,
   noTopPadding = false,
   description,
   ogImage,
 } = Astro.props;
 
 const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
+
+const TitleWrapper = h1Title ? "h1" : "div";
 ---
 
 <!doctype html>
@@ -80,9 +84,9 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
       <div class="center">
         {/* <Bar>Need a website? Check out Q5, my freelancing company</Bar> */}
         <header class="has-icon" data-icon="logo">
-          <div class="section-title">
+          <TitleWrapper class="section-title">
             <a href="/">josh stuible</a>
-          </div>
+          </TitleWrapper>
         </header>
         <main class={noTopPadding ? "no-top-padding" : ""}>
           <slot />
