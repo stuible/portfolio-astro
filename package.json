@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.1",
+    "@astrojs/sitemap": "^3.0.2",
     "@astrojs/vue": "^3.0.1",
     "astro": "^3.2.3",
     "astro-og-canvas": "^0.2.1",

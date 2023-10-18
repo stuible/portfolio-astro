@@ -25,12 +25,13 @@ const {
 const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <SEO
       canonical={import.meta.env.SITE_URL + Astro.url.pathname}
       title={title}
@@ -106,7 +107,7 @@ const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
                 </div>
                 <div slot="popper">Josh Stuible</div>
               </Tooltip>
-              in
+               in
               <Tooltip
                 client:visible
                 distance={15}
