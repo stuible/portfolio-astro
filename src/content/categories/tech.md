@@ -15,6 +15,13 @@ tech:
       colour: "#EAF3F0",
     }
   - {
+      slug: next,
+      name: Next.js,
+      icon: next,
+      tooltip: "A React meta-Framework",
+      colour: "#EAF3F0",
+    }
+  - {
       slug: react,
       name: React,
       icon: react,
@@ -31,7 +38,7 @@ tech:
   - {
       slug: ts,
       name: Typescript,
-      icon: ts,
+      icon: typescript,
       tooltip: "Strongly-typed Javascript",
       colour: "#ECF0F6",
     }

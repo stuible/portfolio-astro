@@ -11,6 +11,7 @@ options.themes['stuible-tooltip'] = {
   handleResize: true,
 }
 
+// @ts-ignore
 export default {
   ...PopperWrapper,
   name: "Tooltip",

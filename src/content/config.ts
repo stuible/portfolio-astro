@@ -3,7 +3,7 @@ import { z, defineCollection } from 'astro:content';
 import { type TreeNode } from '~/types';
 // 2. Define a schema for each collection you'd like to validate.
 
-const treeNodeSchema: z.ZodSchema<TreeNode[]> = z.lazy(() =>
+const treeNodeSchema: z.ZodSchema = z.lazy(() =>
   z.array(
     z.object({
       name: z.string(),
@@ -22,7 +22,6 @@ const projectCollection = defineCollection({
     tldr: z.string().optional(),
     tags: z.array(z.string()).optional(),
     stack: treeNodeSchema.optional(),
-    featured: z.boolean(),
     link: z.string().url().optional(),
     enabled: z.boolean().default(true),
   }),

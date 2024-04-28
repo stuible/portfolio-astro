@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntryBySlug } from "astro:content";
-import IconPill from "~/components/global/IconPill.astro";
+import Tech from "./Tech.vue";
 
 const skillIcons = (await Astro.glob("~/assets/icons/*.svg")).map(
   (x) => x.default.src
@@ -33,20 +33,7 @@ const techWithIcons = await Promise.all(
   </p>
 
   <h3 class="section-subtitle">Skills</h3>
-  <ol class="tech">
-    {
-      techWithIcons.map((item) => (
-        <li>
-          <IconPill
-            label={item.name}
-            icon={item.icon}
-            tooltip={item.tooltip}
-            colour={item.colour}
-          />
-        </li>
-      ))
-    }
-  </ol>
+  <Tech techWithIcons={techWithIcons} client:visible />
 </section>
 
 <style lang="scss">
@@ -55,38 +42,6 @@ const techWithIcons = await Promise.all(
     grid-template-columns: 2fr 3fr;
     > .body {
       margin-bottom: 2rem;
-    }
-  }
-
-  .tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-
-    @include breakpoint(sm) {
-      gap: 0.5rem;
-    }
-
-    @include breakpoint(md) {
-      gap: 0.6rem;
-    }
-
-    @include breakpoint(lg) {
-      gap: 0.7rem;
-    }
-
-    li {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .logo {
-      height: 1em;
-    }
-
-    h3 {
-      font-size: 0.7rem;
-      font-weight: normal;
     }
   }
 </style>

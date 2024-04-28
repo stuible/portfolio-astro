@@ -68,6 +68,10 @@ const TitleWrapper = h1Title ? "h1" : "div";
         ],
       }}
     />
+    <script
+      defer
+      data-domain="possible.stuible.cloud"
+      src="https://possible.stuible.cloud/js/script.js"></script>
   </head>
   <body>
     <script>
@@ -99,6 +103,7 @@ const TitleWrapper = h1Title ? "h1" : "div";
               by
               <Tooltip
                 client:visible
+                aria-id="footer-js-logo"
                 distance={15}
                 triggers={["hover", "focus", "touch"]}
               >
@@ -111,9 +116,10 @@ const TitleWrapper = h1Title ? "h1" : "div";
                 </div>
                 <div slot="popper">Josh Stuible</div>
               </Tooltip>
-               in
+              in
               <Tooltip
                 client:visible
+                aria-id="footer-vancouver"
                 distance={15}
                 triggers={["hover", "focus", "touch"]}
               >
