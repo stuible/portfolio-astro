@@ -1,8 +1,8 @@
 ---
-import { TreeNode } from "~/types";
+import type { TreeNode as TreeNodeType } from "~/types";
 
 export interface Props {
-  tree: TreeNode[];
+  nodes: TreeNodeType[];
 }
 
 const { nodes } = Astro.props;
