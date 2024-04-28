@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry, getEntryBySlug } from "astro:content";
-import IconPill from "~/components/global/IconPill.astro";
+import IconPill from "~/components/global/IconPill.vue";
 
 export interface Props {
   project: CollectionEntry<"projects">;
@@ -39,7 +39,7 @@ const techWithIcons = await Promise.all(
             label={item.name}
             icon={item.icon}
             colour={item.colour}
-            small={true}
+            small
           />
         </li>
       ))

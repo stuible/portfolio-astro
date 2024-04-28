@@ -9,7 +9,7 @@ import TLDR from "~/components/project/TLDR.astro";
 
 import globe from "~/assets/icons/globe.svg";
 import Callout from "~/components/project/Callout.astro";
-import IconPill from "~/components/global/IconPill.astro";
+import IconPill from "~/components/global/IconPill.vue";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects", ({ data }) => {
@@ -58,6 +58,7 @@ const { Content } = await project.render();
                 label={item.name}
                 icon={item.icon}
                 colour={item.colour}
+                id={`project-tech-${index}`}
               />
             </li>
           ))
