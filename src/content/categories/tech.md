@@ -19,7 +19,7 @@ tech:
       name: Next.js,
       icon: next,
       tooltip: "A React meta-Framework",
-      colour: "#EAF3F0",
+      colour: "#F3F3F3",
     }
   - {
       slug: react,
