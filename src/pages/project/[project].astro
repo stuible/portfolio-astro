@@ -114,6 +114,23 @@ const { Content } = await project.render();
         @include highlight-link;
       }
     }
+
+    ol {
+      list-style-type: decimal;
+      margin-left: 1rem;
+
+      li {
+        &:not(:last-child) {
+          margin-bottom: $spacing-xs;
+        }
+
+        &::marker {
+          font-weight: 500;
+          color: #c4c4c4;
+          padding-right: $spacing-sm;
+        }
+      }
+    }
   }
 </style>
 
