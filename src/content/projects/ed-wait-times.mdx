@@ -1,0 +1,76 @@
+---
+title: Emergency Department Wait Times
+when: Spring 2024
+link: https://edwaittimes.ca
+subtitle: How I modernized a website to help patients find the right hospital faster
+tags:
+  - next
+  - react
+  - tailwind
+  - keystone
+stack:
+  - name: infrastructure
+    children:
+      - name: azure
+        url: https://netlify.com
+  - name: frontend
+    children:
+      - name: next.js
+      - name: react
+      - name: tailwind
+---
+
+import { Image, Picture } from "astro:assets";
+
+# Background
+
+Emergency Department Wait Times is a website that helps patients find the right urgent care quickly. The website was originally built in 2012 and was in need of an update for the modern web.
+
+# Discovery
+
+During the initial discovery phase, we identified several issues with the existing website:
+
+## Lack of CMS
+Content changes required manual edits to static HTML files, increasing turn-around time and risk of errors during updates.
+
+## Non-responsive design
+The site performed poorly on mobile devices, where most users were likely accessing it during emergencies.
+
+## Performance bottlenecks
+The site load times were very slow at almost 10 seconds, leading to high bounce rates.
+
+# Original Website
+<Picture
+  src={import("~/assets/images/projects/edwt/original.png")}
+  widths={[
+    5000, 800,
+    // for 2x pixel density displays
+    1000, 1600,
+  ]}
+  formats={["avif", "webp"]}
+  alt="The Google logo"
+  class="markdown-image"
+/>
+
+# Objectives
+
+1. Modernize the user experience
+2. Improve the performance of the website
+3. Make it easier to maintain and update the website's content
+
+# Process
+
+
+
+
+
+# Results
+
+## Faster load times
+Page load time improved by 70%, ensuring that even during peak traffic, patients can access information quickly.
+
+## Easier content management
+Content administrators can now update content in minutes using the CMS, rather than needing developer intervention.
+
+## Responsive design
+The mobile-friendly interface now accounts for almost 80% of all traffic.

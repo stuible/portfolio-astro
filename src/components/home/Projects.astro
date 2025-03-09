@@ -6,11 +6,12 @@ import ProjectsGrid from "~/components/project/ProjectsGrid.astro";
 type SlugOptions = CollectionEntry<"projects">["slug"];
 
 const projectSlugs: SlugOptions[] = [
-  // "ed-wait-times",
+  "ed-wait-times",
   "cymhsu",
   "dtes",
   "richmond-birth-centre",
   "roar",
+  "acid-art",
 ];
 
 const projects = await getEntries(
