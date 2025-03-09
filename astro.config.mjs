@@ -24,7 +24,7 @@ export default defineConfig({
       preprocessorOptions: {
         scss: {
           // path to your scss variables
-          additionalData: `@use "sass:math"; @import "~/assets/scss/variables.scss"; @import "~/assets/scss/breakpoints.scss";  @import "~/assets/scss/design-system.scss";`
+          additionalData: `@use "sass:math"; @use "~/assets/scss/variables.scss" as *; @use "~/assets/scss/breakpoints.scss" as *;  @use "~/assets/scss/design-system.scss" as *;`
         }
       }
     },

@@ -1,3 +1,5 @@
+@use "variables";
+
 p {
     line-height: 1.4em;
     // font-size: 2rem;
@@ -24,7 +26,7 @@ ol {
 a,
 button {
     text-decoration: none;
-    color: $colour-dark;
+    color: variables.$colour-dark;
 }
 
 pre {

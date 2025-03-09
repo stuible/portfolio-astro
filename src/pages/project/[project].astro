@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntryBySlug } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import Layout from "~/layouts/Layout.astro";
 
@@ -21,15 +21,15 @@ export async function getStaticPaths() {
 
 const { project: projectSlug } = Astro.params;
 
-const project = await getEntryBySlug("projects", projectSlug);
+const project = await getEntry("projects", projectSlug);
 
 const {
   data: { tech },
-} = await getEntryBySlug("categories", "tech");
+} = await getEntry("categories", "tech");
 
-const icons = (await Astro.glob("~/assets/icons/*.svg")).map(
-  (x) => x.default.src
-);
+const icons = Object.values(
+  import.meta.glob("~/assets/icons/*.svg", { eager: true })
+).map((x: any) => x.default.src);
 
 const techWithIcons = await Promise.all(
   await project.data.tags.map(async (techSlug) => {

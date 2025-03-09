@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getEntryBySlug } from "astro:content";
+import { type CollectionEntry, getEntry } from "astro:content";
 import IconPill from "~/components/global/IconPill.vue";
 
 export interface Props {
@@ -10,11 +10,11 @@ const { project } = Astro.props;
 
 const {
   data: { tech },
-} = await getEntryBySlug("categories", "tech");
+} = await getEntry("categories", "tech");
 
-const icons = (await Astro.glob("~/assets/icons/*.svg")).map(
-  (x) => x.default.src
-);
+const icons = Object.values(
+  import.meta.glob("~/assets/icons/*.svg", { eager: true })
+).map((x: any) => x.default.src);
 
 const techWithIcons = await Promise.all(
   await project.data.tags.map(async (techSlug) => {

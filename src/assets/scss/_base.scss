@@ -6,17 +6,17 @@
 // @import "~normalize.css";
 
 // Variables and Colours
-@import "variables";
+@use "variables";
 
-@import "fonts";
+@use "fonts";
 
-@import "resets";
+@use "resets";
 
 // Breakpoints & Layout
-@import "breakpoints";
-@import "layout";
+@use "breakpoints";
+@use "layout";
 
-@import "design-system";
+@use "design-system";
 
 html {
     font-family: system-ui, sans-serif;

@@ -1,26 +1,28 @@
 ---
-import { getCollection, getEntryBySlug } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import Tech from "./Tech.vue";
 
-const skillIcons = (await Astro.glob("~/assets/icons/*.svg")).map(
-  (x) => x.default.src
-);
+const skillIcons = Object.values(
+  import.meta.glob("~/assets/icons/*.svg", { eager: true })
+).map((x: any) => x.default.src);
 
 const {
   data: { tech },
-} = await getEntryBySlug("categories", "tech");
+} = await getEntry("categories", "tech");
 
 const techWithIcons = await Promise.all(
-  await tech.map(async (item) => {
-    return {
-      ...item,
+  await tech
+    // Don'y show some of the tech on landing page
+    .filter((item) => !["keystone"].includes(item.slug))
+    // Add icons to tech
+    .map(async (item) => {
+      return {
+        ...item,
 
-      icon: skillIcons.find((x) => x.includes(item.icon)),
-    };
-  })
+        icon: skillIcons.find((x) => x.includes(item.icon)),
+      };
+    })
 );
-
-// console.log(techWithIcons);
 ---
 
 <section class="section has-icon" data-icon="skills">

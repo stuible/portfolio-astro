@@ -1,3 +1,6 @@
+@use "breakpoints";
+@use "variables";
+
 .body {
     max-width: 50ch;
     font-size: 20px;
@@ -11,19 +14,19 @@
 }
 
 @mixin section-title {
-    margin-bottom: $spacing-md;
+    margin-bottom: variables.$spacing-md;
     font-weight: 500;
     font-size: 1rem;
     text-transform: lowercase;
 
-    @include breakpoint(md) {
+    @include breakpoints.breakpoint(md) {
         font-size: 1.15rem;
     }
 }
 
 @mixin section-subtitle {
     font-weight: 500;
-    margin-bottom: $spacing-sm;
+    margin-bottom: variables.$spacing-sm;
     font-size: 0.75rem;
     // font-family: monospace;
 
