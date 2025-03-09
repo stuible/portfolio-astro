@@ -43,6 +43,13 @@ tech:
       colour: "#ECF0F6",
     }
   - {
+      slug: keystone,
+      name: Keystone CMS,
+      icon: keystone,
+      tooltip: "An extensible Node.js-based CMS",
+      colour: "#ECF0F6",
+    }
+  - {
       slug: astro,
       name: Astro,
       icon: astro,
