@@ -97,4 +97,11 @@ tech:
       tooltip: "A great PHP-based CMS that has served me well",
       colour: "#F6EEED",
     }
+  - {
+      slug: strapi,
+      name: Strapi CMS,
+      icon: strapi,
+      tooltip: "A Node.js-based content management system",
+      colour: "#EFEFFF",
+    }
 ---
