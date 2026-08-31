@@ -26,10 +26,29 @@ const projectCollection = defineCollection({
     enabled: z.boolean().default(true),
   }),
 });
+
+const pageCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    bio: z.string(),
+    thought: z.object({
+      text: z.string(),
+      url: z.string().url(),
+      updatedAt: z.string(),
+    }),
+    skills: z.object({
+      body: z.string(),
+      exclude: z.array(z.string()).default([]),
+    }),
+    projects: z.array(z.string()),
+  }),
+});
+
 // 3. Export a single `collections` object to register your collection(s)
 export const collections = {
   'projects': projectCollection,
   categories: defineCollection({}),
-  pages: defineCollection({}),
+  pages: pageCollection,
   'project-lists': defineCollection({}),
 };

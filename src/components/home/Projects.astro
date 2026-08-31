@@ -1,21 +1,13 @@
 ---
-import { getEntries, type CollectionEntry } from "astro:content";
+import { getEntries } from "astro:content";
 
 import ProjectsGrid from "~/components/project/ProjectsGrid.astro";
+import { getHomeContent } from "~/lib/home";
 
-type SlugOptions = CollectionEntry<"projects">["slug"];
-
-const projectSlugs: SlugOptions[] = [
-  "ed-wait-times",
-  "cymhsu",
-  "dtes",
-  "richmond-birth-centre",
-  "roar",
-  "acid-art",
-];
+const { projects: projectSlugs } = await getHomeContent();
 
 const projects = await getEntries(
-  projectSlugs.map((slug) => ({ collection: "projects", slug: slug }))
+  projectSlugs.map((slug) => ({ collection: "projects" as const, slug }))
 );
 ---
 

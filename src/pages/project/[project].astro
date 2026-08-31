@@ -115,6 +115,22 @@ const { Content } = await project.render();
       }
     }
 
+    ul {
+      margin-bottom: $spacing-sm;
+      list-style-type: disc;
+      margin-left: $spacing-sm;
+      li {
+        &:not(:last-child) {
+          margin-bottom: $spacing-xs;
+        }
+        &::marker {
+          font-weight: 500;
+          color: #c4c4c4;
+          padding-right: $spacing-sm;
+        }
+      }
+    }
+
     ol {
       list-style-type: decimal;
       margin-left: 1rem;

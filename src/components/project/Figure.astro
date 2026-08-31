@@ -1,0 +1,39 @@
+---
+import { Picture } from "astro:assets";
+
+export interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+  widths?: number[];
+}
+
+const { src, alt, caption, widths = [800, 1200, 1512] } = Astro.props;
+---
+
+<figure>
+  <Picture
+    {src}
+    {widths}
+    formats={["avif", "webp"]}
+    {alt}
+    class="markdown-image"
+  />
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style lang="scss">
+  figure {
+    margin: 0 0 1.5rem;
+  }
+
+  figcaption {
+    margin-top: 0.35rem;
+    color: #666;
+    font-size: 0.65rem;
+    font-style: normal;
+    font-weight: inherit;
+    line-height: 1.4;
+    text-align: center;
+  }
+</style>

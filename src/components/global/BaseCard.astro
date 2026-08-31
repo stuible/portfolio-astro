@@ -1,0 +1,42 @@
+---
+export interface Props {
+  href?: string;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  external = false,
+  class: className,
+} = Astro.props;
+const Tag = href ? "a" : "article";
+---
+
+<Tag
+  class:list={["base-card", className]}
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noreferrer" : undefined}
+>
+  <slot />
+</Tag>
+
+<style lang="scss">
+  .base-card {
+    border: 1px solid var(--base-card-border, #ebebeb);
+    background-color: #fff;
+  }
+
+  a.base-card {
+    transition: border-color 200ms, background-color 200ms;
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+      border-color: #d3d3d3;
+      background-color: #fcfcfc;
+    }
+  }
+
+</style>

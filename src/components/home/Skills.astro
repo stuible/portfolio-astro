@@ -1,10 +1,13 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getEntry } from "astro:content";
 import Tech from "./Tech.vue";
+import { getHomeContent } from "~/lib/home";
 
 const skillIcons = Object.values(
   import.meta.glob("~/assets/icons/*.svg", { eager: true })
 ).map((x: any) => x.default.src);
+
+const { skills } = await getHomeContent();
 
 const {
   data: { tech },
@@ -13,7 +16,7 @@ const {
 const techWithIcons = await Promise.all(
   await tech
     // Don'y show some of the tech on landing page
-    .filter((item) => !["keystone"].includes(item.slug))
+    .filter((item) => !skills.exclude.includes(item.slug))
     // Add icons to tech
     .map(async (item) => {
       return {
@@ -27,12 +30,7 @@ const techWithIcons = await Promise.all(
 
 <section class="section has-icon" data-icon="skills">
   <h2 class="section-title">My Focus</h2>
-  <p class="body">
-    With knowledge spanning the full stack, my goal is to never stand still as I
-    look to the future of web developement. I'm currently using JavaScript
-    (TypeScript) on both the backend and frontend but I'll always have a soft
-    spot for PHP.
-  </p>
+  <p class="body">{skills.body}</p>
 
   <h3 class="section-subtitle">Skills</h3>
   <Tech techWithIcons={techWithIcons} client:visible />
