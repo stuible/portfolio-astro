@@ -1,0 +1,118 @@
+---
+title: Assertive Community Treatment Website
+when: Spring 2025
+link: https://act-bc.ca
+subtitle: How I brought a full stack website in house and revamped its codebase for performance and sustainability
+tags:
+  - vue
+  - nuxt
+  - tailwind
+  - strapi
+stack:
+  - name: infrastructure
+    children:
+      - name: AWS
+        url: https://aws.amazon.com
+  - name: frontend
+    children:
+      - name: nuxt.js
+      - name: vue
+      - name: tailwind
+  - name: backend
+    children:
+      - name: Strapi CMS
+---
+
+import Figure from "~/components/project/Figure.astro";
+import beforeHome from "~/assets/images/projects/act-ap/before-home.webp";
+import currentHome from "~/assets/images/projects/act-ap/current-home.webp";
+import staffRoles from "~/assets/images/projects/act-ap/staff-roles.webp";
+import teams from "~/assets/images/projects/act-ap/teams.webp";
+
+# Background
+
+The Provincial Assertive Community Treatment Advanced Practice (ACT‑AP), led by Vancouver Coastal Health, needed a modern, public‑facing website to centralize information about Assertive Community Treatment (ACT) services across British Columbia. The site serves people receiving ACT services, their families, service providers, and community partners by explaining the ACT model, outlining eligibility, and highlighting stories of impact from teams across the province.
+
+Before this project, ACT‑AP’s public website was owned and operated by a third‑party vendor on a custom Angular stack, with a closed deployment pipeline and infrastructure that did not align with internal DevOps practices. Content modeling, navigation, and UX had grown organically, making it hard for ACT‑AP staff to adjust information architecture or iterate on features like the teams map, glossary, and education calendar.
+
+## Previous website
+
+<Figure
+  src={beforeHome}
+  alt="The previous ACT-AP homepage, with a dense navigation bar and the introduction displayed in a white card over the hero image"
+  caption="The previous homepage, taken September 2024"
+/>
+
+# Role
+
+In this project, I served as both technical lead and project manager, responsible for planning the migration, coordinating stakeholders, and owning the delivery of a new platform that ACT‑AP could operate independently.
+
+# Discovery
+
+Discovery focused on understanding both the legacy implementation and ACT‑AP’s operational reality. A series of Knowledge Transfer sessions with the vendor walked through the Angular codebase, Terraform configuration, and hosting architecture. In parallel, stakeholder meetings began that captured expectations around governance, long‑term maintenance, and how ACT‑AP wanted to track success once the website was in‑house.
+
+On the UX side, ACT‑AP wanted the site to feel more like a clear, welcoming hub than a collection of disconnected pages. UX discovery sessions and SME workshops dug into user journeys around “finding my local team,” “understanding staff roles,” and “finding training and resources as a provider.” These sessions exposed pain points with the existing navigation, how FAQs and About ACT content were presented, and how difficult the education calendar and events were to scan.
+
+# Objectives
+
+From that discovery work, the project team aligned on three main objectives.
+
+## Bring the platform in‑house
+
+- Replace the vendor‑owned Angular front end with an internally managed Nuxt/Vue app.
+- Move infrastructure (AWS + Terraform) and deployment pipelines under the Learning Technologies team so future changes did not depend on the vendor’s timelines.
+
+## Improve performance, accessibility, and sustainability
+
+- Reduce bundle size and complexity by switching to server‑rendered Nuxt and a lean component library using Tailwind.
+- Rationalize the Strapi content model so that pages like About ACT, FAQ, glossary, and resources could evolve without code changes.
+- Address infrastructure hygiene items identified in 2024 (for example, security groups and environment separation) to make operations safer and more predictable.
+
+## Make the site work better for ACT’s real audiences
+
+- Make it easier for people to find their local ACT team and understand what to expect from services.
+- Clarify staff roles and provide consistent staff profile layouts to support both recruitment and transparency for clients and families.
+- Improve the education calendar and event model so ACT‑AP can run ongoing training and communities of practice without fighting the tooling.
+
+# Process
+
+## Taking over the stack
+
+The first phase was about “owning the stack” without disrupting service. Guided by the June knowledge‑transfer sessions, I replicated and then simplified the vendor’s Terraform configuration, adding a clearer separation between dev and prod environments and preparing for a new front‑end build pipeline on AWS. We also planned and executed the migration of security groups and bastion access so the internal team could manage infrastructure without introducing new risk.
+
+In conversation with ACT‑AP and EYDS in February and May, we agreed on a phased deployment strategy: ship a functionally equivalent Nuxt front end backed by Strapi, then iteratively improve UX and content as the team gained confidence with the new tools. This allowed us to cut over infrastructure and hosting without forcing the ACT‑AP team to rewrite all their content at once.
+
+## Rebuilding the front end with Nuxt
+
+With the infrastructure plan in place, I rebuilt the front end as a Nuxt.js application using Vue components and Tailwind for styling. The new architecture used server‑side rendering for better performance and SEO, while keeping the codebase small enough that ACT‑AP’s own developers could confidently extend it.
+
+<Figure
+  src={currentHome}
+  alt="The redesigned ACT-AP homepage, with simplified navigation and an accessible text treatment over the hero image"
+  caption="Redesigned homepage"
+/>
+
+Meeting notes throughout late 2024 and early 2025 document the incremental UX and content work on top of this foundation. Examples include:
+
+- Restructuring the About ACT and FAQ sections into flexible, Strapi‑driven dynamic zones so the team could add accordions, buttons, and new content blocks without new releases.
+- Implementing glossary tooltips and cleaning up the legacy glossary structure to make definitions easier to maintain and to use across the site.
+- Redesigning staff roles into “Staff Overview Cards” and job‑detail layouts that are consistent, scannable, and ready for deep linking from other pages.
+- Updating the landing page to better highlight key “Learn more about…” entry points, while keeping the ACT model, territory acknowledgement, and testimonials prominent.
+
+## Evolving content modeling in Strapi
+
+A large part of the project was about modeling ACT‑AP’s content in a way that matched real workflows. Meeting notes from late 2024 show new Strapi collection types created for ACT teams, testimonials, modules, events, and staff overview cards, plus a set of migrations to move existing content into those structures.
+
+We introduced a more flexible “About” page model so the ACT‑AP team could manage sections, calls‑to‑action, accordions, and supporting links entirely from the CMS. The FAQ and glossary were given their own content types, enabling better cross‑linking from other pages (for example, glossary tooltips embedded in body copy). For events, we added support for recurring series, a clearer distinction between upcoming and past events, and a staff‑focused pattern with an “Ask for an invite” action instead of a generic “Add to calendar” button.
+
+These changes meant that many follow‑up requests captured in 2024 meetings—like revisiting the Resources and Services section, improving document access for staff, or adjusting navigation labels—could be handled as editorial changes rather than development tasks.
+
+## Collaboration and iteration
+
+From February 2024 onward, the project ran as a collaborative, iterative effort between Learning Technologies and ACT‑AP. Regular meetings served as checkpoints to demo features, capture feedback, and negotiate scope around items such as SEO, analytics, and future personalization work.
+
+# Results
+
+By Spring 2025, act‑bc.ca was running on an internally managed Nuxt/Vue front end, backed by Strapi and AWS infrastructure controlled by the Learning Technologies team via Terraform. ACT‑AP no longer depends on a vendor to deploy changes or adjust infrastructure, and future feature work fits naturally into existing sprint and release cadences.
+
+For people using the site, the information architecture and content model now reflect the journeys captured in the 2024 discovery sessions: finding local teams, understanding ACT, exploring staff roles, and accessing education and resources. Internally, ACT‑AP can evolve pages, FAQs, modules, and events directly in Strapi, while the underlying codebase remains aligned with the rest of the organization’s front‑end ecosystem.
