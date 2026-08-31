@@ -1,0 +1,378 @@
+---
+import BaseCard from "~/components/global/BaseCard.astro";
+import { getHomeContent } from "~/lib/home";
+import {
+  getLatestCommit,
+  getLatestPlaylistTracks,
+} from "~/lib/now";
+
+const { thought } = await getHomeContent();
+
+const githubOwner = "stuible";
+
+const [commit, tracks] = await Promise.all([
+  getLatestCommit(githubOwner),
+  getLatestPlaylistTracks(),
+]);
+
+const timeZone = "America/Vancouver";
+const calendarDateFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+const monthYearFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "UTC",
+  month: "short",
+  year: "numeric",
+});
+
+// Date-only strings are calendar dates, not instants: parsing "2026-09-01" as
+// UTC midnight and rendering it in Vancouver would report the previous day.
+const calendarParts = (date: string | Date): [number, number, number] => {
+  if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    const [year, month, day] = date.split("-").map(Number);
+    return [year, month, day];
+  }
+
+  const parts = calendarDateFormatter.formatToParts(new Date(date));
+  const part = (type: string) =>
+    Number(parts.find((entry) => entry.type === type)?.value);
+  return [part("year"), part("month"), part("day")];
+};
+
+const calendarDay = (date: string | Date) => {
+  const [year, month, day] = calendarParts(date);
+  return Date.UTC(year, month - 1, day) / 86_400_000;
+};
+
+const relativeTime = (date: string) => {
+  const days = Math.max(0, calendarDay(new Date()) - calendarDay(date));
+  if (days === 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return `${days} days ago`;
+  const [year, month, day] = calendarParts(date);
+  return monthYearFormatter.format(new Date(Date.UTC(year, month - 1, day)));
+};
+---
+
+<section class="section now-section has-icon" data-icon="now">
+  <div class="section-heading">
+    <h2 class="section-title">Right now</h2>
+    <span class="live-label"
+      ><span aria-hidden="true"></span> Updated <time
+        datetime={thought.updatedAt}
+        data-relative>{relativeTime(thought.updatedAt)}</time
+      ></span
+    >
+  </div>
+
+  <div class="now-grid">
+    <article class="now-card thought-card">
+      <div class="card-label">
+        <h3>On my mind</h3>
+      </div>
+      <blockquote>
+        <a href={thought.url} target="_blank" rel="noreferrer">
+          “{thought.text}” <span aria-hidden="true">↗</span>
+        </a>
+      </blockquote>
+    </article>
+
+    <BaseCard
+      href={commit?.url ?? `https://github.com/${githubOwner}`}
+      external
+      class="now-card commit-card"
+    >
+      <div class="card-label">
+        <h3>Latest commit</h3>
+      </div>
+      {commit ? (
+        <div class="commit">
+          <code>{commit.sha}</code>
+          <strong>{commit.message}</strong>
+          <span class="commit-meta">{commit.repository} · <time datetime={commit.committedAt} data-relative>{relativeTime(commit.committedAt)}</time></span>
+        </div>
+      ) : (
+        <p class="empty-state">Currently between commits.</p>
+      )}
+    </BaseCard>
+
+    <BaseCard class="now-card music-card">
+      <div class="card-label">
+        <h3>On repeat</h3>
+      </div>
+      {tracks.length > 0 ? (
+        <ol class="track-list">
+          {tracks.map((track) => (
+            <li>
+              <a href={track.url} target="_blank" rel="noreferrer">
+                {track.artwork && <img src={track.artwork} alt="" width="48" height="48" loading="lazy" />}
+                <span>
+                  <strong>{track.name}</strong>
+                  <small>{track.artists}</small>
+                </span>
+                <span class="play" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="empty-state">The next three favourites are cueing up.</p>
+      )}
+    </BaseCard>
+  </div>
+</section>
+
+<script is:inline>
+  // These labels are rendered at build time, so they would otherwise report the
+  // deploy date forever. Recompute them against the visitor's actual "now".
+  (() => {
+    const timeZone = "America/Vancouver";
+    const calendarDateFormatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const monthYearFormatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "UTC",
+      month: "short",
+      year: "numeric",
+    });
+
+    const calendarParts = (date) => {
+      if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return date.split("-").map(Number);
+      }
+
+      const parts = calendarDateFormatter.formatToParts(new Date(date));
+      const part = (type) =>
+        Number(parts.find((entry) => entry.type === type)?.value);
+      return [part("year"), part("month"), part("day")];
+    };
+
+    const calendarDay = (date) => {
+      const [year, month, day] = calendarParts(date);
+      return Date.UTC(year, month - 1, day) / 86400000;
+    };
+
+    const relativeTime = (date) => {
+      const days = Math.max(0, calendarDay(new Date()) - calendarDay(date));
+      if (days === 0) return "today";
+      if (days === 1) return "yesterday";
+      if (days < 30) return `${days} days ago`;
+      const [year, month, day] = calendarParts(date);
+      return monthYearFormatter.format(new Date(Date.UTC(year, month - 1, day)));
+    };
+
+    for (const element of document.querySelectorAll("time[data-relative]")) {
+      const value = element.getAttribute("datetime");
+      if (!value || Number.isNaN(Number(new Date(value)))) continue;
+      element.textContent = relativeTime(value);
+    }
+  })();
+</script>
+
+<style lang="scss">
+  .now-section {
+    // Consumed by BaseCard, which owns the border/background of the two
+    // linked cards; a bare `.now-card` rule loses to its scoped selector.
+    --base-card-border: #d9d9d9;
+    --card-muted: #777;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: $spacing-sm;
+  }
+
+  .live-label {
+    color: var(--card-muted);
+    font-size: 0.5rem;
+    font-weight: 400;
+    white-space: nowrap;
+
+    > span {
+      display: inline-block;
+      width: 0.45rem;
+      height: 0.45rem;
+      margin-right: 0.3rem;
+      border-radius: 50%;
+      background: #55b875;
+      box-shadow: 0 0 0 0.15rem #e6f5eb;
+    }
+  }
+
+  .now-grid {
+    display: grid;
+    gap: $spacing-sm;
+
+    @include breakpoint(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  :global(.now-card) {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow: hidden;
+    border-radius: 0.75rem;
+
+    @include breakpoint(md) {
+      padding: 1.25rem;
+    }
+  }
+
+  .thought-card {
+    min-height: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+    border-radius: 0;
+
+    @include breakpoint(lg) {
+      grid-column: span 2;
+      min-height: 0;
+    }
+
+    blockquote {
+      max-width: 24ch;
+      margin: 0;
+      padding: 0.75rem 0 0;
+      font-size: clamp(0.9rem, 3vw, 1.25rem);
+      font-weight: 300;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+
+      a {
+        text-decoration: underline;
+        text-decoration-color: #aebdeb;
+        text-decoration-thickness: 0.06em;
+        text-underline-offset: 0.12em;
+
+        &:hover,
+        &:focus-visible {
+          text-decoration-color: currentColor;
+        }
+
+        span {
+          display: inline-block;
+          font-size: 0.65em;
+          text-decoration: none;
+          transform: translateY(-0.2em);
+        }
+      }
+    }
+
+  }
+
+  .card-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: $spacing-sm;
+    color: var(--card-muted);
+    font-size: 0.5rem;
+    font-weight: 400;
+  }
+
+  .card-label h3 {
+    color: #2e2e2e;
+    font-size: 0.55rem;
+    font-weight: 500;
+    text-transform: lowercase;
+  }
+
+  .commit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto 0;
+    padding: 1.2rem 0;
+    gap: 0.4rem;
+
+    code {
+      padding: 0.1rem 0.22rem;
+      border-radius: 0.15rem;
+      background: #eeeeee;
+      color: #555;
+      font-size: 0.38rem;
+    }
+
+    strong {
+      font-size: 0.68rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+  }
+
+  .commit-meta,
+  .empty-state {
+    color: var(--card-muted);
+    font-size: 0.5rem;
+    font-weight: 400;
+  }
+
+  .empty-state {
+    margin: auto 0;
+    line-height: 1.4;
+  }
+
+  .track-list {
+    margin: auto 0;
+    padding: 0.8rem 0 0;
+
+    li + li {
+      border-top: 1px solid #ededed;
+    }
+
+    a {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.4rem 0;
+    }
+
+    img {
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 0.2rem;
+    }
+
+    a > span:not(.play) {
+      min-width: 0;
+    }
+
+    strong,
+    small {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    strong {
+      font-size: 0.54rem;
+      font-weight: 500;
+    }
+
+    small {
+      margin-top: 0.15rem;
+      color: var(--card-muted);
+      font-size: 0.45rem;
+      font-weight: 400;
+    }
+
+    .play {
+      color: var(--card-muted);
+      font-size: 0.55rem;
+    }
+  }
+
+</style>

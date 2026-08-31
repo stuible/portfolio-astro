@@ -4,14 +4,14 @@ import LinkButton from "../global/LinkButton.astro";
 import github from "../../assets/icons/github.svg";
 import linkedin from "../../assets/icons/linkedin.svg";
 import mail from "../../assets/icons/mail.svg";
+
+import { getHomeContent } from "~/lib/home";
+
+const { bio } = await getHomeContent();
 ---
 
 <section class="section has-icon" data-icon="logo">
-  <p class="body bio">
-    I am a Vancouver-based full stack developer who brings clean and intuitive
-    interfaces to life on the web. I add delight to digital experiences using
-    reactive frameworks, serverless models, and sometimes plain old {"<html>"}
-  </p>
+  <p class="body bio">{bio}</p>
 
   <ul class="contact-links">
     <li>
@@ -47,5 +47,6 @@ import mail from "../../assets/icons/mail.svg";
   }
   .bio {
     margin-bottom: $spacing-md;
+    max-width: 48ch;
   }
 </style>

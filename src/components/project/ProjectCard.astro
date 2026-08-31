@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getEntry } from "astro:content";
+import BaseCard from "~/components/global/BaseCard.astro";
 import IconPill from "~/components/global/IconPill.vue";
 
 export interface Props {
@@ -28,7 +29,7 @@ const techWithIcons = await Promise.all(
 );
 ---
 
-<a class="project-card" href={`/project/${project.slug}`}>
+<BaseCard class="project-card" href={`/project/${project.slug}`}>
   <div class="title">{project.data.title}</div>
   <div class="subtitle">{project.data.subtitle}</div>
   <ul class="tags">
@@ -45,48 +46,38 @@ const techWithIcons = await Promise.all(
       ))
     }
   </ul>
-</a>
+</BaseCard>
 
 <style lang="scss">
-  .project-card {
-    height: 100%;
-    border: solid 1px #ebebeb;
-    padding: 1.25rem 1.25rem 1rem 1.25rem;
-    background-color: white;
-
+  :global(.project-card) {
     display: flex;
+    height: 100%;
     flex-wrap: wrap;
+    padding: 1.25rem 1.25rem 1rem;
     border-radius: 1rem;
-
-    transition: border 200ms;
-
-    &:hover,
-    &:active,
-    &:focus {
-      border-color: #d3d3d3;
-      background-color: #fcfcfc;
-    }
 
     > * {
       flex: 0 0 100%;
     }
 
     .title {
-      font-weight: 500;
       margin-bottom: $spacing-xs;
       font-size: 0.75rem;
+      font-weight: 500;
     }
+
     .subtitle {
-      font-size: 0.5em;
-      color: gray;
       margin-bottom: $spacing-xs;
+      color: gray;
+      font-size: 0.5em;
       line-height: 1.25em;
     }
+
     .tags {
       display: flex;
+      align-self: flex-end;
       flex-wrap: wrap;
       gap: 0.25rem;
-      align-self: flex-end;
     }
   }
 </style>

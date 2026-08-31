@@ -39,6 +39,22 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro --help` | Get help using the Astro CLI                     |
 
+## Homepage “right now” section
+
+The homepage pulls the owner’s most recent public commit at build time, using
+GitHub’s commit search scoped to `author:<owner>` (set in `src/content/pages/home.md`).
+That spans every public repository the owner commits to — client and organisation
+repositories included — not just this one, so whatever they touched last is what
+the card shows. Its editable “right now” content lives in the same file.
+
+The music card reads the three most recently added tracks from a Spotify
+playlist. Copy `.env.example` to `.env`, then provide `SPOTIFY_CLIENT_ID`,
+`SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`, and `SPOTIFY_PLAYLIST_ID`.
+The refresh token must belong to the playlist owner or a collaborator and have
+the `playlist-read-private` scope. These values are server-only and must also be
+configured in the deployment environment. If they are missing or Spotify is
+unavailable, the site still builds and shows a quiet empty state.
+
 ## Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

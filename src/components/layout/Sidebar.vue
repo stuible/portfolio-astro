@@ -4,6 +4,7 @@
         <div class="icon" ref="icon">
             <transition name="spin-fade" @enter-cancelled="onEnterCancel" @leave-cancelled="">
                 <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
+                <NowClock v-else-if="currentIcon == 'now'" class="now-clock" />
                 <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="JS" />
                 <img v-else-if="currentIcon == 'work'" src="/hammer.svg" alt="JS" />
@@ -16,111 +17,102 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted, shallowRef } from 'vue';
+import NowClock from './NowClock.vue';
 
-const currentIcon = ref("logo");
+type SidebarIcon = 'logo' | 'now' | 'skills' | 'tech' | 'work' | 'projects' | 'project';
 
-const offset = -25;
+const currentIcon = shallowRef<SidebarIcon>('logo');
+const icon = shallowRef<HTMLElement | null>(null);
+const iconPaths = ['/logo-sideways.svg', '/code.svg', '/hammer.svg'];
+const validIcons = new Set<SidebarIcon>([
+    'logo',
+    'now',
+    'skills',
+    'tech',
+    'work',
+    'projects',
+    'project',
+]);
 
-const hasBegunScrolling = ref(false);
-
-const icons = ["/logo-sideways.svg", "/code.svg", "/hammer.svg"];
+const markerOffset = -25;
+let iconMarkers: HTMLElement[] = [];
+let animationFrame: number | undefined;
+let iconsPreloaded = false;
 
 function onEnterCancel(event: Element) {
     event.classList.add('cancelled');
-    // console.log(event);
 }
 
-// Add preload links for the icons used by sidebar
 function preloadIcons() {
-    hasBegunScrolling.value = true;
+    if (iconsPreloaded) return;
+    iconsPreloaded = true;
 
-    icons.forEach(icon => {
+    iconPaths.forEach((path) => {
+        if (document.head.querySelector(`link[rel="preload"][href="${path}"]`)) return;
+
         const preloadTag = document.createElement('link');
-        preloadTag.rel = "preload"
-        preloadTag.as = "image"
-        preloadTag.href = icon;
-        // Only preload icons if the sidebar is sticky (large breakpoint)
-        // preloadTag.media = `media="(min-width: 1100px)"`;
+        preloadTag.rel = 'preload';
+        preloadTag.as = 'image';
+        preloadTag.href = path;
         document.head.appendChild(preloadTag);
-    })
-
+    });
 }
 
-
-function debounce(func, timeout) {
-    let timer;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
+function refreshMarkers() {
+    iconMarkers = Array.from(document.querySelectorAll<HTMLElement>('.has-icon'));
 }
 
-function updateSidebarIcon(newIcon) {
-    currentIcon.value = newIcon;
+// The media-hydrated sidebar can mount before the HTML parser reaches the
+// homepage sections, so keep re-querying until the document has finished
+// parsing rather than on every scroll frame.
+function ensureMarkers() {
+    if (iconMarkers.length === 0 || document.readyState === 'loading') refreshMarkers();
 }
 
-const updateSidebarIconDebounced = debounce((newIcon) => updateSidebarIcon(newIcon), 90);
+function updateSidebarIcon() {
+    animationFrame = undefined;
+    if (!icon.value) return;
+
+    ensureMarkers();
+    if (iconMarkers.length === 0) return;
+
+    const iconBottom = icon.value.getBoundingClientRect().bottom;
+    let activeMarker = iconMarkers[0];
+
+    for (const marker of iconMarkers) {
+        if (marker.getBoundingClientRect().top + markerOffset > iconBottom) break;
+        activeMarker = marker;
+    }
+
+    const nextIcon = activeMarker?.dataset.icon as SidebarIcon | undefined;
+    if (nextIcon && validIcons.has(nextIcon) && nextIcon !== currentIcon.value) {
+        currentIcon.value = nextIcon;
+    }
+}
+
+function scheduleIconUpdate() {
+    preloadIcons();
+    if (animationFrame !== undefined) return;
+    animationFrame = window.requestAnimationFrame(updateSidebarIcon);
+}
+
+function onResize() {
+    refreshMarkers();
+    scheduleIconUpdate();
+}
 
 onMounted(() => {
-
-    // Get all the elements with the class .has-icon
-    const hasIconDivs = document.querySelectorAll('.has-icon');
-
-    // Get the .icon-container div
-    const iconContainerDiv = document.querySelector('.icon') as HTMLElement;
-
-    let lastScrollTop = 0;
-    let lastActiveTitleDiv = null;
-
-
-    // Define Scroll callback function
-    const onScroll = (event) => {
-
-        // If this is the first time a user has scrolled, preload the rest of the icons
-        if (!hasBegunScrolling.value) preloadIcons();
-
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollingDown = scrollTop > lastScrollTop;
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
-
-        let activeTitleDiv = lastActiveTitleDiv;
-
-        for (const hasIconDiv of scrollingDown ? hasIconDivs : [...hasIconDivs].reverse()) {
-            const hasIconRect = hasIconDiv.getBoundingClientRect();
-            const iconContainerRect = iconContainerDiv.getBoundingClientRect();
-
-            let hasIconDivStyle = getComputedStyle(hasIconDiv);
-
-            let hasIconDivMarginTop = parseInt(hasIconDivStyle.marginTop);
-            let hasIconDivMarginBottom = parseInt(hasIconDivStyle.marginBottom);
-            const totalMarginY = hasIconDivMarginTop + hasIconDivMarginBottom;
-
-
-            if ((scrollingDown && hasIconRect.top + offset <= iconContainerRect.bottom) || (!scrollingDown && hasIconRect.bottom + hasIconDivMarginBottom + offset >= iconContainerRect.bottom)) {
-
-                activeTitleDiv = hasIconDiv;
-            }
-        }
-
-        if (activeTitleDiv) {
-            if (!lastActiveTitleDiv?.isEqualNode(activeTitleDiv)) {
-
-                updateSidebarIconDebounced(activeTitleDiv.dataset.icon);
-                // currentIcon.value = activeTitleDiv.dataset.icon;
-                // console.log("updated dom");
-            }
-        }
-
-        lastActiveTitleDiv = activeTitleDiv;
-
-    };
-
-    // Attach the callback function to the window scroll event
-    window.addEventListener('scroll', onScroll);
-
+    updateSidebarIcon();
+    window.addEventListener('scroll', scheduleIconUpdate, { passive: true });
+    window.addEventListener('resize', onResize);
 });
 
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', scheduleIconUpdate);
+    window.removeEventListener('resize', onResize);
+    if (animationFrame !== undefined) window.cancelAnimationFrame(animationFrame);
+});
 </script>
 
 <style scoped lang="scss">
@@ -144,6 +136,12 @@ onMounted(() => {
         height: 100%;
         display: block;
 
+    }
+
+    .now-clock {
+        width: 100%;
+        height: 100%;
+        display: block;
     }
 
     div {

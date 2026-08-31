@@ -5,18 +5,20 @@ import Intro from "~/components/home/Intro.astro";
 import Skills from "~/components/home/Skills.astro";
 import Employment from "~/components/home/Employment.astro";
 import Projects from "~/components/home/Projects.astro";
+import Now from "~/components/home/Now.astro";
 
-import { getCollection, getEntry } from "astro:content";
+import { getHomeContent } from "~/lib/home";
 
-const home = await getEntry("pages", "home");
+const { description } = await getHomeContent();
 ---
 
 <Layout
   noTopPadding={true}
   h1Title={true}
-  description="I am a Vancouver-based full stack web developer obsessed with clean and intuitive experiences. Using the latest web technologies, I add value and identity to digital brands with clean and expressive websites."
+  description={description}
 >
   <Intro />
+  <Now />
   <Skills />
   <Employment />
   <Projects />
