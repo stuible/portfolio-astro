@@ -15,6 +15,10 @@ const [commit, tracks] = await Promise.all([
   getLatestPlaylistTracks(),
 ]);
 
+// The commit and playlist data above is fetched at build time, so the section
+// as a whole is only as fresh as the last deploy.
+const refreshedAt = new Date().toISOString();
+
 const timeZone = "America/Vancouver";
 const calendarDateFormatter = new Intl.DateTimeFormat("en-CA", {
   timeZone,
@@ -62,8 +66,8 @@ const relativeTime = (date: string) => {
     <h2 class="section-title">Right now</h2>
     <span class="live-label"
       ><span aria-hidden="true"></span> Updated <time
-        datetime={thought.updatedAt}
-        data-relative>{relativeTime(thought.updatedAt)}</time
+        datetime={refreshedAt}
+        data-relative>{relativeTime(refreshedAt)}</time
       ></span
     >
   </div>
