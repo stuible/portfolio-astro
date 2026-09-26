@@ -10,6 +10,7 @@ import TLDR from "~/components/project/TLDR.astro";
 import globe from "~/assets/icons/globe.svg";
 import Callout from "~/components/project/Callout.astro";
 import IconPill from "~/components/global/IconPill.vue";
+import { getTechBySlugs } from "~/lib/tech";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects", ({ data }) => {
@@ -23,24 +24,7 @@ const { project: projectSlug } = Astro.params;
 
 const project = await getEntry("projects", projectSlug);
 
-const {
-  data: { tech },
-} = await getEntry("categories", "tech");
-
-const icons = Object.values(
-  import.meta.glob("~/assets/icons/*.svg", { eager: true })
-).map((x: any) => x.default.src);
-
-const techWithIcons = await Promise.all(
-  await project.data.tags.map(async (techSlug) => {
-    const techItem = tech.find((x) => x.slug === techSlug);
-
-    return {
-      ...techItem,
-      icon: icons.find((x) => x.includes(techItem.icon)),
-    };
-  })
-);
+const techWithIcons = await getTechBySlugs(project.data.tags);
 
 const { Content } = await project.render();
 ---
@@ -95,6 +79,24 @@ const { Content } = await project.render();
 </Layout>
 
 <style lang="scss" is:global>
+  // A list item's leading bold phrase becomes its title, with the rest below
+  @mixin lead-in {
+    &:has(> strong:first-child) {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+
+      > strong:first-child {
+        display: block;
+        margin-bottom: 6px;
+        font-size: calc(1em / 0.9);
+        font-weight: 500;
+        line-height: 1.3;
+        color: #2e2e2e;
+      }
+    }
+  }
+
   .content {
     h2 {
       @include section-title;
@@ -105,46 +107,125 @@ const { Content } = await project.render();
     }
     h3 {
       @include section-subtitle;
+      margin-top: $spacing-sm;
+      margin-bottom: $spacing-xs;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
     }
     p {
       margin-bottom: $spacing-sm;
       max-width: 50ch;
+    }
 
-      a {
-        @include highlight-link;
+    a {
+      @include highlight-link;
+
+      &[href^="http"]::after {
+        content: "↗";
+        content: "↗" / "";
+        font-size: 0.75em;
+        margin-left: 2px;
+      }
+    }
+
+    blockquote {
+      max-width: 640px;
+      margin: $spacing-md 0;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 32px;
+        height: 24px;
+        margin-bottom: 16px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24'%3E%3Cpath fill='%23dbe4ff' d='M0 24V13C0 5 4 1 12 0v5c-4 1-6 4-6 8h6v11H0zm20 0V13c0-8 4-12 12-13v5c-4 1-6 4-6 8h6v11H20z'/%3E%3C/svg%3E")
+          no-repeat;
+      }
+
+      p {
+        max-width: none;
+        margin-bottom: 16px;
+        font-size: 1.5em;
+        font-weight: 300;
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        // A closing italic-only line is the attribution
+        &:not(:first-child):last-child:has(> em:only-child) {
+          font-size: max(0.7em, 14px);
+          letter-spacing: 0;
+          color: #666;
+
+          em {
+            font-style: normal;
+          }
+        }
       }
     }
 
     ul {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 620px;
       margin-bottom: $spacing-sm;
-      list-style-type: disc;
-      margin-left: $spacing-sm;
+
+      &:has(> li > strong:first-child) {
+        gap: 28px;
+      }
+
       li {
-        &:not(:last-child) {
-          margin-bottom: $spacing-xs;
+        position: relative;
+        padding-left: 56px;
+        line-height: 1.4;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0.7em;
+          width: 16px;
+          height: 1px;
+          background: #8f8f8f;
         }
-        &::marker {
-          font-weight: 500;
-          color: #c4c4c4;
-          padding-right: $spacing-sm;
-        }
+
+        @include lead-in;
       }
     }
 
     ol {
-      list-style-type: decimal;
-      margin-left: 1rem;
+      counter-reset: ol-item;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      max-width: 620px;
+      margin-bottom: $spacing-sm;
 
       li {
-        &:not(:last-child) {
-          margin-bottom: $spacing-xs;
+        counter-increment: ol-item;
+        position: relative;
+        padding-left: 56px;
+        min-height: 32px;
+
+        &::before {
+          content: counter(ol-item);
+          position: absolute;
+          left: 0;
+          top: 0;
+          font-size: 32px;
+          font-weight: 300;
+          line-height: 1;
+          color: #8f8f8f;
+          font-variant-numeric: tabular-nums;
         }
 
-        &::marker {
-          font-weight: 500;
-          color: #c4c4c4;
-          padding-right: $spacing-sm;
-        }
+        @include lead-in;
       }
     }
   }

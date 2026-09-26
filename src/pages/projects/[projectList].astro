@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntryBySlug } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import Layout from "~/layouts/Layout.astro";
 
@@ -13,12 +13,22 @@ export async function getStaticPaths() {
 
 const { projectList: projectListSlug } = Astro.params;
 
-const projectListEntry = await getEntryBySlug("project-lists", projectListSlug);
+const projectListEntry = await getEntry("project-lists", projectListSlug!);
+if (!projectListEntry) {
+  throw new Error(`Missing project list "${projectListSlug}"`);
+}
 const allProjects = await getCollection("projects");
 
-const projects = projectListEntry.data.projects.map((projectSlug) =>
-  allProjects.find((x) => x.slug === projectSlug)
-);
+const projects = projectListEntry.data.projects.map((projectSlug) => {
+  const project = allProjects.find((x) => x.slug === projectSlug);
+  if (!project) {
+    throw new Error(`Project list "${projectListSlug}" references unknown project "${projectSlug}"`);
+  }
+  if (!project.data.enabled) {
+    throw new Error(`Project list "${projectListSlug}" references disabled project "${projectSlug}"`);
+  }
+  return project;
+});
 
 const { Content } = await projectListEntry.render();
 ---

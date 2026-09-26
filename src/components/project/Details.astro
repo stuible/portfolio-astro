@@ -1,0 +1,99 @@
+---
+export interface Props {
+  title: string;
+  open?: boolean;
+}
+
+const { title, open = false } = Astro.props;
+---
+
+<details class="details" open={open}>
+  <summary>
+    <span>{title}</span>
+    <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  </summary>
+  <div class="details-body"><slot /></div>
+</details>
+
+<style lang="scss">
+  .details {
+    max-width: 620px;
+    margin-bottom: $spacing-md;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    overflow: hidden;
+    interpolate-size: allow-keywords;
+
+    &::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size 0.25s ease,
+        content-visibility 0.25s allow-discrete;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
+
+    &[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::details-content {
+        transition: none;
+      }
+    }
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 56px;
+    padding: 0 20px;
+    font-size: max(0.8em, 15px);
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #666666;
+    stroke-width: 2;
+    transition: transform 0.15s;
+  }
+
+  .details-body {
+    padding: 0 20px 20px;
+    font-size: max(0.8em, 15px);
+    line-height: 1.6;
+    color: #4a4a4a;
+
+    :global(p) {
+      line-height: inherit;
+      margin-bottom: 0.75em;
+      max-width: none;
+    }
+
+    :global(> :last-child) {
+      margin-bottom: 0;
+    }
+
+    :global(figcaption) {
+      font-size: 0.875em;
+    }
+  }
+</style>

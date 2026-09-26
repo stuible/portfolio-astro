@@ -1,18 +1,110 @@
 ---
-export interface Props {}
+export interface Props {
+  title?: string;
+  icon?: "note" | "idea" | "caution";
+}
 
-const {} = Astro.props;
+const { title, icon = "note" } = Astro.props;
 ---
 
-<div class="callout"><slot /></div>
+<aside class:list={["callout", icon, { untitled: !title }]}>
+  <span class="badge" aria-hidden="true">
+    {
+      icon === "idea" ? (
+        <svg viewBox="0 0 24 24">
+          <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z" />
+        </svg>
+      ) : icon === "caution" ? (
+        <svg viewBox="0 0 24 24">
+          <path d="M12 4l9 16H3z" />
+          <path d="M12 10v4M12 17v.5" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 11v6M12 7.5v.5" />
+        </svg>
+      )
+    }
+  </span>
+  <div class="text">
+    {title && <span class="title">{title}</span>}
+    <div class="callout-body"><slot /></div>
+  </div>
+</aside>
 
 <style lang="scss">
   .callout {
-    border: solid 1px #ebebeb;
-    padding: 1.25rem 1.25rem 1.25rem 1.25rem;
-    border-radius: 1rem;
-    margin-bottom: $spacing-sm;
-    // margin-left: 10%;
-    // max-width: 570px;
+    --badge-bg: #eef2ff;
+    --badge-ink: #2f5fe0;
+
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    max-width: 620px;
+    margin-bottom: $spacing-md;
+    padding: 20px 24px 20px 20px;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+
+    &.idea {
+      --badge-bg: #fef3c7;
+      --badge-ink: #a16207;
+    }
+
+    &.caution {
+      --badge-bg: #fee4e2;
+      --badge-ink: #c2410c;
+    }
+
+    &.untitled {
+      align-items: center;
+    }
+  }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--badge-bg);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: var(--badge-ink);
+      stroke-width: 1.7;
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: max(0.8em, 15px);
+    line-height: 1.55;
+  }
+
+  .title {
+    font-weight: 500;
+  }
+
+  .callout-body {
+    font-weight: 300;
+    color: #4a4a4a;
+
+    :global(p) {
+      line-height: inherit;
+      margin-bottom: 0.5em;
+      max-width: none;
+    }
+
+    :global(p:last-child) {
+      margin-bottom: 0;
+    }
   }
 </style>

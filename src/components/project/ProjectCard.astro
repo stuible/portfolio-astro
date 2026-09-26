@@ -1,7 +1,8 @@
 ---
-import { type CollectionEntry, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import BaseCard from "~/components/global/BaseCard.astro";
 import IconPill from "~/components/global/IconPill.vue";
+import { getTechBySlugs } from "~/lib/tech";
 
 export interface Props {
   project: CollectionEntry<"projects">;
@@ -9,24 +10,7 @@ export interface Props {
 
 const { project } = Astro.props;
 
-const {
-  data: { tech },
-} = await getEntry("categories", "tech");
-
-const icons = Object.values(
-  import.meta.glob("~/assets/icons/*.svg", { eager: true })
-).map((x: any) => x.default.src);
-
-const techWithIcons = await Promise.all(
-  await project.data.tags.map(async (techSlug) => {
-    const techItem = tech.find((x) => x.slug === techSlug);
-
-    return {
-      ...techItem,
-      icon: icons.find((x) => x.includes(techItem.icon)),
-    };
-  })
-);
+const techWithIcons = await getTechBySlugs(project.data.tags);
 ---
 
 <BaseCard class="project-card" href={`/project/${project.slug}`}>
@@ -53,8 +37,6 @@ const techWithIcons = await Promise.all(
     display: flex;
     height: 100%;
     flex-wrap: wrap;
-    padding: 1.25rem 1.25rem 1rem;
-    border-radius: 1rem;
 
     > * {
       flex: 0 0 100%;

@@ -20,7 +20,7 @@ const projectCollection = defineCollection({
     when: z.string().optional(),
     subtitle: z.string(),
     tldr: z.string().optional(),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()),
     stack: treeNodeSchema.optional(),
     link: z.string().url().optional(),
     enabled: z.boolean().default(true),
@@ -34,7 +34,7 @@ const pageCollection = defineCollection({
     bio: z.string(),
     thought: z.object({
       text: z.string(),
-      url: z.string().url(),
+      url: z.string().url().optional(),
       updatedAt: z.string(),
     }),
     skills: z.object({
@@ -50,5 +50,10 @@ export const collections = {
   'projects': projectCollection,
   categories: defineCollection({}),
   pages: pageCollection,
-  'project-lists': defineCollection({}),
+  'project-lists': defineCollection({
+    schema: z.object({
+      title: z.string(),
+      projects: z.array(z.string()),
+    }),
+  }),
 };

@@ -25,12 +25,18 @@ const { src, alt, caption, widths = [800, 1200, 1512] } = Astro.props;
 <style lang="scss">
   figure {
     margin: 0 0 1.5rem;
+
+    :global(img) {
+      display: block;
+      border: 1px solid #ebebeb;
+      border-radius: 12px;
+    }
   }
 
   figcaption {
-    margin-top: 0.35rem;
+    margin-top: 16px;
     color: #666;
-    font-size: 0.65rem;
+    font-size: max(0.7em, 13px);
     font-style: normal;
     font-weight: inherit;
     line-height: 1.4;
