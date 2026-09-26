@@ -15,7 +15,7 @@
     </Tooltip>
     <span v-else class="pill" :class="{ small: small }">
       <span class="icon">
-        <img :src="icon ? icon : ''" alt="" />
+        <img :src="icon ? icon : ''" :alt="`${label} Icon`" />
       </span>
       <span class="label">{{ label }}</span>
     </span>
