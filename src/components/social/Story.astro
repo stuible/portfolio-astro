@@ -1,0 +1,112 @@
+---
+// A 1080×1920 Instagram story template for a project
+import StoryBadge, { type Props as Badge } from "./StoryBadge.astro";
+
+export interface Props {
+  title: string;
+  subtitle: string;
+  when?: string;
+  url: string;
+  logo: string;
+  badges: Badge[];
+}
+
+const { title, subtitle, when, url, logo, badges } = Astro.props;
+---
+
+<div class="story">
+  <img src={logo} width="200" height="62" alt="" />
+  <div class="content">
+    {when && <div class="when">{when}</div>}
+    <div class="title">{title}</div>
+    <div class="subtitle">{subtitle}</div>
+    {
+      badges.length > 0 && (
+        <div class="badges">
+          {badges.map((badge) => (
+            <StoryBadge {...badge} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+  <div class="url">{url}</div>
+</div>
+
+<style is:inline>
+  /* Instagram overlays its own UI on roughly the top and bottom 250px of a
+     story, so the padding keeps content clear of it */
+  .story {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding: 260px 96px 300px;
+    background: #ffffff;
+    font-family: Graphik;
+    color: #333333;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .when {
+    margin-bottom: 28px;
+    font-size: 40px;
+    color: #707070;
+  }
+
+  .title {
+    margin-bottom: 40px;
+    font-size: 104px;
+    font-weight: 500;
+    line-height: 1.05;
+    color: #000000;
+  }
+
+  .subtitle {
+    margin-bottom: 64px;
+    font-size: 48px;
+    line-height: 1.35;
+  }
+
+  /* Balancing the lines keeps a lone badge off the last row */
+  .badges {
+    font-size: 0;
+    line-height: 84px;
+    text-wrap: balance;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 16px;
+    padding: 10px 24px 10px 10px;
+    border-radius: 999px;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    color: rgba(51, 51, 51, 0.8);
+    vertical-align: middle;
+  }
+
+  .badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .url {
+    font-size: 36px;
+    color: #707070;
+  }
+</style>
