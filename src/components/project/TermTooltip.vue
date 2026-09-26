@@ -29,7 +29,7 @@ const tooltip = {
   font: inherit;
   font-weight: 400;
   color: inherit;
-  text-decoration: underline dotted #5282fd;
+  text-decoration: underline dotted $colour-link;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.25em;
   cursor: help;

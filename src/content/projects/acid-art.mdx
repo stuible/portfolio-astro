@@ -20,7 +20,8 @@ stack:
       - name: snipcart
 ---
 
-import { Image, Picture } from "astro:assets";
+import ProjectImage from "~/components/project/ProjectImage.astro";
+import productPage from "~/assets/images/projects/product-page.jpg";
 
 # Background
 
@@ -40,16 +41,9 @@ The original website's shopping & checkout flow was slow & difficult to navigate
 
 # Process
 
-<Picture
-  src={import("../../assets/images/projects/product-page.jpg")}
-  widths={[
-    5000, 800,
-    // for 2x pixel density displays
-    1000, 1600,
-  ]}
-  formats={["avif", "webp"]}
-  alt="The Google logo"
-  class="markdown-image"
+<ProjectImage
+  src={productPage}
+  alt="ACiD product page for the Spiked Air Force 1, showing the shoe, size options, price and an Add to Bag button"
 />
 
 ACiD's products have a very strong identity, so we developed a design system of typography and UI that would accent this. We opted for clean stencil (Mono Spec) and sans serif (Manrope) fonts to appear modern while staying true to John's streetwear aesthetic.

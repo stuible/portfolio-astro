@@ -1,45 +1,11 @@
 ---
-import { Picture } from "astro:assets";
+import ProjectImage from "~/components/project/ProjectImage.astro";
+import type { Props as ProjectImageProps } from "~/components/project/ProjectImage.astro";
 
-export interface Props {
-  src: ImageMetadata;
-  alt: string;
+// A captioned ProjectImage.
+export interface Props extends ProjectImageProps {
   caption: string;
-  widths?: number[];
 }
-
-const { src, alt, caption, widths = [800, 1200, 1512] } = Astro.props;
 ---
 
-<figure>
-  <Picture
-    {src}
-    {widths}
-    formats={["avif", "webp"]}
-    {alt}
-    class="markdown-image"
-  />
-  <figcaption>{caption}</figcaption>
-</figure>
-
-<style lang="scss">
-  figure {
-    margin: 0 0 1.5rem;
-
-    :global(img) {
-      display: block;
-      border: 1px solid #ebebeb;
-      border-radius: 12px;
-    }
-  }
-
-  figcaption {
-    margin-top: 16px;
-    color: #666;
-    font-size: max(0.7em, 13px);
-    font-style: normal;
-    font-weight: inherit;
-    line-height: 1.4;
-    text-align: center;
-  }
-</style>
+<ProjectImage {...Astro.props} />

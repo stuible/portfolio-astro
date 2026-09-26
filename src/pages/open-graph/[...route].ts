@@ -8,7 +8,7 @@ const fontConfig: FontConfig = {
 const directory = "/src/content/";
 
 // Import all pages from the content directory
-const rawPages = await import.meta.glob('/src/content/projects/**/*.mdx', { eager: true });
+const rawPages = import.meta.glob('/src/content/projects/**/*.mdx', { eager: true });
 
 // Remove the /src/content prefix from the paths
 const pages = Object.entries(rawPages).reduce(
@@ -28,7 +28,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
     // For each page, this callback will be used to customize the OpenGraph
     // image. For example, if `pages` was passed a glob like above, you
     // could read values from frontmatter.
-    getImageOptions: (path, page) => ({
+    getImageOptions: (_path, page) => ({
         title: page.frontmatter.title,
         description: page.frontmatter.subtitle,
 

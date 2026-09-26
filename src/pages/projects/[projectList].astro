@@ -33,7 +33,11 @@ const projects = projectListEntry.data.projects.map((projectSlug) => {
 const { Content } = await projectListEntry.render();
 ---
 
-<Layout title="Projects">
+<Layout
+  title="Projects"
+  description={`${projectListEntry.data.title}: selected case studies by Josh Stuible.`}
+  noindex
+>
   <article class="portoflio:article">
     <h1>{projectListEntry.data.title}</h1>
     <Content />

@@ -5,7 +5,6 @@ import { SEO } from "astro-seo";
 import { Image } from "astro:assets";
 
 import Sidebar from "../components/layout/Sidebar.vue";
-import Bar from "../components/layout/Bar.astro";
 import Tooltip from "~/components/global/Tooltip.vue";
 
 export interface Props {
@@ -14,6 +13,7 @@ export interface Props {
   noTopPadding?: boolean;
   h1Title?: boolean;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -22,6 +22,7 @@ const {
   noTopPadding = false,
   description,
   ogImage,
+  noindex = false,
 } = Astro.props;
 
 const title = (titleProp ? `${titleProp} - ` : "") + "Josh Stuible";
@@ -40,6 +41,7 @@ const TitleWrapper = h1Title ? "h1" : "div";
       canonical={import.meta.env.SITE_URL + Astro.url.pathname}
       title={title}
       description={description}
+      noindex={noindex}
       openGraph={{
         basic: {
           title: title,
@@ -69,6 +71,7 @@ const TitleWrapper = h1Title ? "h1" : "div";
       }}
     />
     <script
+      is:inline
       defer
       data-website-id="23726182-cfe1-4f5e-9c91-533cf149bc1f"
       src="https://fenxi.stuible.cloud/script.js"></script>
@@ -81,9 +84,9 @@ const TitleWrapper = h1Title ? "h1" : "div";
     </script>
     <div class="container layout-container">
       {/* Left */}
-      <div class="left">
+      <nav class="left" aria-label="Site">
         <Sidebar client:media="(min-width: 1100px)" />
-      </div>
+      </nav>
       {/* Center */}
       <div class="center">
         {/* <Bar>Need a website? Check out Q5, my freelancing company</Bar> */}

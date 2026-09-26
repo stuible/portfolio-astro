@@ -46,7 +46,7 @@
 }
 
 @mixin highlight-link {
-    color: #5282fd;
+    color: variables.$colour-link;
     font-weight: 400;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .link {
-    color: gray;
+    color: variables.$colour-muted;
     font-size: 16px;
 }
 
