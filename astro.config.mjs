@@ -34,7 +34,19 @@ export default defineConfig({
     }
   },
   site: "https://stuible.com",
-  integrations: [vue(), mdx(), sitemap(), icon()],
+  // Inline all CSS so it doesn't block rendering; each page's CSS is small.
+  build: {
+    inlineStylesheets: "always",
+  },
+  integrations: [
+    vue(),
+    mdx(),
+    sitemap({
+      // Custom project lists are for sending to specific clients, not search
+      filter: (page) => !/\/projects\/[^/]+\/$/.test(new URL(page).pathname),
+    }),
+    icon({ iconDir: "src/assets/icons" }),
+  ],
   markdown: {
     remarkPlugins: [[behead, {
       depth: 1

@@ -1,5 +1,4 @@
 ---
-import { getCollection, getEntryBySlug } from "astro:content";
 import { Image } from "astro:assets";
 
 import lt from "~/assets/icons/lt.svg";
@@ -29,14 +28,14 @@ import q5 from "~/assets/icons/q5.svg";
     </article>
     <article class="position">
       <header>
-        <Image src={q5} alt="Learning Technologies Logo" class="logo" />
+        <Image src={q5} alt="Q5 Logo" class="logo" />
         <div class="titles">
           <h3 class="section-subtitle">Q5</h3>
           <span class="details">Web Developer + Designer</span>
         </div>
       </header>
       <p class="body">
-        I also run a freelance web development consulatancy where we focus on
+        I also run a freelance web development consultancy where we focus on
         small businesses. Need a website? <a
           href="https://q-5.ca"
           target="_blank"
@@ -84,7 +83,7 @@ import q5 from "~/assets/icons/q5.svg";
 
       .details {
         font-weight: 400;
-        color: gray;
+        color: $colour-muted;
         font-size: 16px;
       }
     }

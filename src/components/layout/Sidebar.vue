@@ -1,13 +1,13 @@
 <template>
-    <a href="/#">
+    <a href="/#" aria-label="Home">
 
         <div class="icon" ref="icon">
             <transition name="spin-fade" @enter-cancelled="onEnterCancel" @leave-cancelled="">
-                <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="JS" />
+                <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="" />
                 <NowClock v-else-if="currentIcon == 'now'" class="now-clock" />
-                <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="JS" />
-                <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="JS" />
-                <img v-else-if="currentIcon == 'work'" src="/hammer.svg" alt="JS" />
+                <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="" />
+                <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="" />
+                <img v-else-if="currentIcon == 'work'" src="/hammer.svg" alt="" />
                 <div v-else-if="currentIcon == 'projects'">―</div>
                 <div v-else-if="currentIcon == 'project'">=</div>
             </transition>

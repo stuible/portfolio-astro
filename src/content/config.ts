@@ -1,6 +1,5 @@
 // 1. Import utilities from `astro:content`
 import { z, defineCollection } from 'astro:content';
-import { type TreeNode } from '~/types';
 // 2. Define a schema for each collection you'd like to validate.
 
 const treeNodeSchema: z.ZodSchema = z.lazy(() =>

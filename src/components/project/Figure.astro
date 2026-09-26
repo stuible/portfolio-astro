@@ -1,24 +1,19 @@
 ---
-import { Picture } from "astro:assets";
+import ProjectImage from "~/components/project/ProjectImage.astro";
 
 export interface Props {
   src: ImageMetadata;
   alt: string;
   caption: string;
   widths?: number[];
+  sizes?: string;
 }
 
-const { src, alt, caption, widths = [800, 1200, 1512] } = Astro.props;
+const { src, alt, caption, widths, sizes } = Astro.props;
 ---
 
 <figure>
-  <Picture
-    {src}
-    {widths}
-    formats={["avif", "webp"]}
-    {alt}
-    class="markdown-image"
-  />
+  <ProjectImage {src} {alt} {widths} {sizes} />
   <figcaption>{caption}</figcaption>
 </figure>
 

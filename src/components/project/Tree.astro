@@ -7,20 +7,6 @@ export interface Props {
 }
 
 const { tree } = Astro.props;
-
-function childrenRecursive(nodes: TreeNode[]) {
-  return nodes.map(
-    (child, index) => `
-        <li ${!child.children ? 'class="last"' : ""}>
-          ${child.name}
-          ${
-            child.children
-              ? `<ul>${childrenRecursive(child.children)}</ul>`
-              : ""
-          }
-        </li>`
-  );
-}
 ---
 
 <ul class="portfolio--tree">

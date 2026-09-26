@@ -20,7 +20,7 @@ stack:
       - name: tailwind
 ---
 
-import { Image, Picture } from "astro:assets";
+import ProjectImage from "~/components/project/ProjectImage.astro";
 
 # Background
 
@@ -40,16 +40,9 @@ The site performed poorly on mobile devices, where most users were likely access
 The site load times were very slow at almost 10 seconds, leading to high bounce rates.
 
 # Original Website
-<Picture
+<ProjectImage
   src={import("~/assets/images/projects/edwt/original.png")}
-  widths={[
-    5000, 800,
-    // for 2x pixel density displays
-    1000, 1600,
-  ]}
-  formats={["avif", "webp"]}
-  alt="The Google logo"
-  class="markdown-image"
+  alt="The original ED Wait Times site: a table of hospitals with their current wait time, expected length of stay and status"
 />
 
 # Objectives

@@ -10,7 +10,7 @@ const { nodes } = Astro.props;
 
 <div>
   {
-    nodes.map((child, index) => (
+    nodes.map((child) => (
       <li class={child.children ? 'class="last"' : ""}>
         {child.url ? (
           <a href={child.url} target="_blank">

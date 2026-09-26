@@ -18,7 +18,7 @@ const techWithIcons = await getTechBySlugs(project.data.tags);
   <div class="subtitle">{project.data.subtitle}</div>
   <ul class="tags">
     {
-      techWithIcons.map((item, index) => (
+      techWithIcons.map((item) => (
         <li class="tag">
           <IconPill
             label={item.name}
@@ -50,7 +50,7 @@ const techWithIcons = await getTechBySlugs(project.data.tags);
 
     .subtitle {
       margin-bottom: $spacing-xs;
-      color: gray;
+      color: $colour-muted;
       font-size: 0.5em;
       line-height: 1.25em;
     }

@@ -4,11 +4,9 @@ import { getCollection, getEntry } from "astro:content";
 import Layout from "~/layouts/Layout.astro";
 
 import LinkButton from "~/components/global/LinkButton.astro";
-import Tree from "~/components/project/Tree.astro";
 import TLDR from "~/components/project/TLDR.astro";
 
 import globe from "~/assets/icons/globe.svg";
-import Callout from "~/components/project/Callout.astro";
 import IconPill from "~/components/global/IconPill.vue";
 import { getTechBySlugs } from "~/lib/tech";
 
@@ -241,7 +239,7 @@ const { Content } = await project.render();
     }
   }
   .when {
-    color: gray;
+    color: $colour-muted;
     font-size: 0.5rem;
     margin-left: 0.25em;
     margin-bottom: 0.25rem;

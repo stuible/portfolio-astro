@@ -4,6 +4,10 @@ $colour-dark: #333333;
 $colour-medium: #ededed;
 $colour-light: #fafafa;
 
+// Darkest grey that still keeps WCAG AA (4.5:1) contrast for body text on white
+$colour-muted: #707070;
+$colour-link: #5282fd;
+
 $main-grid-columns: 1fr 1fr 1fr 1fr;
 
 $main-grid-gap: (
