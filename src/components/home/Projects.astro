@@ -7,7 +7,7 @@ import { getHomeContent } from "~/lib/home";
 const { projects: projectSlugs } = await getHomeContent();
 
 const projects = await getEntries(
-  projectSlugs.map((slug) => ({ collection: "projects" as const, slug }))
+  projectSlugs.map((id) => ({ collection: "projects" as const, id }))
 );
 ---
 

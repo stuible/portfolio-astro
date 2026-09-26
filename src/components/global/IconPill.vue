@@ -13,12 +13,12 @@
       </template>
 
     </Tooltip>
-    <button v-else class="pill" :class="{ small: small }">
-      <div class="icon">
-        <img :src="icon ? icon : ''" :alt="`${label} Icon`" />
-      </div>
+    <span v-else class="pill" :class="{ small: small }">
+      <span class="icon">
+        <img :src="icon ? icon : ''" alt="" />
+      </span>
       <span class="label">{{ label }}</span>
-    </button>
+    </span>
   </div>
 </template>
 

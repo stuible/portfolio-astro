@@ -1,0 +1,11 @@
+---
+import TermTooltip from "./TermTooltip.vue";
+
+export interface Props {
+  def: string;
+}
+
+const { def } = Astro.props;
+---
+
+<TermTooltip client:visible def={def}><slot /></TermTooltip>

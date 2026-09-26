@@ -46,10 +46,39 @@ type SpotifyPage = { items: SpotifyItem[]; next: string | null };
 const PLAYLIST_PAGE_SIZE = 50;
 const MAX_PLAYLIST_PAGES = 20;
 
+// `astro dev` re-executes component frontmatter on every page request and HMR
+// update, so without a cache every refresh would walk the whole playlist (up
+// to 20 requests) and hit the GitHub search API again, quickly tripping their
+// rate limits and baking the failure in as empty data. Keep a short-lived
+// in-memory cache of successful results in dev only; production calls each
+// function once per build and skips the cache entirely. Failures (429s, 5xx)
+// are never cached, so the next dev request retries.
+const DEV_CACHE_TTL_MS = 5 * 60 * 1000;
+
+type DevCacheEntry = { value: unknown; expiresAt: number };
+
+const devCache = new Map<string, DevCacheEntry>();
+
+async function withDevCache<T>(key: string, compute: () => Promise<T>): Promise<T> {
+  if (!import.meta.env.DEV) return compute();
+
+  const entry = devCache.get(key);
+  if (entry) {
+    if (Date.now() < entry.expiresAt) return entry.value as T;
+    devCache.delete(key);
+  }
+
+  // Cache only once the compute resolves; a rejection propagates to the
+  // caller's error handling without being cached.
+  const value = await compute();
+  devCache.set(key, { value, expiresAt: Date.now() + DEV_CACHE_TTL_MS });
+  return value;
+}
+
 export async function getLatestCommit(owner: string): Promise<GitCommit | undefined> {
-  try {
+  return withDevCache(`github-latest-commit:${owner}`, async () => {
     const query = new URLSearchParams({
-      q: `author:${owner}`,
+      q: `author:${owner} is:public`,
       sort: "author-date",
       order: "desc",
       per_page: "1",
@@ -81,10 +110,10 @@ export async function getLatestCommit(owner: string): Promise<GitCommit | undefi
       sha: commit.sha.slice(0, 7),
       committedAt,
     };
-  } catch (error) {
+  }).catch((error) => {
     console.warn("Could not fetch the latest public GitHub commit.", error);
     return undefined;
-  }
+  });
 }
 
 // Accepts a bare id, a share URL, or the `spotify:playlist:<id>` URI that the
@@ -131,9 +160,12 @@ async function getSpotifyAccessToken() {
 
 export async function getLatestPlaylistTracks(): Promise<SpotifyTrack[]> {
   const playlistId = getPlaylistId(import.meta.env.SPOTIFY_PLAYLIST_ID);
-  if (!playlistId) return [];
+  // A missing playlist id or missing credentials resolve to an empty list that
+  // is cached like any other success, so a misconfiguration does not
+  // re-attempt the API on every dev request.
+  return withDevCache(`spotify-playlist-tracks:${playlistId ?? "(missing)"}`, async () => {
+    if (!playlistId) return [];
 
-  try {
     const accessToken = await getSpotifyAccessToken();
     if (!accessToken) return [];
 
@@ -175,8 +207,8 @@ export async function getLatestPlaylistTracks(): Promise<SpotifyTrack[]> {
           addedAt: entry.added_at!,
         };
       });
-  } catch (error) {
+  }).catch((error) => {
     console.warn("Could not fetch Spotify playlist tracks.", error);
-    return [];
-  }
+    return [] as SpotifyTrack[];
+  });
 }

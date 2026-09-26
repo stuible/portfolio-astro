@@ -6,9 +6,8 @@ bio: >-
   to life on the web. I add humanity to digital experiences using technical
   expertise that spans beyond the full stack.
 thought:
-  text: Is this how we replace Google Analytics?
-  url: https://umami.is/
-  updatedAt: "2026-08-30"
+  text: You're agentic, but do you have agency?
+  updatedAt: "2026-09-25"
 skills:
   body: >-
     With knowledge spanning the full stack, my goal is to never stand still as I
@@ -19,10 +18,10 @@ skills:
   exclude:
     - keystone
 projects:
+  - pt-med
   - ed-wait-times
   - cymhsu
   - dtes
-  - richmond-birth-centre
   - roar
   - acid-art
 ---

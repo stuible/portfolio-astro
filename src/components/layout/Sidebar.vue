@@ -106,11 +106,18 @@ onMounted(() => {
     updateSidebarIcon();
     window.addEventListener('scroll', scheduleIconUpdate, { passive: true });
     window.addEventListener('resize', onResize);
+
+    // Mounting mid-parse only finds the markers above the sidebar (the header),
+    // so pick up the rest of the page once it has been parsed.
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', onResize, { once: true });
+    }
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', scheduleIconUpdate);
     window.removeEventListener('resize', onResize);
+    document.removeEventListener('DOMContentLoaded', onResize);
     if (animationFrame !== undefined) window.cancelAnimationFrame(animationFrame);
 });
 </script>

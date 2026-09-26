@@ -1,0 +1,216 @@
+---
+title: PT Med
+when: Fall 2026
+link: https://ptmed.vchlearn.ca
+subtitle: How I built a fast, offline-capable medication reference for physiotherapists
+tldr: PT Med is a medication reference for Vancouver Coastal Health physiotherapists. It explains what a drug is for and how it affects physiotherapy treatment, in the few minutes a clinician has during chart review.
+tags:
+  - vue
+  - nuxt
+  - tailwind
+  - strapi
+  - ts
+stack:
+  - name: infrastructure
+    children:
+      - name: docker
+      - name: postgresql
+      - name: github actions
+  - name: frontend
+    children:
+      - name: nuxt.js
+      - name: vue
+      - name: nuxt ui
+      - name: tailwind
+      - name: minisearch
+      - name: workbox
+  - name: backend
+    children:
+      - name: Strapi CMS
+      - name: react email
+      - name: sqlite
+---
+
+import Figure from "~/components/project/Figure.astro";
+import Cards from "~/components/project/Cards.astro";
+import Card from "~/components/project/Card.astro";
+import Term from "~/components/project/Term.astro";
+import home from "~/assets/images/projects/pt-med/home.webp";
+import wireframe from "~/assets/images/projects/pt-med/wireframe-medication.webp";
+import medication from "~/assets/images/projects/pt-med/medication.webp";
+import searchTypo from "~/assets/images/projects/pt-med/search-typo.webp";
+import searchNoMatch from "~/assets/images/projects/pt-med/search-no-match.webp";
+import advancedSearch from "~/assets/images/projects/pt-med/advanced-search.webp";
+import mobile from "~/assets/images/projects/pt-med/mobile.webp";
+import install from "~/assets/images/projects/pt-med/install.webp";
+
+# Background
+
+When a physiotherapist at Vancouver Coastal Health finds an unfamiliar medication in a patient's chart, there is no single place to look it up. Most search Google and piece together an answer from Mayo Clinic, NIH, or UpToDate. When those sources aren't enough, they find a nurse or pharmacist. The existing clinical references are written for prescribers. They explain what a drug does, but not what it means for getting a patient out of bed. A patient with Parkinson's might need their session timed to when their medication kicks in. A new blood pressure medication might mean the patient could get dizzy or faint when they first stand up.
+
+<Figure
+  src={home}
+  alt="The PT Med homepage, with a large medication search box, an advanced search toggle, a clinical disclaimer, and three feature cards"
+  caption="The PT Med homepage at launch"
+/>
+
+# Role
+
+I was the technical lead and sole developer. I owned the architecture, the Nuxt frontend, the Strapi content model, and the release pipeline. I also ran discovery with our UX designer, who produced the wireframes and mobile layouts. We met with the physiotherapy practice lead roughly every two weeks from August 2025 until the soft launch in September 2026.
+
+# Discovery
+
+We ran focus groups with hospital physiotherapists at Richmond Hospital. Then we sent a survey out to the wider department and got 70 responses. A few findings shaped almost every later decision:
+
+<Cards cols={2}>
+  <Card icon="search" title="Search is the entryway">
+    62 of 70 respondents preferred typing into a search box. Only 8 preferred an
+    A–Z list and 10 preferred filters. 67 said their research starts on Google.
+    Physios nearly always know a drug's name.
+  </Card>
+  <Card icon="hourglass" title="Time is short">
+    One physio reviews about 36 beds in a little over an hour each morning. For
+    them, spending ten minutes on one chart is a long time. They wanted short,
+    grouped, point-form information.
+  </Card>
+  <Card icon="activity" title="Timing matters">
+    People asked again and again how soon a drug starts working, when it's
+    strongest, and how long it lasts. Physios want to treat while a drug is
+    working best, especially for pain and Parkinson's medications.
+  </Card>
+  <Card icon="monitor-smartphone" title="Desktop & Mobile">
+    48 respondents research at a desktop or workstation on wheels, 42 on a
+    phone, and 22 on a laptop. Community physios work in patients' homes, often
+    with a bad connection.
+  </Card>
+</Cards>
+
+# Objectives
+
+1. **Make search good enough to replace Google** for this job. It should forgive typos and match trade names, partial words, and drug classes.
+2. **Answer the physio question on one screen.** Show what the drug is for, what to watch for, and when it's strongest, for each way it can be given.
+3. **Work where physios work,** including on a phone in a patient's home with a poor signal.
+4. **Let clinicians own the content.** The practice lead and a small editor group needed to add and revise medications without a developer.
+
+# Design
+
+Our UX designer turned the findings into wireframes that we reviewed and signed off in December 2025 and January 2026. The practice lead preferred a three-column medication page that keeps as much as possible above the fold. Uses, side effects, and PT considerations sit side by side. A timing panel on the right covers each way the drug can be given.
+
+<Figure
+  src={wireframe}
+  alt="Annotated wireframe of the medication detail page, showing a three-column layout with uses, PT considerations, and a time-to-peak-effect panel"
+  caption="The signed-off medication page wireframe, December 2025"
+/>
+
+The built page follows the signed-off wireframe closely. Many of its details came straight out of review meetings:
+
+<Cards cols={2}>
+  <Card icon="pill" title="Drug Dynamics">
+    The same drug can peak at very different times when swallowed as a pill,
+    injected under the skin, or given as a liquid through a feeding tube. Each
+    route gets its own tab showing when the drug starts working, when it's
+    strongest, and how long it lasts.
+  </Card>
+  {/* prettier-ignore */}
+  <Card icon="split" title="Split uses and side effects">
+    Each drug's uses are split into <Term def="A use the drug is officially approved to treat by Health Canada.">approved</Term> and <Term def="When doctors prescribe a drug for something it isn't officially approved to treat.">off-label</Term>, and its side effects into <Term def="A side effect seen in at least 10% of people taking the drug.">common</Term> and <Term def="A side effect seen in only a small share of people taking the drug.">rare</Term>. These matter in different contexts to clinicians
+  </Card>
+  <Card icon="chevrons-up-down" title="Short lists open, long lists closed">
+    A subsection auto-expands only when it's short, and empty sections and
+    fields are hidden entirely. That keeps the page scannable for drugs with
+    sparse data.
+  </Card>
+  <Card icon="shapes" title="Icons whenever possible">
+    Physios can scan them faster than prose. The CMS assigns icons, with
+    fallbacks for any that are missing.
+  </Card>
+</Cards>
+
+<Figure
+  src={medication}
+  alt="The Carbidopa and Levodopa medication page, showing uses, adverse effects, PT considerations with icons, routes of administration, and a Drug Dynamics card with route tabs"
+  caption="A medication page: the physio-relevant answer on one screen"
+/>
+
+## Search that follows you
+
+On the homepage, search is the hero. As you scroll, the search box **docks into the navbar**: it's teleported between the two positions and animated, so results stay one keystroke away. Getting this to feel solid took a few iterations.
+
+<Figure
+  src={advancedSearch}
+  alt="The advanced search panel expanded under the search box, listing medication categories as radio options"
+  caption="Advanced search filters by category and medication class"
+/>
+
+Physios gave us feedback that the original categories could be simpler. We made drug categories a many-to-many relation, since one drug can both lower blood pressure and treat chest pain. We also included categories in free-text search, so "anticoagulant" works as well as a drug name does.
+
+<Figure
+  src={mobile}
+  alt="Two phone screenshots: a search for 'tylenol' returning Acetaminophen, and the top of the Carbidopa and Levodopa medication page"
+  caption="On mobile, the layout collapses to a single column and search docks into a compact header"
+/>
+
+# Architecture
+
+PT Med is a Turborepo monorepo with a Nuxt 4 frontend and a Strapi 5 CMS, shipped as Docker images through a Github Actions pipeline.
+
+## Offline, only for installed users
+
+Community physios often work with a poor signal, so PT Med installs as a <Term def="A website you can install on your phone or computer like a regular app. It gets its own icon and can keep working without an internet connection.">progressive web app</Term>. Once installed, it downloads the whole catalogue into IndexedDB. Regular web visitors never download the offline code at all. When editors publish a change, the CMS notifies the frontend, which rebuilds its search index within seconds and tells installed apps to re-sync.
+
+<Figure
+  src={install}
+  alt="The PT Med install page with instructions for iPhone, Android, Windows, and Mac"
+  caption="Install instructions for each platform, managed in the CMS"
+/>
+
+## One search engine, two places
+
+The catalogue is only a few hundred drugs, so rather than run a separate search service, I built a single search engine using MiniSearch that could be run on the server and the client. The Nuxt server runs it for web users, and the installed app runs the same code on the device, so results are identical online and offline.
+
+I wanted to develop search ranking logic that felt intuitive. I chose closeness of match over MiniSearch's built-in scoring, which tended to favour drugs with short entries. Matches with fewer typos score higher, as do matches on a drug's name over its trade names or drug class. A result's score is the sum across the words in the query. Ties go first to the result physios have picked most often in the last 90 days, then alphabetically.
+
+<Figure
+  src={searchTypo}
+  alt="Searching 'lypitor' returns Atorvastatin, whose trade names include Lipitor"
+  caption="A misspelled trade name still finds the generic drug"
+/>
+
+## Requesting new medications
+
+When a search has no exact match, PT Med offers a medication request form, and the CMS emails each request to the PT Med team. The form is protected by Cloudflare Turnstile to keep out spam.
+
+<Figure
+  src={searchNoMatch}
+  alt="Searching 'semaglutide' shows no results and a prompt to request the medication"
+  caption="Missing drugs turn into content requests instead of dead ends"
+/>
+
+## Useful Analytics
+
+We wanted to know which medications physios look up most and which searches come up empty, so the team can prioritize content and improve search after launch. Google Analytics 4 loads after the page is ready, so it doesn't slow the first view. Search updates as you type, so a search is only logged once the user engages with the results.
+
+# Results
+
+PT Med reached 1.0 in September 2026 and soft-launched to physiotherapists at VCH.
+
+<Cards cols={2}>
+  <Card icon="search-check" title="Great search without Google">
+    It forgives typos, matches trade names and partial words, and turns a
+    missing medication into a content request.
+  </Card>
+  <Card icon="wifi-off" title="It works with no signal">
+    Installed users get the full catalogue offline, while regular visitors are
+    not affected by stale content.
+  </Card>
+  <Card icon="file-pen-line" title="Client owns the content">
+    Our client is empowered to update medications, tooltips, resources, and page
+    copy themselves.
+  </Card>
+  <Card icon="zap" title="It's fast">
+    On desktop, initial content loads in ~1.5 seconds and searches return in
+    about 100ms once connected.
+  </Card>
+</Cards>
+
+Since launch, we've been watching which medications physios look up, which searches come up empty, and what they request, and we're using that to keep adapting PT Med to what clinicians actually need.

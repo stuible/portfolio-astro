@@ -1,0 +1,25 @@
+---
+---
+
+<div class="accordion"><slot /></div>
+
+<style lang="scss">
+  // Groups Details into one frame, with dividers between items
+  .accordion {
+    max-width: 620px;
+    margin-bottom: $spacing-md;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    overflow: hidden;
+
+    :global(.details) {
+      margin-bottom: 0;
+      border: 0;
+      border-radius: 0;
+    }
+
+    :global(.details + .details) {
+      border-top: 1px solid #e8e8e8;
+    }
+  }
+</style>
