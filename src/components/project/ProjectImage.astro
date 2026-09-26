@@ -2,11 +2,11 @@
 import { Picture } from "astro:assets";
 
 export interface Props {
-  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
+  src: ImageMetadata;
   alt: string;
+  caption?: string;
   widths?: number[];
   sizes?: string;
-  class?: string;
 }
 
 // Defaults match the project content column: 708px from the lg breakpoint,
@@ -15,17 +15,42 @@ export interface Props {
 const {
   src,
   alt,
+  caption,
   widths = [800, 1200, 1512],
   sizes = "(min-width: 820px) 708px, (min-width: 600px) 488px, calc(100vw - 56px)",
-  class: className,
 } = Astro.props;
 ---
 
-<Picture
-  {src}
-  {widths}
-  {sizes}
-  formats={["avif", "webp"]}
-  {alt}
-  class:list={["markdown-image", className]}
-/>
+<figure>
+  <Picture
+    {src}
+    {widths}
+    {sizes}
+    formats={["avif", "webp"]}
+    {alt}
+    class="markdown-image"
+  />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style lang="scss">
+  figure {
+    margin: 0 0 1.5rem;
+
+    :global(img) {
+      display: block;
+      border: 1px solid #ebebeb;
+      border-radius: 12px;
+    }
+  }
+
+  figcaption {
+    margin-top: 16px;
+    color: #666;
+    font-size: max(0.7em, 13px);
+    font-style: normal;
+    font-weight: inherit;
+    line-height: 1.4;
+    text-align: center;
+  }
+</style>
