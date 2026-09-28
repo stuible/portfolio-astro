@@ -41,18 +41,23 @@ type SpotifyItem = {
   track?: SpotifyTrackObject | null;
 };
 
-type SpotifyPage = { items: SpotifyItem[]; next: string | null };
+// Covers both playlist read shapes: a `fields=total` count response and a tail-fetch items response.
+type SpotifyPage = { items?: SpotifyItem[]; total?: number };
 
-const PLAYLIST_PAGE_SIZE = 50;
-const MAX_PLAYLIST_PAGES = 20;
+// The playlist is chronological with newest at the bottom, so the most recently
+// added tracks sit in the tail. Fetching only the tail keeps the build to two
+// requests instead of paging the whole list (which tripped Spotify's rate limits).
+const PLAYLIST_TAIL_SIZE = 10;
 
-// `astro dev` re-executes component frontmatter on every page request and HMR
-// update, so without a cache every refresh would walk the whole playlist (up
-// to 20 requests) and hit the GitHub search API again, quickly tripping their
-// rate limits and baking the failure in as empty data. Keep a short-lived
-// in-memory cache of successful results in dev only; production calls each
-// function once per build and skips the cache entirely. Failures (429s, 5xx)
-// are never cached, so the next dev request retries.
+// Spotify intermittently answers 429/5xx, which would otherwise bake an empty
+// track list into a production build. A few short retries ride out the blip.
+const SPOTIFY_RETRY_ATTEMPTS = 3;
+const SPOTIFY_RETRY_BASE_DELAY_MS = 1000;
+const SPOTIFY_RETRY_MAX_DELAY_MS = 4000;
+
+// Dev-only cache: `astro dev` re-runs frontmatter on every request, which would
+// re-hit the GitHub/Spotify APIs and trip their rate limits. Production calls
+// each function once per build and skips the cache.
 const DEV_CACHE_TTL_MS = 5 * 60 * 1000;
 
 type DevCacheEntry = { value: unknown; expiresAt: number };
@@ -68,8 +73,7 @@ async function withDevCache<T>(key: string, compute: () => Promise<T>): Promise<
     devCache.delete(key);
   }
 
-  // Cache only once the compute resolves; a rejection propagates to the
-  // caller's error handling without being cached.
+  // Cache only successes; rejections propagate without being cached.
   const value = await compute();
   devCache.set(key, { value, expiresAt: Date.now() + DEV_CACHE_TTL_MS });
   return value;
@@ -116,9 +120,8 @@ export async function getLatestCommit(owner: string): Promise<GitCommit | undefi
   });
 }
 
-// Accepts a bare id, a share URL, or the `spotify:playlist:<id>` URI that the
-// "Copy Spotify URI" menu item yields. Anything else is reported rather than
-// passed through to build an URL that can only 404.
+// Accepts a bare id, a share URL, or a `spotify:playlist:` URI; anything else
+// is reported rather than passed through to build an URL that can only 404.
 function getPlaylistId(value: string | undefined) {
   if (!value) return undefined;
 
@@ -158,42 +161,64 @@ async function getSpotifyAccessToken() {
   return ((await response.json()) as { access_token: string }).access_token;
 }
 
+// Retries 429/5xx up to three attempts, honoring Spotify's `Retry-After` when
+// present and backing off exponentially otherwise (capped). `context` labels
+// the thrown error so logs say which request failed.
+async function fetchSpotifyWithRetry(
+  url: string,
+  init: RequestInit,
+  context: string,
+): Promise<Response> {
+  for (let attempt = 1; ; attempt += 1) {
+    const response = await fetch(url, init);
+    const retryable = response.status === 429 || response.status >= 500;
+    if (response.ok || !retryable || attempt >= SPOTIFY_RETRY_ATTEMPTS) {
+      if (!response.ok) throw new Error(`Spotify responded with ${response.status} ${context}`);
+      return response;
+    }
+
+    const backoffMs = SPOTIFY_RETRY_BASE_DELAY_MS * 2 ** (attempt - 1);
+    const retryAfter = response.headers.get("Retry-After");
+    const retryAfterSeconds = retryAfter === null ? NaN : Number(retryAfter);
+    const delayMs = Math.min(
+      Number.isFinite(retryAfterSeconds) && retryAfterSeconds >= 0
+        ? retryAfterSeconds * 1000
+        : backoffMs,
+      SPOTIFY_RETRY_MAX_DELAY_MS,
+    );
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+}
+
 export async function getLatestPlaylistTracks(): Promise<SpotifyTrack[]> {
   const playlistId = getPlaylistId(import.meta.env.SPOTIFY_PLAYLIST_ID);
-  // A missing playlist id or missing credentials resolve to an empty list that
-  // is cached like any other success, so a misconfiguration does not
-  // re-attempt the API on every dev request.
+  // A missing id or credentials resolve to an empty list that is cached like
+  // any success, so a misconfiguration does not re-attempt the API every dev request.
   return withDevCache(`spotify-playlist-tracks:${playlistId ?? "(missing)"}`, async () => {
     if (!playlistId) return [];
 
     const accessToken = await getSpotifyAccessToken();
     if (!accessToken) return [];
 
-    const fields = "items(added_at,item(type,name,artists(name),external_urls.spotify,album(images(url))),track(type,name,artists(name),external_urls.spotify,album(images(url)))),next";
-    let next: string | null = `https://api.spotify.com/v1/playlists/${playlistId}/items?market=CA&limit=${PLAYLIST_PAGE_SIZE}&fields=${encodeURIComponent(fields)}`;
-    const playlistItems: SpotifyItem[] = [];
+    const headers = { headers: { Authorization: `Bearer ${accessToken}` } };
 
-    // Playlist order is not add order, so every page has to be read before the
-    // three most recently added tracks are known. Cap the walk so a very large
-    // playlist cannot turn a build into hundreds of serial round trips.
-    for (let page = 0; next && page < MAX_PLAYLIST_PAGES; page += 1) {
-      const response = await fetch(next, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      if (!response.ok) throw new Error(`Spotify responded with ${response.status}`);
+    const totalResponse = await fetchSpotifyWithRetry(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?fields=total&limit=1`,
+      headers,
+      "while reading the playlist length",
+    );
+    const { total } = (await totalResponse.json()) as SpotifyPage;
+    if (!total) return [];
 
-      const body = (await response.json()) as SpotifyPage;
-      playlistItems.push(...body.items);
-      next = body.next;
-    }
+    const fields = "items(added_at,item(type,name,artists(name),external_urls.spotify,album(images(url))),track(type,name,artists(name),external_urls.spotify,album(images(url))))";
+    const tailResponse = await fetchSpotifyWithRetry(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?market=CA&limit=${PLAYLIST_TAIL_SIZE}&offset=${Math.max(0, total - PLAYLIST_TAIL_SIZE)}&fields=${encodeURIComponent(fields)}`,
+      headers,
+      `while reading the last ${PLAYLIST_TAIL_SIZE} tracks of the playlist`,
+    );
+    const tail = (await tailResponse.json()) as SpotifyPage;
 
-    if (next) {
-      console.warn(
-        `Stopped reading the Spotify playlist after ${MAX_PLAYLIST_PAGES * PLAYLIST_PAGE_SIZE} tracks; "on repeat" may miss a more recent addition.`,
-      );
-    }
-
-    return playlistItems
+    return (tail.items ?? [])
       .filter((entry) => entry.added_at && (entry.item ?? entry.track)?.type === "track")
       .sort((a, b) => Date.parse(b.added_at!) - Date.parse(a.added_at!))
       .slice(0, 3)
