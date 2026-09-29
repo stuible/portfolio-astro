@@ -8,7 +8,7 @@ const spinPerPixel = 0.25;
 const maxSpinSpeed = 40;
 const friction = 0.86;
 const snapFrequency = 0.18;
-const snapDelay = 120;
+const snapDelay = 20;
 const glideReach = 0.5;
 // Pixels from the top or bottom that still count as being at the edge
 const edgeTolerance = 25;
