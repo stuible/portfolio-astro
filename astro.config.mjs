@@ -10,6 +10,7 @@ import vue from "@astrojs/vue";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import behead from 'remark-behead';
+import { unified } from "@astrojs/markdown-remark";
 import icon from "astro-icon";
 
 
@@ -38,6 +39,9 @@ export default defineConfig({
   build: {
     inlineStylesheets: "always",
   },
+  // Astro 7 defaults to JSX whitespace rules, which drop the spaces around
+  // inline elements (e.g. "by <a>Josh Stuible</a> in Vancouver")
+  compressHTML: true,
   integrations: [
     vue(),
     mdx(),
@@ -48,8 +52,10 @@ export default defineConfig({
     icon({ iconDir: "src/assets/icons" }),
   ],
   markdown: {
-    remarkPlugins: [[behead, {
-      depth: 1
-    }]]
+    processor: unified({
+      remarkPlugins: [[behead, {
+        depth: 1
+      }]]
+    })
   }
 });

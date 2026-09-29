@@ -97,7 +97,12 @@ async function loadStoryHtml() {
     logLevel: "error",
     server: { middlewareMode: true, hmr: false, watch: null },
   })({ command: "serve", mode: "development" });
-  const vite = await createServer({ ...config, configFile: false });
+  // astro:server boots the dev request handler in the background and logs an
+  // error if the server closes first; nothing here serves requests, so drop it
+  const plugins = (config.plugins ?? [])
+    .flat(Infinity)
+    .filter((x) => !(x && typeof x === "object" && "name" in x && x.name === "astro:server"));
+  const vite = await createServer({ ...config, plugins, configFile: false });
   const [{ experimental_AstroContainer }, { default: Story }] = await Promise.all([
     vite.ssrLoadModule("astro/container") as Promise<typeof import("astro/container")>,
     vite.ssrLoadModule(fromRoot("src/components/social/Story.astro")),
