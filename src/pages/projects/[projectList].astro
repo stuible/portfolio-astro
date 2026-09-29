@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 
 import Layout from "~/layouts/Layout.astro";
 
@@ -8,7 +8,7 @@ import ProjectsGrid from "~/components/project/ProjectsGrid.astro";
 export async function getStaticPaths() {
   const projectLists = await getCollection("project-lists");
 
-  return projectLists.map((x) => ({ params: { projectList: x.slug } }));
+  return projectLists.map((x) => ({ params: { projectList: x.id } }));
 }
 
 const { projectList: projectListSlug } = Astro.params;
@@ -20,7 +20,7 @@ if (!projectListEntry) {
 const allProjects = await getCollection("projects");
 
 const projects = projectListEntry.data.projects.map((projectSlug) => {
-  const project = allProjects.find((x) => x.slug === projectSlug);
+  const project = allProjects.find((x) => x.id === projectSlug);
   if (!project) {
     throw new Error(`Project list "${projectListSlug}" references unknown project "${projectSlug}"`);
   }
@@ -30,7 +30,7 @@ const projects = projectListEntry.data.projects.map((projectSlug) => {
   return project;
 });
 
-const { Content } = await projectListEntry.render();
+const { Content } = await render(projectListEntry);
 ---
 
 <Layout

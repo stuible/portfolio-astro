@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 
 import Layout from "~/layouts/Layout.astro";
 
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
   return data.enabled;
 });
 
-  return projects.map((x) => ({ params: { project: x.slug } }));
+  return projects.map((x) => ({ params: { project: x.id } }));
 }
 
 const { project: projectSlug } = Astro.params;
@@ -24,10 +24,10 @@ const project = await getEntry("projects", projectSlug);
 
 const techWithIcons = await getTechBySlugs(project.data.tags);
 
-const { Content } = await project.render();
+const { Content } = await render(project);
 ---
 
-<Layout title={project.data.title} ogImage={`${import.meta.env.SITE_URL}/open-graph/projects/${project.slug}.png`} description={project.data.subtitle}>
+<Layout title={project.data.title} ogImage={`${import.meta.env.SITE_URL}/open-graph/projects/${project.id}.png`} description={project.data.subtitle}>
   <article class="project">
     <header>
       <p class="when">{project.data.when}</p>

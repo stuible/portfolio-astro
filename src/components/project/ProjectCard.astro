@@ -13,7 +13,7 @@ const { project } = Astro.props;
 const techWithIcons = await getTechBySlugs(project.data.tags);
 ---
 
-<BaseCard class="project-card" href={`/project/${project.slug}`}>
+<BaseCard class="project-card" href={`/project/${project.id}`}>
   <div class="title">{project.data.title}</div>
   <div class="subtitle">{project.data.subtitle}</div>
   <ul class="tags">
