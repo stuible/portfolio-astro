@@ -70,7 +70,7 @@ function refreshMarkers() {
     iconMarkers = Array.from(document.querySelectorAll<HTMLElement>('.has-icon'));
 }
 
-// The media-hydrated sidebar can mount before the HTML parser reaches the
+// The sidebar can hydrate before the HTML parser reaches the
 // homepage sections, so keep re-querying until the document has finished
 // parsing rather than on every scroll frame.
 function ensureMarkers() {
