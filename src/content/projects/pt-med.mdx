@@ -175,7 +175,7 @@ Community physios often work with a poor signal, so PT Med installs as a <Term d
 
 ## One search engine, two places
 
-The catalogue is only a few hundred drugs, so rather than run a separate search service, I built a single search engine using MiniSearch that could be run on the server and the client. The Nuxt server runs it for web users, and the installed app runs the same code on the device, so results are identical online and offline.
+The catalogue is only a few hundred drugs, so rather than run a separate search service, I built a single search engine using [MiniSearch](https://lucaong.github.io/minisearch/) that could be run on the server and the client. The Nuxt server runs it for web users, and the installed app runs the same code on the device, so results are identical online and offline.
 
 I wanted to develop search ranking logic that felt intuitive. I chose closeness of match over MiniSearch's built-in scoring, which tended to favour drugs with short entries. Matches with fewer typos score higher, as do matches on a drug's name over its trade names or drug class. A result's score is the sum across the words in the query. Ties go first to the result physios have picked most often in the last 90 days, then alphabetically.
 
