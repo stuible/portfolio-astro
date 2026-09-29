@@ -1,9 +1,9 @@
 <template>
     <a href="/#" aria-label="Home">
 
-        <div class="icon" ref="icon">
+        <div class="icon" :class="{ reverse: reverseSwap }" ref="icon">
             <transition name="spin-fade" @enter-cancelled="onEnterCancel" @leave-cancelled="">
-                <img v-if="currentIcon == 'logo'" src="/logo-sideways.svg" alt="" />
+                <img v-if="currentIcon == 'logo'" ref="logo" src="/logo-sideways.svg" alt="" />
                 <NowClock v-else-if="currentIcon == 'now'" class="now-clock" />
                 <img v-else-if="currentIcon == 'skills'" src="/code.svg" alt="" />
                 <img v-else-if="currentIcon == 'tech'" src="/hammer.svg" alt="" />
@@ -19,11 +19,16 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, shallowRef } from 'vue';
 import NowClock from './NowClock.vue';
+import { useScrollSpin } from '~/composables/useScrollSpin';
 
 type SidebarIcon = 'logo' | 'now' | 'skills' | 'tech' | 'work' | 'projects' | 'project';
 
 const currentIcon = shallowRef<SidebarIcon>('logo');
 const icon = shallowRef<HTMLElement | null>(null);
+const logo = shallowRef<HTMLElement | null>(null);
+// Swap icons counterclockwise when scrolling up
+const reverseSwap = shallowRef(false);
+let lastSwapScrollY = 0;
 const iconPaths = ['/logo-sideways.svg', '/code.svg', '/hammer.svg'];
 const validIcons = new Set<SidebarIcon>([
     'logo',
@@ -39,6 +44,8 @@ const markerOffset = -25;
 let iconMarkers: HTMLElement[] = [];
 let animationFrame: number | undefined;
 let iconsPreloaded = false;
+
+useScrollSpin(logo, () => currentIcon.value === 'logo');
 
 function onEnterCancel(event: Element) {
     event.classList.add('cancelled');
@@ -85,10 +92,13 @@ function updateSidebarIcon() {
         activeMarker = marker;
     }
 
+    const scrollY = window.scrollY;
     const nextIcon = activeMarker?.dataset.icon as SidebarIcon | undefined;
     if (nextIcon && validIcons.has(nextIcon) && nextIcon !== currentIcon.value) {
+        reverseSwap.value = scrollY < lastSwapScrollY;
         currentIcon.value = nextIcon;
     }
+    lastSwapScrollY = scrollY;
 }
 
 function scheduleIconUpdate() {
@@ -173,6 +183,10 @@ onBeforeUnmount(() => {
 .spin-fade-enter-from {
     opacity: 0;
     transform: rotate(-180deg);
+
+    .reverse > & {
+        transform: rotate(180deg);
+    }
     position: absolute;
     top: 0;
     left: 0;
@@ -184,6 +198,10 @@ onBeforeUnmount(() => {
 .spin-fade-leave-to {
     opacity: 0;
     transform: rotate(180deg);
+
+    .reverse > & {
+        transform: rotate(-180deg);
+    }
     position: absolute;
     top: 0;
     left: 0;
