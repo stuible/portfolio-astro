@@ -3,6 +3,7 @@ title: Emergency Department Wait Times
 when: Spring 2024
 link: https://edwaittimes.ca
 subtitle: How I modernized a website to help patients find the right hospital faster
+tldr: Emergency Department Wait Times helps patients find the right urgent care quickly. I rebuilt the 2012 site with Next.js and Keystone CMS, cutting load times by 70% and letting administrators update content without a developer.
 tags:
   - next
   - react
@@ -20,39 +21,44 @@ stack:
       - name: tailwind
 ---
 
-import ProjectImage from "~/components/project/ProjectImage.astro";
 import original from "~/assets/images/projects/edwt/original.png";
 
 # Background
 
 Emergency Department Wait Times is a website that helps patients find the right urgent care quickly. It was originally built in 2012 and was in need of an update for the modern web.
 
+<Figure
+  src={original}
+  alt="The original ED Wait Times site: a table of hospitals with their current wait time, expected length of stay and status"
+  caption="The original website"
+/>
+
 # Discovery
 
 During the initial discovery phase, we identified several issues with the existing site:
 
-## Lack of CMS
-Content changes required manual edits to static HTML files, increasing turn-around time and risk of errors during updates.
-
-## Non-responsive design
-The site performed poorly on mobile devices, where most users were likely accessing it during emergencies.
-
-## Performance bottlenecks
-The site load times were very slow at almost 10 seconds, leading to high bounce rates.
-
-# Original Website
-<ProjectImage
-  src={original}
-  alt="The original ED Wait Times site: a table of hospitals with their current wait time, expected length of stay and status"
-/>
+<Cards>
+  <Card icon="file-code" title="No CMS">
+    Content changes required manual edits to static HTML files, increasing
+    turn-around time and the risk of errors during updates.
+  </Card>
+  <Card icon="smartphone" title="Not responsive">
+    The site performed poorly on mobile devices, where most users were likely
+    accessing it during emergencies.
+  </Card>
+  <Card icon="hourglass" title="Slow to load">
+    Pages took almost 10 seconds to load, leading to high bounce rates.
+  </Card>
+</Cards>
 
 # Objectives
 
-1. Modernize the user experience
-2. Improve the performance of the website
-3. Make it easier to maintain and update the website's content
+1. **Modernize the user experience,** especially on mobile.
+2. **Improve the performance** of the website.
+3. **Make content easier to maintain** and update.
 
 # Process
+
 To achieve these objectives, I selected a modern tech stack that balances performance, maintainability, and scalability.
 
 ## Choosing Next.js
@@ -75,14 +81,17 @@ Tailwind CSS allowed for rapid UI development while maintaining a clean and cons
 
 The project was deployed on Azure to leverage its scalable infrastructure, ensuring the site remains performant even during traffic spikes.
 
-
 # Results
 
-## Faster load times
-Page load time improved by 70%, ensuring that even during peak traffic, patients can access information quickly.
-
-## Easier content management
-Content administrators can now update content in minutes using the CMS, rather than needing developer intervention.
-
-## Responsive design
-The mobile-friendly interface now accounts for almost 80% of all traffic.
+<Cards>
+  <Card value="70%" title="Faster load times">
+    Patients can get information quickly, even during peak traffic.
+  </Card>
+  <Card value="~80%" title="Mobile first">
+    Most visitors now reach the site through its mobile-friendly interface.
+  </Card>
+  <Card value="100%" title="Self-serve content">
+    Content administrators can now update content in minutes using the CMS,
+    rather than needing developer intervention.
+  </Card>
+</Cards>

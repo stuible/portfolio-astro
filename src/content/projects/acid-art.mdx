@@ -3,6 +3,7 @@ title: Acid Art
 when: Summer 2020
 link: https://acidbyjohn.com/
 subtitle: How I developed a fast e-commerce website for a boutique clothing brand
+tldr: ACiD is a streetwear brand founded by visual artist John. We moved its store off Wix onto a custom Nuxt and Snipcart site that puts the products first and costs 20% as much to run.
 tags:
   - nuxt
   - vue
@@ -20,7 +21,6 @@ stack:
       - name: snipcart
 ---
 
-import ProjectImage from "~/components/project/ProjectImage.astro";
 import productPage from "~/assets/images/projects/product-page.jpg";
 
 # Background
@@ -31,26 +31,38 @@ John is a visual artist, fashion designer, and founder of the streetwear brand A
 
 John approached us with a desire to overhaul the ACiD e-commerce website. Our initial meetings revealed that he wanted the experience to be more in line with other streetwear brands. A survey of key precedents led us to prioritize speed, simplicity, and clear navigation.
 
-The original website's shopping & checkout flow was slow & difficult to navigate for users. The inconsistent design elements made it hard to use, especially on mobile. All this was for a monthly operational cost that was hurting John's bottom line.
+<Cards>
+  <Card icon="shopping-cart" title="Clunky checkout">
+    The original shopping and checkout flow was slow and difficult to navigate.
+  </Card>
+  <Card icon="smartphone" title="Inconsistent design">
+    Inconsistent design elements made the site hard to use, especially on
+    mobile.
+  </Card>
+  <Card icon="wallet" title="Costly to run">
+    The monthly operating cost was hurting John's bottom line.
+  </Card>
+</Cards>
 
 # Objectives
 
-1. Allow the products to shine with clear navigation and information hierarchy
-2. Implement an industry-standard shopping and checkout experience that minimizes cognitive load on the user
-3. Reduce monthly operating costs and move to a more flexible platform
+1. **Let the products shine** with clear navigation and information hierarchy.
+2. **Implement an industry-standard shopping and checkout experience** that minimizes cognitive load on the user.
+3. **Reduce monthly operating costs** and move to a more flexible platform.
 
 # Process
 
-<ProjectImage
+<Figure
   src={productPage}
   alt="ACiD product page for the Spiked Air Force 1, showing the shoe, size options, price and an Add to Bag button"
+  caption="A product page, with the product front and centre"
 />
 
 ACiD's products have a very strong identity, so we developed a design system of typography and UI that would accent this. We opted for clean stencil (Mono Spec) and sans serif (Manrope) fonts to appear modern while staying true to John's streetwear aesthetic.
 
 Clear navigation hierarchy reduces the number of clicks users need to make to hop between pages. Using a flexible grid system means the website functions flawlessly on both mobile and desktop.
 
-Switching from WIX e-commerce to a custom JAMstack solution using Snipcart allowed for a lightweight back-end with complete flexibility in designing the front-end. This resulted in a faster, and more user-friendly website at 20% of the operating cost.
+Switching from WIX e-commerce to a custom <Term def="A way of building websites from pre-rendered pages, JavaScript, and third-party APIs, rather than a traditional server-rendered platform.">JAMstack</Term> solution using Snipcart allowed for a lightweight back-end with complete flexibility in designing the front-end. This resulted in a faster, and more user-friendly website at 20% of the operating cost.
 
 # Results
 

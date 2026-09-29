@@ -15,12 +15,72 @@ Nurses that work on and around the Downtown Eastside (DTES) are typically taken 
 
 # Goals
 
-People who use substances living on the DTES are often stigmatized and labeled with negative stereotypes, including within the healthcare system. The goal of the project is to help decrease stigma in healthcare, enhance providers’ understanding of the community and build healthcare providers’ skills and confidence working with clients who use substances through a virtual tour.
+People who use substances living on the DTES are often stigmatized and labeled with negative stereotypes, including within the healthcare system. Through a virtual tour, the project aims to:
+
+1. **Decrease stigma** in healthcare.
+2. **Enhance providers' understanding** of the community.
+3. **Build healthcare providers' skills and confidence** working with clients who use substances.
 
 # Role
 
-As the sole developer on this project, I had the opportunity to work closely with a talented team consisting of an Instructional Designer / Project Manager and a Designer. Taking the lead on front-end development, I utilized [Vue.js](https://vuejs.org/) and [Plyr](https://plyr.io/) to implement a dynamic, single-page application, that features full-bleed video interviews and an interactive, dynamically generated map.
+As the sole developer on this project, I had the opportunity to work closely with a talented team consisting of an Instructional Designer / Project Manager and a Designer. Taking the lead on front-end development, I utilized [Vue.js](https://vuejs.org/) and [Plyr](https://plyr.io/) to implement a dynamic, <Term def="A website that loads once and then updates in place as you move around, instead of loading a new page for every click.">single-page application</Term> that features full-bleed video interviews and an interactive, dynamically generated map.
 
-{/* # Challenges */}
+# The Experience
 
-{/* # Insights */}
+Resisting Stigma is a self-paced course for VCH staff, split into two parts:
+
+<Cards cols={2}>
+  <Card icon="graduation-cap" title="Learn">
+    An interactive module that introduces stigma in the context of the overdose
+    crisis. Learners answer questions as they go and explore interactive
+    panels, like a timeline of the crisis and overdose statistics.
+  </Card>
+  <Card icon="map" title="Tour">
+    An interactive documentary. Learners choose locations on an illustrated map
+    and watch video interviews with the peers and services found there. The map
+    tracks which locations they've visited.
+  </Card>
+</Cards>
+
+The tour closes with reflection questions about the learner's own practice, then sends them to LearningHub, VCH's learning platform, to share feedback and complete the course.
+
+# Development
+
+I chose to statically generate the site with Nuxt.js. Every page is plain HTML, so it loads quickly and is simple to host on our own server.
+
+## Video that plays everywhere
+
+The tour is built around full-bleed video interviews, so playback had to be solid. I stream each video using <Term def="HTTP Live Streaming: video is split into small chunks at several quality levels, and the player switches between them to match the viewer's connection.">HLS</Term> from a CDN, so it starts quickly and adapts to the viewer's connection. Every video also has subtitles.
+
+Getting video to play reliably on every device staff might use took some extra work:
+
+- **Streaming with a fallback.** Not every browser supports HLS, so the player checks first and falls back to a regular MP4 when it can't stream.
+- **Blocked autoplay.** Browsers often refuse to start a video on their own. Rather than leave learners on a frozen frame, I show a play button when that happens.
+- **Preloaded posters.** I load each video's poster image on the page before it, so the next interview appears right away.
+
+## Progress that follows the learner
+
+The course doesn't have to be finished in one sitting, so I save tour progress in a cookie. When learners come back, the map remembers which locations they've visited, and it resets once they complete the course. Since pages are pre-built without knowing anyone's progress, I render anything that depends on it in the browser instead.
+
+## Expanding the tour
+
+In 2022, we expanded the tour to include community services beyond the DTES. To make room for more than one map, I restructured the tour around regions and split the map into shared components. Then I added a second, Coastal map covering Richmond, the North Shore, Squamish, the Sunshine Coast, and Powell River. Learners now choose a region first, and the land acknowledgement changes to match the region they're exploring.
+
+# Results
+
+<Cards>
+  <Card icon="clapperboard" value="30" title="Video interviews">
+    11 peers and 19 community services share their stories, all streamed and
+    subtitled.
+  </Card>
+  <Card icon="map" value="6" title="Communities">
+    The tour grew from the DTES to Richmond, the North Shore, Squamish, the
+    Sunshine Coast, and Powell River.
+  </Card>
+  <Card icon="clock" value="~2 hrs" title="Of first-hand stories">
+    Nearly two hours of interviews with the people who live and work in these
+    communities.
+  </Card>
+</Cards>
+
+With Resisting Stigma, VCH staff can get to know the DTES through the people who live and work there, without needing an in-person tour. The idea came straight from the community: peers in VCH's Street Degree program wanted to share their experiences of stigma with healthcare providers, and this site gives them a way to do that.

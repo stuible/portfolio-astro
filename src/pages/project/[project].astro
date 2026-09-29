@@ -5,6 +5,7 @@ import Layout from "~/layouts/Layout.astro";
 
 import LinkButton from "~/components/global/LinkButton.astro";
 import TLDR from "~/components/project/TLDR.astro";
+import { writeupComponents } from "~/components/project/writeup";
 
 import globe from "~/assets/icons/globe.svg";
 import IconPill from "~/components/global/IconPill.vue";
@@ -71,7 +72,7 @@ const { Content } = await render(project);
     </header>
 
     <section class="content">
-      <Content />
+      <Content components={writeupComponents} />
     </section>
   </article>
 </Layout>

@@ -9,11 +9,9 @@ tags:
   - electron
 ---
 
-import { Image, Picture } from "astro:assets";
-
 # Background
 
-In a 4th year SIAT course, we were tasked with creating a tool that would “help people be creative”. We decided to create a glitch art creation tool. This tool works by running images through audio effects, creating unique and surrealist distortions.
+In a 4th year SIAT course, we were tasked with creating a tool that would “help people be creative”. We decided to create a glitch art creation tool. This tool works by running images through audio effects, a technique known as <Term def="Opening a file as if it were a different kind of data, such as treating an image as sound, and editing it that way to create glitches.">databending</Term>, creating unique and surrealist distortions.
 
 # Design
 
@@ -25,4 +23,4 @@ I opted to use Electron so I could bring my current web development skills to th
 
 # Challenges
 
-The biggest challenge was with the technical implementation of the glitch effects. Surprising as it may be, audio effects libraries are not designed to process images so converting compressed images into raw image data that could then be converted into PCM sound data was a fun challenge that involved a combination of external libraries and type conversion.
+The biggest challenge was with the technical implementation of the glitch effects. Surprising as it may be, audio effects libraries are not designed to process images so converting compressed images into raw image data that could then be converted into <Term def="Pulse-code modulation: the raw, uncompressed form of digital audio, stored as a sequence of amplitude samples.">PCM</Term> sound data was a fun challenge that involved a combination of external libraries and type conversion.

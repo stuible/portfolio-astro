@@ -30,6 +30,71 @@ I was tasked with the development and implementation of a geolocation-based tria
 
 # Challenges
 
-Each catchment area was presented to us as a list of complicated rules. This list was very much designed for a human to triage patients over the phone rather than something that could be used programmatically by an algorithm. To solve this, I converted the catchment area rules to a set of coordinate polygons that would represent the boundaries of each catchment area. With this set of polygons, I then transform the user's address to coordinates using the Mapbox Geocoding API and determine which catchment area it falls into using [a small library](https://www.npmjs.com/package/point-in-polygon-hao) which does a great job of implementing this [point-in-polygon algorithm](https://www.researchgate.net/publication/328261365_Optimal_Reliable_Point-in-Polygon_Test_and_Differential_Coding_Boolean_Operations_on_Polygons).
+Each <Term def="The geographic area a clinic is responsible for. Patients are served by the clinic whose area they live in.">catchment area</Term> was presented to us as a list of complicated rules. This list was very much designed for a human to triage patients over the phone rather than something that could be used programmatically by an algorithm. To solve this, I turned triage into three steps:
 
-{/* # Insights */}
+<Cards>
+  <Card icon="pen-tool" title="Map boundaries">
+    I converted the catchment area rules to a set of coordinate polygons
+    representing the boundaries of each catchment area.
+  </Card>
+  <Card icon="map-pin" title="Geocoding">
+    The Mapbox Geocoding API transforms the patient's address into map
+    coordinates.
+  </Card>
+  {/* prettier-ignore */}
+  <Card icon="locate-fixed" title="Point in polygon">
+    [A small library](https://www.npmjs.com/package/point-in-polygon-hao) implementing a [point-in-polygon algorithm](https://www.researchgate.net/publication/328261365_Optimal_Reliable_Point-in-Polygon_Test_and_Differential_Coding_Boolean_Operations_on_Polygons) determines which catchment area the address falls into.
+  </Card>
+</Cards>
+
+# Becoming the VCH Service Finder
+
+The first version of the clinic finder launched in Spring 2023 as a Vue app on a standalone Craft CMS website. The catchment polygons and clinic details lived in the app's code, so any change to a clinic or boundary needed a developer.
+
+In 2024, I rebuilt the triage tool as a reusable Service Finder module for the Drupal-based vch.ca. Rather than hard-coding the CYMHSU clinics, I made every part of a finder configurable in Drupal, so editors can define the search areas, results, and settings themselves.
+
+<Cards cols={2}>
+  <Card icon="blocks" title="Configurable">
+    Search areas, results, map settings, and copy all come from Drupal content
+    types, so editors can set up a new finder without a developer.
+  </Card>
+  <Card icon="search" title="Address autocomplete">
+    I switched to the Google Maps Places API, so patients get address
+    suggestions as they type. The address they pick is then geocoded into
+    coordinates.
+  </Card>
+  <Card icon="list-filter" title="Filters">
+    Editors can tag results with categories that patients filter by. The map
+    only shows locations that match the filters.
+  </Card>
+  <Card icon="list-ordered" title="Triage mode">
+    For intake flows like CYMHSU's, the finder walks patients through numbered
+    steps. Results only appear once their location and every filter are set.
+  </Card>
+</Cards>
+
+I also save filter state in the URL, so staff can share links to a finder that's already filtered. Logged-in editors get a generator for these links.
+
+## Getting location exactly right
+
+Matching an address to the wrong catchment area sends a patient to the wrong clinic, so most of my problem solving went into the edge cases:
+
+1. **Overlapping areas.** Some search areas are broad fallbacks, like a whole region, that sit underneath specific catchments. When an address falls in both, I let the specific catchment win, so patients see the clinic that actually serves them, while anyone outside every specific catchment still gets a result.
+2. **Full addresses.** A catchment boundary can run right through a city, so a city name isn't enough to pick one clinic. Finders can now require a full property address. Surprisingly, Google's address filter still suggests streets without a house number, so I check each suggestion, then check the chosen place for a street number or a named building, since many rural addresses don't have a number.
+3. **One location across finders.** A patient's location is remembered for a day and shared by every finder on vch.ca, so they don't have to type it in again. A finder that requires a full address ignores a city-level location saved by another finder.
+
+# Results
+
+<Cards>
+  <Card icon="map-pin-check" title="Catchment-aware">
+    New patients are matched to the clinic for their catchment area, then sent
+    straight to its intake form.
+  </Card>
+
+  <Card icon="file-pen-line" title="Drupal-backed">
+    VCH's content team creates and updates finders in Drupal themselves.
+  </Card>
+  <Card icon="copy" title="Modular">
+    What started as one triage tool now powers every Service Finder on vch.ca.
+  </Card>
+</Cards>
