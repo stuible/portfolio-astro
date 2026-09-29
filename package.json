@@ -25,7 +25,8 @@
     "remark-behead": "^3.1.0",
     "sass": "^1.105.0",
     "sharp": "^0.35.5",
-    "vue": "^3.5.43"
+    "vue": "^3.5.43",
+    "wheel-gestures": "^2.3.0"
   },
   "devDependencies": {
     "get-image-colors": "^4.0.1",
