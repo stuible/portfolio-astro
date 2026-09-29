@@ -19,7 +19,9 @@ const fullDateFormatter = new Intl.DateTimeFormat("en-CA", {
 
 // Date-only strings are calendar dates, not instants: parsing "2026-09-01" as
 // UTC midnight and rendering it in Vancouver would report the previous day.
-export const calendarParts = (date: string | Date): [number, number, number] => {
+export const calendarParts = (
+  date: string | Date
+): [number, number, number] => {
   if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
     const [year, month, day] = date.split("-").map(Number);
     return [year, month, day];

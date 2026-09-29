@@ -9,24 +9,20 @@ const { nodes } = Astro.props;
 ---
 
 <div>
-  {
-    nodes.map((child) => (
-      <li class={child.children ? 'class="last"' : ""}>
-        {child.url ? (
-          <a href={child.url} target="_blank">
-            {child.name}
-          </a>
-        ) : (
-          <span>{child.name}</span>
-        )}
-        {child.children ? (
-          <ul>
-            <Astro.self nodes={child.children} />
-          </ul>
-        ) : (
-          ""
-        )}
-      </li>
-    ))
-  }
+  {nodes.map((child) => <li class={child.children ? 'class="last"' : ""}>
+    {child.url ? (
+      <a href={child.url} target="_blank">
+        {child.name}
+      </a>
+    ) : (
+      <span>{child.name}</span>
+    )}
+    {child.children ? (
+      <ul>
+        <Astro.self nodes={child.children} />
+      </ul>
+    ) : (
+      ""
+    )}
+  </li>)}
 </div>

@@ -18,12 +18,14 @@
 // }
 
 @font-face {
-    font-family: "Graphik";
-    src: local("Graphik Medium"), local("Graphik-Medium"),
-        url("~/assets/fonts/graphik/Graphik-Medium.woff2") format("woff2"),
-        url("~/assets/fonts/graphik/Graphik-Medium.woff") format("woff");
-    font-weight: 500;
-    font-style: normal;
+  font-family: "Graphik";
+  src:
+    local("Graphik Medium"),
+    local("Graphik-Medium"),
+    url("~/assets/fonts/graphik/Graphik-Medium.woff2") format("woff2"),
+    url("~/assets/fonts/graphik/Graphik-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
 }
 
 // @font-face {
@@ -36,12 +38,14 @@
 // }
 
 @font-face {
-    font-family: "Graphik";
-    src: local("Graphik Semibold"), local("Graphik-Semibold"),
-        url("~/assets/fonts/graphik/Graphik-Semibold.woff2") format("woff2"),
-        url("~/assets/fonts/graphik/Graphik-Semibold.woff") format("woff");
-    font-weight: 600;
-    font-style: normal;
+  font-family: "Graphik";
+  src:
+    local("Graphik Semibold"),
+    local("Graphik-Semibold"),
+    url("~/assets/fonts/graphik/Graphik-Semibold.woff2") format("woff2"),
+    url("~/assets/fonts/graphik/Graphik-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
 }
 
 // @font-face {
@@ -72,29 +76,36 @@
 // }
 
 @font-face {
-    font-family: "Graphik";
-    src: local("Graphik Light"), local("Graphik-Light"),
-        url("~/assets/fonts/graphik/Graphik-Light.woff2") format("woff2"),
-        url("~/assets/fonts/graphik/Graphik-Light.woff") format("woff");
-    font-weight: 300;
-    font-style: normal;
+  font-family: "Graphik";
+  src:
+    local("Graphik Light"),
+    local("Graphik-Light"),
+    url("~/assets/fonts/graphik/Graphik-Light.woff2") format("woff2"),
+    url("~/assets/fonts/graphik/Graphik-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "Graphik";
-    src: local("Graphik Bold"), local("Graphik-Bold"), url("~/assets/fonts/graphik/Graphik-Bold.woff2") format("woff2"),
-        url("~/assets/fonts/graphik/Graphik-Bold.woff") format("woff");
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Graphik";
+  src:
+    local("Graphik Bold"),
+    local("Graphik-Bold"),
+    url("~/assets/fonts/graphik/Graphik-Bold.woff2") format("woff2"),
+    url("~/assets/fonts/graphik/Graphik-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "Graphik";
-    src: local("Graphik Regular"), local("Graphik-Regular"),
-        url("~/assets/fonts/graphik/Graphik-Regular.woff2") format("woff2"),
-        url("~/assets/fonts/graphik/Graphik-Regular.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Graphik";
+  src:
+    local("Graphik Regular"),
+    local("Graphik-Regular"),
+    url("~/assets/fonts/graphik/Graphik-Regular.woff2") format("woff2"),
+    url("~/assets/fonts/graphik/Graphik-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 // @font-face {

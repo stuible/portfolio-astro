@@ -5,11 +5,7 @@ export interface Props {
   class?: string;
 }
 
-const {
-  href,
-  external = false,
-  class: className,
-} = Astro.props;
+const { href, external = false, class: className } = Astro.props;
 const Tag = href ? "a" : "article";
 ---
 
@@ -31,7 +27,9 @@ const Tag = href ? "a" : "article";
   }
 
   a.base-card {
-    transition: border-color 200ms, background-color 200ms;
+    transition:
+      border-color 200ms,
+      background-color 200ms;
 
     &:hover,
     &:active,
@@ -40,5 +38,4 @@ const Tag = href ? "a" : "article";
       background-color: #fcfcfc;
     }
   }
-
 </style>

@@ -29,9 +29,13 @@
     "wheel-gestures": "^2.3.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "get-image-colors": "^4.0.1",
+    "prettier": "3.9.9",
+    "prettier-plugin-astro": "1.1.0",
     "takumi-js": "^2.14.0",
     "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
     "yaml": "^2.9.1"
   },
   "allowScripts": {

@@ -6,7 +6,10 @@ export interface Props {
 const { cols } = Astro.props;
 ---
 
-<div class:list={["cards", { fixed: cols }]} style={cols ? `--cols: ${cols}` : undefined}>
+<div
+  class:list={["cards", { fixed: cols }]}
+  style={cols ? `--cols: ${cols}` : undefined}
+>
   <slot />
 </div>
 

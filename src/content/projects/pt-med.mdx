@@ -52,11 +52,11 @@ When a physiotherapist at Vancouver Coastal Health finds an unfamiliar medicatio
 
 # Role
 
-I was the technical lead and sole developer. I owned the architecture, the Nuxt frontend, the Strapi content model, and the release pipeline. I also ran discovery with our UX designer, who produced the wireframes and mobile layouts. We met with the physiotherapy practice lead roughly every two weeks from August 2025 until the soft launch in September 2026.
+I was the technical lead and sole developer. I owned the architecture, the Nuxt frontend, the Strapi content model, and the release pipeline. I also ran discovery with our UX designer, who produced the wireframes and mobile layouts.
 
 # Discovery
 
-We ran focus groups with hospital physiotherapists at Richmond Hospital. Then we sent a survey out to the wider department and got 70 responses. A few findings shaped almost every later decision:
+After defining the initial requirements with our subject matter expert, we sent a survey out to the wider department and got 70 responses. A few findings shaped almost every later decision:
 
 <Cards cols={2}>
   <Card icon="search" title="Search is the entryway">
@@ -83,14 +83,14 @@ We ran focus groups with hospital physiotherapists at Richmond Hospital. Then we
 
 # Objectives
 
-1. **Make search good enough to replace Google** for this job. It should forgive typos and match trade names, partial words, and drug classes.
-2. **Answer the physio question on one screen.** Show what the drug is for, what to watch for, and when it's strongest, for each way it can be given.
-3. **Work where physios work,** including on a phone in a patient's home with a poor signal.
-4. **Let clinicians own the content.** The practice lead and a small editor group needed to add and revise medications without a developer.
+1. **Make search good enough to replace Google** It should forgive typos and match trade names, partial words, and drug classes.
+2. **Answer the physio question on one screen** Show what the drug is for, what to watch for, and when it's strongest, for each way it can be given.
+3. **Work where physios work** Including on a phone in a patient's home with a poor signal.
+4. **Let the client own the content** The practice lead and a small editor group needed to add and revise medications without a developer.
 
 # Design
 
-Our UX designer turned the findings into wireframes that we reviewed and signed off in December 2025 and January 2026. The practice lead preferred a three-column medication page that keeps as much as possible above the fold. Uses, side effects, and PT considerations sit side by side. A timing panel on the right covers each way the drug can be given.
+Our UX designer turned the findings into wireframes that we reviewed. The practice lead preferred a three-column medication page that keeps as much as possible above the fold. Uses, side effects, and PT considerations sit side by side. A timing panel on the right covers each way the drug can be given.
 
 <Figure
   src={wireframe}
@@ -98,7 +98,7 @@ Our UX designer turned the findings into wireframes that we reviewed and signed 
   caption="The signed-off medication page wireframe, December 2025"
 />
 
-The built page follows the signed-off wireframe closely. Many of its details came straight out of review meetings:
+I then began implementing based on these layouts. Many of the details came straight out of review meetings including:
 
 <Cards cols={2}>
   <Card icon="pill" title="Drug Dynamics">
@@ -107,9 +107,8 @@ The built page follows the signed-off wireframe closely. Many of its details cam
     route gets its own tab showing when the drug starts working, when it's
     strongest, and how long it lasts.
   </Card>
-  {/* prettier-ignore */}
   <Card icon="split" title="Split uses and side effects">
-    Each drug's uses are split into <Term def="A use the drug is officially approved to treat by Health Canada.">approved</Term> and <Term def="When doctors prescribe a drug for something it isn't officially approved to treat.">off-label</Term>, and its side effects into <Term def="A side effect seen in at least 10% of people taking the drug.">common</Term> and <Term def="A side effect seen in only a small share of people taking the drug.">rare</Term>. These matter in different contexts to clinicians
+    Each drug's uses are split into <Term def="A use the drug is officially approved to treat by Health Canada.">approved</Term> and <Term def="When doctors prescribe a drug for something it isn't officially approved to treat.">off-label</Term>, and its side effects into <Term def="A side effect seen in at least 10% of people taking the drug.">common</Term> and <Term def="A side effect seen in only a small share of people taking the drug.">rare</Term>. These matter in different contexts to clinicians.
   </Card>
   <Card icon="chevrons-up-down" title="Short lists open, long lists closed">
     A subsection auto-expands only when it's short, and empty sections and
@@ -130,15 +129,11 @@ The built page follows the signed-off wireframe closely. Many of its details cam
 
 ## Search that follows you
 
-On the homepage, search is the hero. As you scroll, the search box **docks into the navbar**: it's teleported between the two positions and animated, so results stay one keystroke away. Getting this to feel solid took a few iterations.
+On the homepage, search is the hero. As you scroll, the search box **docks into the navbar**, so that it stays with you. There's only one search box: Vue's `<Teleport>` moves it between a slot in the hero and a slot in the navbar. Before each move I record where the box is on screen. After it lands, I used [Motion](https://motion.dev/docs/vue) to slide it from the old spot to the new one. Getting this to feel solid took a few iterations:
 
-<Figure
-  src={advancedSearch}
-  alt="The advanced search panel expanded under the search box, listing medication categories as radio options"
-  caption="Advanced search filters by category and medication class"
-/>
-
-Physios gave us feedback that the original categories could be simpler. We made drug categories a many-to-many relation, since one drug can both lower blood pressure and treat chest pain. We also included categories in free-text search, so "anticoagulant" works as well as a drug name does.
+1. **No flicker at the edge.** Two IntersectionObservers decide when to dock. The box docks when the hero reaches the bottom of the header, and only undocks once the hero is 32px clear of it. I measure the header on every resize, so iOS scroll bounce can't flip it back and forth.
+2. **Always rises in from below.** On a fast scroll the observer can fire late, after the hero search has scrolled up past the header. I clamp the starting position so the box never drops into the navbar from above.
+3. **Keeps focus.** Browsers blur an input when it's moved in the DOM. Arrowing through results could scroll the page far enough to dock, and focus was lost mid-navigation. Now whatever had focus gets it back after the move.
 
 <Figure
   src={mobile}
@@ -148,7 +143,25 @@ Physios gave us feedback that the original categories could be simpler. We made 
 
 # Architecture
 
-PT Med is a Turborepo monorepo with a Nuxt 4 frontend and a Strapi 5 CMS, shipped as Docker images through a Github Actions pipeline.
+I picked each part of the stack to meet a need from the research: fast page loads & search, content the client can edit themselves, and releases a small team can trust.
+
+<Cards cols={2}>
+  <Card icon="boxes" title="Turborepo">
+    The frontend and CMS change together, so they live in one monorepo and are
+    versioned and released together.
+  </Card>
+  <Card icon="server" title="Nuxt 4">
+    Nuxt was the perfect framework for fast server-side rendering. It also has a great PWA module that handled the installable app.
+  </Card>
+  <Card icon="database" title="Strapi 5">
+    The client needed to edit content without a developer. Strapi gives them an intuitive
+    editor for the site's content. It's also open source and self-hosted.
+  </Card>
+  <Card icon="container" title="Docker + GitHub Actions">
+    Every merge cuts a versioned release, on a beta or stable channel, and
+    builds both images from that tag. What gets tested is exactly what ships.
+  </Card>
+</Cards>
 
 ## Offline, only for installed users
 
@@ -162,7 +175,7 @@ Community physios often work with a poor signal, so PT Med installs as a <Term d
 
 ## One search engine, two places
 
-The catalogue is only a few hundred drugs, so rather than run a separate search service, I built a single search engine using MiniSearch that could be run on the server and the client. The Nuxt server runs it for web users, and the installed app runs the same code on the device, so results are identical online and offline.
+The catalogue is only a few hundred drugs, so rather than run a separate search service, I built a single search engine using [MiniSearch](https://lucaong.github.io/minisearch/) that could be run on the server and the client. The Nuxt server runs it for web users, and the installed app runs the same code on the device, so results are identical online and offline.
 
 I wanted to develop search ranking logic that felt intuitive. I chose closeness of match over MiniSearch's built-in scoring, which tended to favour drugs with short entries. Matches with fewer typos score higher, as do matches on a drug's name over its trade names or drug class. A result's score is the sum across the words in the query. Ties go first to the result physios have picked most often in the last 90 days, then alphabetically.
 
@@ -200,12 +213,11 @@ PT Med reached 1.0 in September 2026 and soft-launched to physiotherapists at VC
     not affected by stale content.
   </Card>
   <Card icon="file-pen-line" title="Client owns the content">
-    Our client is empowered to update medications, tooltips, resources, and page
-    copy themselves.
+    Our client is empowered to update medications, resources, and pages themselves.
   </Card>
   <Card icon="zap" title="It's fast">
-    On desktop, initial content loads in ~1.5 seconds and searches return in
-    about 100ms once connected.
+    On desktop, the site loads in under 1.5 seconds and searches return in
+    ~100ms.
   </Card>
 </Cards>
 

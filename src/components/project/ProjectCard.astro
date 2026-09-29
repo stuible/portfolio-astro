@@ -17,18 +17,9 @@ const techWithIcons = await getTechBySlugs(project.data.tags);
   <div class="title">{project.data.title}</div>
   <div class="subtitle">{project.data.subtitle}</div>
   <ul class="tags">
-    {
-      techWithIcons.map((item) => (
-        <li class="tag">
-          <IconPill
-            label={item.name}
-            icon={item.icon}
-            colour={item.colour}
-            small
-          />
-        </li>
-      ))
-    }
+    {techWithIcons.map((item) => <li class="tag">
+      <IconPill label={item.name} icon={item.icon} colour={item.colour} small />
+    </li>)}
   </ul>
 </BaseCard>
 

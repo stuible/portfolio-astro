@@ -1,0 +1,13 @@
+{
+  "trailingComma": "es5",
+  "plugins": ["prettier-plugin-astro", "./prettier-plugin-mdx.mjs"],
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro",
+        "astroCompressHTML": true
+      }
+    }
+  ]
+}

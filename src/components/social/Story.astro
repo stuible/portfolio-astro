@@ -20,15 +20,11 @@ const { title, subtitle, when, url, logo, badges } = Astro.props;
     {when && <div class="when">{when}</div>}
     <div class="title">{title}</div>
     <div class="subtitle">{subtitle}</div>
-    {
-      badges.length > 0 && (
-        <div class="badges">
-          {badges.map((badge) => (
-            <StoryBadge {...badge} />
-          ))}
-        </div>
-      )
-    }
+    {badges.length > 0 && <div class="badges">
+      {badges.map((badge) => (
+        <StoryBadge {...badge} />
+      ))}
+    </div>}
   </div>
   <div class="url">{url}</div>
 </div>

@@ -12,11 +12,7 @@ import { getHomeContent } from "~/lib/home";
 const { description } = await getHomeContent();
 ---
 
-<Layout
-  noTopPadding={true}
-  h1Title={true}
-  description={description}
->
+<Layout noTopPadding={true} h1Title={true} description={description}>
   <Intro />
   <Now />
   <Skills />

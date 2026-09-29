@@ -13,13 +13,9 @@ const { label, url, icon } = Astro.props;
 ---
 
 <a class="link-button" href={url} target="_blank">
-  {
-    icon && (
-      <div class="icon">
-        <img src={icon.src} alt={`${label} Icon`} />
-      </div>
-    )
-  }
+  {icon && <div class="icon">
+    <img src={icon.src} alt={`${label} Icon`} />
+  </div>}
   <span class="label">{label}</span>
 </a>
 

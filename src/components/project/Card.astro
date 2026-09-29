@@ -14,22 +14,16 @@ const { title, icon, value } = Astro.props;
 ---
 
 <div class="card">
-  {
-    value && (
-      <span class="stat">
-        <span class="value">{value}</span>
-        {icon && <Icon name={`lucide:${icon}`} class="icon" aria-hidden="true" />}
-      </span>
-    )
-  }
-  {
-    (title || (icon && !value)) && (
-      <span class="title">
-        {icon && !value && <Icon name={`lucide:${icon}`} class="icon" aria-hidden="true" />}
-        {title && <span>{title}</span>}
-      </span>
-    )
-  }
+  {value && <span class="stat">
+    <span class="value">{value}</span>
+    {icon && <Icon name={`lucide:${icon}`} class="icon" aria-hidden="true" />}
+  </span>}
+  {(title || (icon && !value)) && <span class="title">
+    {icon && !value && (
+      <Icon name={`lucide:${icon}`} class="icon" aria-hidden="true" />
+    )}
+    {title && <span>{title}</span>}
+  </span>}
   <div class="card-body"><slot /></div>
 </div>
 

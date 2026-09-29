@@ -9,23 +9,23 @@ const { title, icon = "note" } = Astro.props;
 
 <aside class:list={["callout", icon, { untitled: !title }]}>
   <span class="badge" aria-hidden="true">
-    {
-      icon === "idea" ? (
-        <svg viewBox="0 0 24 24">
-          <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z" />
-        </svg>
-      ) : icon === "caution" ? (
-        <svg viewBox="0 0 24 24">
-          <path d="M12 4l9 16H3z" />
-          <path d="M12 10v4M12 17v.5" />
-        </svg>
-      ) : (
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 11v6M12 7.5v.5" />
-        </svg>
-      )
-    }
+    {icon === "idea" ? (
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"
+        />
+      </svg>
+    ) : icon === "caution" ? (
+      <svg viewBox="0 0 24 24">
+        <path d="M12 4l9 16H3z" />
+        <path d="M12 10v4M12 17v.5" />
+      </svg>
+    ) : (
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v6M12 7.5v.5" />
+      </svg>
+    )}
   </span>
   <div class="text">
     {title && <span class="title">{title}</span>}

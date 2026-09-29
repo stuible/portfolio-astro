@@ -16,7 +16,7 @@ const frameMs = 1000 / 60;
 
 export function useScrollSpin(
   target: Ref<HTMLElement | null>,
-  enabled: () => boolean,
+  enabled: () => boolean
 ) {
   let angle = 0;
   let velocity = 0;

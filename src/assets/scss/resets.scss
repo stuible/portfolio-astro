@@ -1,12 +1,12 @@
 @use "variables";
 
 p {
-    line-height: 1.4em;
-    // font-size: 2rem;
+  line-height: 1.4em;
+  // font-size: 2rem;
 }
 
 video {
-    width: 100%;
+  width: 100%;
 }
 
 h1,
@@ -15,28 +15,28 @@ h3,
 h4,
 h5,
 h6 {
-    margin: 0;
+  margin: 0;
 }
 
 ul,
 ol {
-    list-style: none;
+  list-style: none;
 }
 
 a,
 button {
-    text-decoration: none;
-    color: variables.$colour-dark;
+  text-decoration: none;
+  color: variables.$colour-dark;
 }
 
 pre {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

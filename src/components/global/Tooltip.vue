@@ -1,15 +1,14 @@
 <script lang="ts">
 import { PopperWrapper, options } from "floating-vue";
 
-import { onMounted } from 'vue';
+import { onMounted } from "vue";
 
-
-options.themes['stuible-tooltip'] = {
-  $extend: 'tooltip',
-  placement: 'top',
+options.themes["stuible-tooltip"] = {
+  $extend: "tooltip",
+  placement: "top",
   delay: 100,
   handleResize: true,
-}
+};
 
 // @ts-ignore
 export default {
@@ -18,20 +17,21 @@ export default {
   vPopperTheme: "stuible-tooltip",
   setup() {
     onMounted(() => {
-      const boundary = document != undefined ? document.querySelector('.layout-container .center') : undefined;
+      const boundary =
+        document != undefined
+          ? document.querySelector(".layout-container .center")
+          : undefined;
 
       options.boundary = boundary;
-    })
-  }
-}
-
+    });
+  },
+};
 </script>
 
 <style lang="scss">
 @import "floating-vue/dist/style.css";
 
 .v-popper--theme-stuible-tooltip {
-
   display: inline-block;
 
   .v-popper__inner {
@@ -45,11 +45,14 @@ export default {
     color: #ffffff;
     font-weight: 300;
 
-    box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+    box-shadow:
+      0px 12px 16px -4px rgba(16, 24, 40, 0.08),
+      0px 4px 6px -2px rgba(16, 24, 40, 0.03);
     // background-color: yellow;
   }
 
-  .v-popper__arrow-container {}
+  .v-popper__arrow-container {
+  }
 
   .v-popper__arrow-inner {
     // border-color: #78ff09;
@@ -63,7 +66,9 @@ export default {
   }
 
   &.v-popper__popper--hidden {
-    transition: opacity 0.15s, visibility 0.15s;
+    transition:
+      opacity 0.15s,
+      visibility 0.15s;
 
     .v-popper__wrapper {
       transform: translateY(15px);

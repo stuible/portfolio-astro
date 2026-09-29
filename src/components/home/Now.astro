@@ -2,10 +2,7 @@
 import BaseCard from "~/components/global/BaseCard.astro";
 import { fullDate, relativeTime } from "~/lib/dates";
 import { getHomeContent } from "~/lib/home";
-import {
-  getLatestCommit,
-  getLatestPlaylistTracks,
-} from "~/lib/now";
+import { getLatestCommit, getLatestPlaylistTracks } from "~/lib/now";
 
 const { thought } = await getHomeContent();
 
@@ -25,9 +22,9 @@ const refreshedAt = new Date().toISOString();
   <div class="section-heading">
     <h2 class="section-title">Right now</h2>
     <span class="live-label"
-      ><span aria-hidden="true"></span> Updated <time
-        datetime={refreshedAt}
-        data-relative>{relativeTime(refreshedAt)}</time
+      ><span aria-hidden="true"></span> Updated
+      <time datetime={refreshedAt} data-relative
+        >{relativeTime(refreshedAt)}</time
       ></span
     >
   </div>
@@ -46,7 +43,11 @@ const refreshedAt = new Date().toISOString();
           <>“{thought.text}”</>
         )}
       </blockquote>
-      <span class="thought-meta"><time datetime={thought.updatedAt}>{fullDate(thought.updatedAt)}</time></span>
+      <span class="thought-meta"
+        ><time datetime={thought.updatedAt}
+          >{fullDate(thought.updatedAt)}</time
+        ></span
+      >
     </article>
 
     <BaseCard
@@ -61,7 +62,12 @@ const refreshedAt = new Date().toISOString();
         <div class="commit">
           <code>{commit.sha}</code>
           <strong>{commit.message}</strong>
-          <span class="commit-meta">{commit.repository} · <time datetime={commit.committedAt} data-relative>{relativeTime(commit.committedAt)}</time></span>
+          <span class="commit-meta"
+            >{commit.repository} ·
+            <time datetime={commit.committedAt} data-relative
+              >{relativeTime(commit.committedAt)}</time
+            ></span
+          >
         </div>
       ) : (
         <p class="empty-state">Currently between commits.</p>
@@ -74,18 +80,24 @@ const refreshedAt = new Date().toISOString();
       </div>
       {tracks.length > 0 ? (
         <ol class="track-list">
-          {tracks.map((track) => (
-            <li>
-              <a href={track.url} target="_blank" rel="noreferrer">
-                {track.artwork && <img src={track.artwork} alt="" width="48" height="48" loading="lazy" />}
-                <span>
-                  <strong>{track.name}</strong>
-                  <small>{track.artists}</small>
-                </span>
-                <span class="play" aria-hidden="true">↗</span>
-              </a>
-            </li>
-          ))}
+          {tracks.map((track) => <li>
+            <a href={track.url} target="_blank" rel="noreferrer">
+              {track.artwork && (
+                <img
+                  src={track.artwork}
+                  alt=""
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                />
+              )}
+              <span>
+                <strong>{track.name}</strong>
+                <small>{track.artists}</small>
+              </span>
+              <span class="play" aria-hidden="true">↗</span>
+            </a>
+          </li>)}
         </ol>
       ) : (
         <p class="empty-state">The next three favourites are cueing up.</p>
@@ -192,7 +204,6 @@ const refreshedAt = new Date().toISOString();
         }
       }
     }
-
   }
 
   .card-label {
@@ -305,5 +316,4 @@ const refreshedAt = new Date().toISOString();
       font-size: 0.55rem;
     }
   }
-
 </style>

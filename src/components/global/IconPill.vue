@@ -1,6 +1,11 @@
 <template>
   <div class="pill-wrapper">
-    <Tooltip v-if="tooltip" :distance="15" :triggers="['hover', 'focus', 'touch']" :aria-id="id">
+    <Tooltip
+      v-if="tooltip"
+      :distance="15"
+      :triggers="['hover', 'focus', 'touch']"
+      :aria-id="id"
+    >
       <button class="pill" :class="{ small: small }">
         <div class="icon">
           <img :src="icon ? icon : ''" :alt="`${label} Icon`" />
@@ -11,7 +16,6 @@
       <template #popper>
         {{ tooltip }}
       </template>
-
     </Tooltip>
     <span v-else class="pill" :class="{ small: small }">
       <span class="icon">
@@ -35,7 +39,6 @@ const props = defineProps<{
 }>();
 
 const backgroundColour = props.colour ?? "#f5f5f5";
-
 </script>
 
 <style lang="scss" scoped>
