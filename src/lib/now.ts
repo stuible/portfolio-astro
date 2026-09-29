@@ -64,7 +64,10 @@ type DevCacheEntry = { value: unknown; expiresAt: number };
 
 const devCache = new Map<string, DevCacheEntry>();
 
-async function withDevCache<T>(key: string, compute: () => Promise<T>): Promise<T> {
+async function withDevCache<T>(
+  key: string,
+  compute: () => Promise<T>
+): Promise<T> {
   if (!import.meta.env.DEV) return compute();
 
   const entry = devCache.get(key);
@@ -79,7 +82,9 @@ async function withDevCache<T>(key: string, compute: () => Promise<T>): Promise<
   return value;
 }
 
-export async function getLatestCommit(owner: string): Promise<GitCommit | undefined> {
+export async function getLatestCommit(
+  owner: string
+): Promise<GitCommit | undefined> {
   return withDevCache(`github-latest-commit:${owner}`, async () => {
     const query = new URLSearchParams({
       q: `author:${owner} is:public`,
@@ -97,14 +102,17 @@ export async function getLatestCommit(owner: string): Promise<GitCommit | undefi
             ? { Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}` }
             : {}),
         },
-      },
+      }
     );
 
-    if (!response.ok) throw new Error(`GitHub responded with ${response.status}`);
+    if (!response.ok)
+      throw new Error(`GitHub responded with ${response.status}`);
 
-    const [commit] = ((await response.json()) as GitHubCommitSearchResponse).items;
+    const [commit] = ((await response.json()) as GitHubCommitSearchResponse)
+      .items;
     if (!commit) return undefined;
-    const committedAt = commit.commit.author?.date ?? commit.commit.committer?.date;
+    const committedAt =
+      commit.commit.author?.date ?? commit.commit.committer?.date;
     if (!committedAt) return undefined;
 
     return {
@@ -127,11 +135,13 @@ function getPlaylistId(value: string | undefined) {
 
   const id = value
     .trim()
-    .match(/^(?:https?:\/\/\S*\/playlist\/|spotify:playlist:)?([a-zA-Z0-9]+)(?:[/?#].*)?$/)?.[1];
+    .match(
+      /^(?:https?:\/\/\S*\/playlist\/|spotify:playlist:)?([a-zA-Z0-9]+)(?:[/?#].*)?$/
+    )?.[1];
 
   if (!id) {
     console.warn(
-      `Could not read a playlist id from SPOTIFY_PLAYLIST_ID ("${value}"). Expected a playlist id, share URL, or spotify:playlist: URI.`,
+      `Could not read a playlist id from SPOTIFY_PLAYLIST_ID ("${value}"). Expected a playlist id, share URL, or spotify:playlist: URI.`
     );
     return undefined;
   }
@@ -157,7 +167,8 @@ async function getSpotifyAccessToken() {
     }),
   });
 
-  if (!response.ok) throw new Error(`Spotify authorization failed (${response.status})`);
+  if (!response.ok)
+    throw new Error(`Spotify authorization failed (${response.status})`);
   return ((await response.json()) as { access_token: string }).access_token;
 }
 
@@ -167,13 +178,14 @@ async function getSpotifyAccessToken() {
 async function fetchSpotifyWithRetry(
   url: string,
   init: RequestInit,
-  context: string,
+  context: string
 ): Promise<Response> {
   for (let attempt = 1; ; attempt += 1) {
     const response = await fetch(url, init);
     const retryable = response.status === 429 || response.status >= 500;
     if (response.ok || !retryable || attempt >= SPOTIFY_RETRY_ATTEMPTS) {
-      if (!response.ok) throw new Error(`Spotify responded with ${response.status} ${context}`);
+      if (!response.ok)
+        throw new Error(`Spotify responded with ${response.status} ${context}`);
       return response;
     }
 
@@ -184,7 +196,7 @@ async function fetchSpotifyWithRetry(
       Number.isFinite(retryAfterSeconds) && retryAfterSeconds >= 0
         ? retryAfterSeconds * 1000
         : backoffMs,
-      SPOTIFY_RETRY_MAX_DELAY_MS,
+      SPOTIFY_RETRY_MAX_DELAY_MS
     );
     await new Promise((resolve) => setTimeout(resolve, delayMs));
   }
@@ -194,45 +206,56 @@ export async function getLatestPlaylistTracks(): Promise<SpotifyTrack[]> {
   const playlistId = getPlaylistId(import.meta.env.SPOTIFY_PLAYLIST_ID);
   // A missing id or credentials resolve to an empty list that is cached like
   // any success, so a misconfiguration does not re-attempt the API every dev request.
-  return withDevCache(`spotify-playlist-tracks:${playlistId ?? "(missing)"}`, async () => {
-    if (!playlistId) return [];
+  return withDevCache(
+    `spotify-playlist-tracks:${playlistId ?? "(missing)"}`,
+    async () => {
+      if (!playlistId) return [];
 
-    const accessToken = await getSpotifyAccessToken();
-    if (!accessToken) return [];
+      const accessToken = await getSpotifyAccessToken();
+      if (!accessToken) return [];
 
-    const headers = { headers: { Authorization: `Bearer ${accessToken}` } };
+      const headers = { headers: { Authorization: `Bearer ${accessToken}` } };
 
-    const totalResponse = await fetchSpotifyWithRetry(
-      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?fields=total&limit=1`,
-      headers,
-      "while reading the playlist length",
-    );
-    const { total } = (await totalResponse.json()) as SpotifyPage;
-    if (!total) return [];
+      const totalResponse = await fetchSpotifyWithRetry(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks?fields=total&limit=1`,
+        headers,
+        "while reading the playlist length"
+      );
+      const { total } = (await totalResponse.json()) as SpotifyPage;
+      if (!total) return [];
 
-    const fields = "items(added_at,item(type,name,artists(name),external_urls.spotify,album(images(url))),track(type,name,artists(name),external_urls.spotify,album(images(url))))";
-    const tailResponse = await fetchSpotifyWithRetry(
-      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?market=CA&limit=${PLAYLIST_TAIL_SIZE}&offset=${Math.max(0, total - PLAYLIST_TAIL_SIZE)}&fields=${encodeURIComponent(fields)}`,
-      headers,
-      `while reading the last ${PLAYLIST_TAIL_SIZE} tracks of the playlist`,
-    );
-    const tail = (await tailResponse.json()) as SpotifyPage;
+      const fields =
+        "items(added_at,item(type,name,artists(name),external_urls.spotify,album(images(url))),track(type,name,artists(name),external_urls.spotify,album(images(url))))";
+      const tailResponse = await fetchSpotifyWithRetry(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks?market=CA&limit=${PLAYLIST_TAIL_SIZE}&offset=${Math.max(0, total - PLAYLIST_TAIL_SIZE)}&fields=${encodeURIComponent(fields)}`,
+        headers,
+        `while reading the last ${PLAYLIST_TAIL_SIZE} tracks of the playlist`
+      );
+      const tail = (await tailResponse.json()) as SpotifyPage;
 
-    return (tail.items ?? [])
-      .filter((entry) => entry.added_at && (entry.item ?? entry.track)?.type === "track")
-      .sort((a, b) => Date.parse(b.added_at!) - Date.parse(a.added_at!))
-      .slice(0, 3)
-      .map((entry) => {
-        const track = (entry.item ?? entry.track)!;
-        return {
-          name: track.name,
-          artists: track.artists?.map((artist) => artist.name).join(", ") ?? "Unknown artist",
-          url: track.external_urls?.spotify ?? `https://open.spotify.com/playlist/${playlistId}`,
-          artwork: track.album?.images?.at(-1)?.url,
-          addedAt: entry.added_at!,
-        };
-      });
-  }).catch((error) => {
+      return (tail.items ?? [])
+        .filter(
+          (entry) =>
+            entry.added_at && (entry.item ?? entry.track)?.type === "track"
+        )
+        .sort((a, b) => Date.parse(b.added_at!) - Date.parse(a.added_at!))
+        .slice(0, 3)
+        .map((entry) => {
+          const track = (entry.item ?? entry.track)!;
+          return {
+            name: track.name,
+            artists:
+              track.artists?.map((artist) => artist.name).join(", ") ??
+              "Unknown artist",
+            url:
+              track.external_urls?.spotify ??
+              `https://open.spotify.com/playlist/${playlistId}`,
+            artwork: track.album?.images?.at(-1)?.url,
+            addedAt: entry.added_at!,
+          };
+        });
+    }
+  ).catch((error) => {
     console.warn("Could not fetch Spotify playlist tracks.", error);
     return [] as SpotifyTrack[];
   });

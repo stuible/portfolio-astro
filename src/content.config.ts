@@ -1,7 +1,7 @@
 // 1. Import utilities from `astro:content`, `astro/loaders` and `astro/zod`
-import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
-import { z } from 'astro/zod';
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 // 2. Define a schema for each collection you'd like to validate.
 
 const treeNodeSchema: z.ZodType = z.lazy(() =>
@@ -15,10 +15,10 @@ const treeNodeSchema: z.ZodType = z.lazy(() =>
 );
 
 const contentLoader = (collection: string) =>
-  glob({ pattern: '**/*.{md,mdx}', base: `./src/content/${collection}` });
+  glob({ pattern: "**/*.{md,mdx}", base: `./src/content/${collection}` });
 
 const projectCollection = defineCollection({
-  loader: contentLoader('projects'),
+  loader: contentLoader("projects"),
   schema: z.object({
     title: z.string(),
     when: z.string().optional(),
@@ -32,7 +32,7 @@ const projectCollection = defineCollection({
 });
 
 const pageCollection = defineCollection({
-  loader: contentLoader('pages'),
+  loader: contentLoader("pages"),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -52,11 +52,11 @@ const pageCollection = defineCollection({
 
 // 3. Export a single `collections` object to register your collection(s)
 export const collections = {
-  'projects': projectCollection,
-  categories: defineCollection({ loader: contentLoader('categories') }),
+  projects: projectCollection,
+  categories: defineCollection({ loader: contentLoader("categories") }),
   pages: pageCollection,
-  'project-lists': defineCollection({
-    loader: contentLoader('project-lists'),
+  "project-lists": defineCollection({
+    loader: contentLoader("project-lists"),
     schema: z.object({
       title: z.string(),
       projects: z.array(z.string()),

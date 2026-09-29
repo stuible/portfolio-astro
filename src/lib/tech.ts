@@ -1,7 +1,9 @@
 import { getEntry } from "astro:content";
 
 const icons = Object.values(
-  import.meta.glob<{ default: { src: string } }>("~/assets/icons/*.svg", { eager: true })
+  import.meta.glob<{ default: { src: string } }>("~/assets/icons/*.svg", {
+    eager: true,
+  })
 ).map((x) => x.default.src);
 
 /**
@@ -11,7 +13,9 @@ const icons = Object.values(
 export async function getTechWithIcons() {
   const entry = await getEntry("categories", "tech");
   if (!entry) {
-    throw new Error("Missing tech category entry (src/content/categories/tech.md)");
+    throw new Error(
+      "Missing tech category entry (src/content/categories/tech.md)"
+    );
   }
 
   return (entry.data.tech as any[]).map((item) => ({

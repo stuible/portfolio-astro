@@ -2,71 +2,71 @@
 @use "variables";
 
 .body {
-    max-width: 50ch;
-    font-size: 20px;
-    widows: 3;
-    orphans: 3;
-    font-weight: 300;
+  max-width: 50ch;
+  font-size: 20px;
+  widows: 3;
+  orphans: 3;
+  font-weight: 300;
 }
 
 .section {
-    margin-bottom: 5rem;
+  margin-bottom: 5rem;
 }
 
 @mixin section-title {
-    margin-bottom: variables.$spacing-md;
-    font-weight: 500;
-    font-size: 1rem;
-    text-transform: lowercase;
+  margin-bottom: variables.$spacing-md;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: lowercase;
 
-    @include breakpoints.breakpoint(md) {
-        font-size: 1.15rem;
-    }
+  @include breakpoints.breakpoint(md) {
+    font-size: 1.15rem;
+  }
 }
 
 @mixin section-subtitle {
-    font-weight: 500;
-    margin-bottom: variables.$spacing-sm;
-    font-size: 0.75rem;
-    // font-family: monospace;
+  font-weight: 500;
+  margin-bottom: variables.$spacing-sm;
+  font-size: 0.75rem;
+  // font-family: monospace;
 
-    // &::before,
-    // &::after {
-    //   color: #ebebeb;
-    // }
+  // &::before,
+  // &::after {
+  //   color: #ebebeb;
+  // }
 
-    // &::before {
-    //   content: "<";
-    //   margin-right: 0.25em;
-    // }
-    // &::after {
-    //   content: "/>";
-    //   margin-left: 0.25em;
-    // }
+  // &::before {
+  //   content: "<";
+  //   margin-right: 0.25em;
+  // }
+  // &::after {
+  //   content: "/>";
+  //   margin-left: 0.25em;
+  // }
 }
 
 @mixin highlight-link {
-    color: variables.$colour-link;
-    font-weight: 400;
+  color: variables.$colour-link;
+  font-weight: 400;
 }
 
 .section-title {
-    @include section-title;
+  @include section-title;
 }
 
 .section-subtitle {
-    @include section-subtitle;
+  @include section-subtitle;
 }
 
 .link {
-    color: variables.$colour-muted;
-    font-size: 16px;
+  color: variables.$colour-muted;
+  font-size: 16px;
 }
 
 .highlight-link {
-    @include highlight-link;
+  @include highlight-link;
 }
 
 .center-text {
-    text-align: center;
+  text-align: center;
 }

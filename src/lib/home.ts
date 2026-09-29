@@ -6,7 +6,9 @@ import { getEntry } from "astro:content";
 export async function getHomeContent() {
   const home = await getEntry("pages", "home");
   if (!home) {
-    throw new Error("Missing home page content entry (src/content/pages/home.md)");
+    throw new Error(
+      "Missing home page content entry (src/content/pages/home.md)"
+    );
   }
   return home.data;
 }

@@ -1,5 +1,5 @@
 export type TreeNode = {
-    name: string;
-    url?: string;
-    children?: TreeNode[];
+  name: string;
+  url?: string;
+  children?: TreeNode[];
 };

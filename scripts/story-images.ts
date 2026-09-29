@@ -14,7 +14,7 @@ import { getViteConfig } from "astro/config";
 import { render } from "takumi-js";
 // Installed with takumi-js; its Renderer is the only way to register fonts
 import { Renderer } from "@takumi-rs/core";
-import { createServer } from "vite";
+import { createServer, type PluginOption } from "vite";
 import { parse } from "yaml";
 import type { Props as StoryProps } from "../src/components/social/Story.astro";
 
@@ -48,22 +48,35 @@ const dataUri = (buffer: Buffer, type: string) =>
 
 async function loadRenderer() {
   const renderer = new Renderer();
-  const font = (file: string) => readFile(fromRoot("src/assets/fonts/graphik", file));
-  await renderer.registerFont({ name: "Graphik", data: await font("Graphik-Regular.woff"), weight: 400 });
-  await renderer.registerFont({ name: "Graphik", data: await font("Graphik-Medium.woff"), weight: 500 });
+  const font = (file: string) =>
+    readFile(fromRoot("src/assets/fonts/graphik", file));
+  await renderer.registerFont({
+    name: "Graphik",
+    data: await font("Graphik-Regular.woff"),
+    weight: 400,
+  });
+  await renderer.registerFont({
+    name: "Graphik",
+    data: await font("Graphik-Medium.woff"),
+    weight: 500,
+  });
   return renderer;
 }
 
 // Mirrors src/lib/tech.ts: each tech item's `icon` names an SVG in src/assets/icons
 async function loadTech(): Promise<Tech[]> {
   const file = fromRoot("src/content/categories/tech.md");
-  const { tech } = frontmatter<{ tech: Tech[] }>(await readFile(file, "utf8"), file);
+  const { tech } = frontmatter<{ tech: Tech[] }>(
+    await readFile(file, "utf8"),
+    file
+  );
   const iconDir = fromRoot("src/assets/icons");
   const iconFiles = await readdir(iconDir);
 
   return Promise.all(
     tech.map(async (item) => {
-      const iconFile = item.icon && iconFiles.find((x) => x.includes(item.icon!));
+      const iconFile =
+        item.icon && iconFiles.find((x) => x.includes(item.icon!));
       return {
         ...item,
         icon: iconFile
@@ -80,7 +93,10 @@ async function loadProjects(): Promise<Project[]> {
 
   return Promise.all(
     files.map(async (file) => ({
-      ...frontmatter<Omit<Project, "slug">>(await readFile(resolve(dir, file), "utf8"), file),
+      ...frontmatter<Omit<Project, "slug">>(
+        await readFile(resolve(dir, file), "utf8"),
+        file
+      ),
       slug: file.replace(/\.mdx$/, ""),
     }))
   );
@@ -99,19 +115,32 @@ async function loadStoryHtml() {
   })({ command: "serve", mode: "development" });
   // astro:server boots the dev request handler in the background and logs an
   // error if the server closes first; nothing here serves requests, so drop it
-  const plugins = (config.plugins ?? [])
+  const plugins = ((config.plugins ?? []) as unknown[])
     .flat(Infinity)
-    .filter((x) => !(x && typeof x === "object" && "name" in x && x.name === "astro:server"));
+    .filter(
+      (x) =>
+        !(
+          x &&
+          typeof x === "object" &&
+          "name" in x &&
+          x.name === "astro:server"
+        )
+    ) as PluginOption[];
   const vite = await createServer({ ...config, plugins, configFile: false });
-  const [{ experimental_AstroContainer }, { default: Story }] = await Promise.all([
-    vite.ssrLoadModule("astro/container") as Promise<typeof import("astro/container")>,
-    vite.ssrLoadModule(fromRoot("src/components/social/Story.astro")),
-  ]);
+  const [{ experimental_AstroContainer }, { default: Story }] =
+    await Promise.all([
+      vite.ssrLoadModule("astro/container") as Promise<
+        typeof import("astro/container")
+      >,
+      vite.ssrLoadModule(fromRoot("src/components/social/Story.astro")),
+    ]);
   const container = await experimental_AstroContainer.create();
 
   return {
     renderStoryHtml: (props: StoryProps) =>
-      container.renderToString(Story, { props: { ...props } as Record<string, unknown> }),
+      container.renderToString(Story, {
+        props: { ...props } as Record<string, unknown>,
+      }),
     close: () => vite.close(),
   };
 }
@@ -125,7 +154,9 @@ const available = allProjects
   .join(", ");
 
 if (slugs.length === 0) {
-  console.error(`Usage: npm run generate:story <project-slug> [...more]\nProjects: ${available}`);
+  console.error(
+    `Usage: npm run generate:story <project-slug> [...more]\nProjects: ${available}`
+  );
   process.exit(1);
 }
 
@@ -140,7 +171,9 @@ const projects = slugs.map((slug) => {
 
 const [renderer, logo, { renderStoryHtml, close }] = await Promise.all([
   loadRenderer(),
-  readFile(fromRoot("src/assets/images/jslogo.png")).then((x) => dataUri(x, "image/png")),
+  readFile(fromRoot("src/assets/images/jslogo.png")).then((x) =>
+    dataUri(x, "image/png")
+  ),
   loadStoryHtml(),
 ]);
 
@@ -151,7 +184,8 @@ try {
   for (const project of projects) {
     const badges = (project.tags ?? []).map((slug) => {
       const item = tech.find((x) => x.slug === slug);
-      if (!item) throw new Error(`Unknown tech tag "${slug}" in ${project.slug}`);
+      if (!item)
+        throw new Error(`Unknown tech tag "${slug}" in ${project.slug}`);
       return { name: item.name, icon: item.icon, colour: item.colour };
     });
 
@@ -164,7 +198,12 @@ try {
       badges,
     });
 
-    const png = await render(html, { renderer, width: 1080, height: 1920, format: "png" });
+    const png = await render(html, {
+      renderer,
+      width: 1080,
+      height: 1920,
+      format: "png",
+    });
     await writeFile(resolve(outDir, `${project.slug}.png`), png);
     console.log(`dist/social-stories/${project.slug}.png`);
   }
