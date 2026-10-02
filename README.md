@@ -52,8 +52,11 @@ playlist. Copy `.env.example` to `.env`, then provide `SPOTIFY_CLIENT_ID`,
 `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`, and `SPOTIFY_PLAYLIST_ID`.
 The refresh token must belong to the playlist owner or a collaborator and have
 the `playlist-read-private` scope. These values are server-only and must also be
-configured in the deployment environment. If they are missing or Spotify is
-unavailable, the site still builds and shows a quiet empty state.
+configured in the deployment environment. If Spotify is unavailable, the build
+reuses the last successful track list, kept in Astro's cache directory
+(`node_modules/.astro/now/`), which persists between Netlify builds. With no
+saved list or missing credentials, the site still builds and shows a quiet empty
+state.
 
 ## Want to learn more?
 
