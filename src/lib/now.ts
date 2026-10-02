@@ -1,3 +1,6 @@
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
+
 export type GitCommit = {
   message: string;
   url: string;
@@ -50,10 +53,20 @@ type SpotifyPage = { items?: SpotifyItem[]; total?: number };
 const PLAYLIST_TAIL_SIZE = 10;
 
 // Spotify intermittently answers 429/5xx, which would otherwise bake an empty
-// track list into a production build. A few short retries ride out the blip.
+// track list into a production build. Retries honor Spotify's `Retry-After` up
+// to a minute (a build can afford the wait); retrying sooner than Spotify asks
+// only earns another 429, so a longer wait gives up straight away instead.
 const SPOTIFY_RETRY_ATTEMPTS = 3;
 const SPOTIFY_RETRY_BASE_DELAY_MS = 1000;
-const SPOTIFY_RETRY_MAX_DELAY_MS = 4000;
+const SPOTIFY_RETRY_MAX_DELAY_MS = 60 * 1000;
+
+// The last successful track list is kept in Astro's cache directory, which
+// persists between Netlify builds, so a failed fetch reuses it instead of
+// publishing an empty card.
+const SPOTIFY_FALLBACK_FILE = new URL(
+  "node_modules/.astro/now/spotify-tracks.json",
+  pathToFileURL(`${process.cwd()}/`)
+);
 
 // Dev-only cache: `astro dev` re-runs frontmatter on every request, which would
 // re-hit the GitHub/Spotify APIs and trip their rate limits. Production calls
@@ -172,9 +185,10 @@ async function getSpotifyAccessToken() {
   return ((await response.json()) as { access_token: string }).access_token;
 }
 
-// Retries 429/5xx up to three attempts, honoring Spotify's `Retry-After` when
-// present and backing off exponentially otherwise (capped). `context` labels
-// the thrown error so logs say which request failed.
+// Retries 429/5xx up to three attempts, waiting for Spotify's `Retry-After`
+// when present and backing off exponentially otherwise. `context` labels the
+// thrown error, which also carries `Retry-After` and the response body so logs
+// show how long Spotify wanted and why.
 async function fetchSpotifyWithRetry(
   url: string,
   init: RequestInit,
@@ -182,23 +196,51 @@ async function fetchSpotifyWithRetry(
 ): Promise<Response> {
   for (let attempt = 1; ; attempt += 1) {
     const response = await fetch(url, init);
-    const retryable = response.status === 429 || response.status >= 500;
-    if (response.ok || !retryable || attempt >= SPOTIFY_RETRY_ATTEMPTS) {
-      if (!response.ok)
-        throw new Error(`Spotify responded with ${response.status} ${context}`);
-      return response;
-    }
+    if (response.ok) return response;
 
-    const backoffMs = SPOTIFY_RETRY_BASE_DELAY_MS * 2 ** (attempt - 1);
     const retryAfter = response.headers.get("Retry-After");
     const retryAfterSeconds = retryAfter === null ? NaN : Number(retryAfter);
-    const delayMs = Math.min(
+    const delayMs =
       Number.isFinite(retryAfterSeconds) && retryAfterSeconds >= 0
         ? retryAfterSeconds * 1000
-        : backoffMs,
-      SPOTIFY_RETRY_MAX_DELAY_MS
+        : SPOTIFY_RETRY_BASE_DELAY_MS * 2 ** (attempt - 1);
+    const retryable = response.status === 429 || response.status >= 500;
+
+    if (
+      !retryable ||
+      attempt >= SPOTIFY_RETRY_ATTEMPTS ||
+      delayMs > SPOTIFY_RETRY_MAX_DELAY_MS
+    ) {
+      const body = (await response.text().catch(() => "")).slice(0, 300);
+      throw new Error(
+        `Spotify responded with ${response.status} ${context} after ${attempt} attempt(s)` +
+          ` (Retry-After: ${retryAfter ?? "none"}; body: ${body || "empty"})`
+      );
+    }
+
+    console.warn(
+      `Spotify responded with ${response.status} ${context}; retrying in ${delayMs}ms (Retry-After: ${retryAfter ?? "none"}).`
     );
     await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+}
+
+async function readFallbackTracks(): Promise<SpotifyTrack[]> {
+  try {
+    return JSON.parse(
+      await readFile(SPOTIFY_FALLBACK_FILE, "utf8")
+    ) as SpotifyTrack[];
+  } catch {
+    return [];
+  }
+}
+
+async function writeFallbackTracks(tracks: SpotifyTrack[]) {
+  try {
+    await mkdir(new URL(".", SPOTIFY_FALLBACK_FILE), { recursive: true });
+    await writeFile(SPOTIFY_FALLBACK_FILE, JSON.stringify(tracks));
+  } catch (error) {
+    console.warn("Could not save the Spotify fallback track list.", error);
   }
 }
 
@@ -233,7 +275,7 @@ export async function getLatestPlaylistTracks(): Promise<SpotifyTrack[]> {
       );
       const tail = (await tailResponse.json()) as SpotifyPage;
 
-      return (tail.items ?? [])
+      const tracks = (tail.items ?? [])
         .filter(
           (entry) =>
             entry.added_at && (entry.item ?? entry.track)?.type === "track"
@@ -254,9 +296,15 @@ export async function getLatestPlaylistTracks(): Promise<SpotifyTrack[]> {
             addedAt: entry.added_at!,
           };
         });
+      await writeFallbackTracks(tracks);
+      return tracks;
     }
-  ).catch((error) => {
-    console.warn("Could not fetch Spotify playlist tracks.", error);
-    return [] as SpotifyTrack[];
+  ).catch(async (error) => {
+    const fallback = await readFallbackTracks();
+    console.warn(
+      `Could not fetch Spotify playlist tracks; using ${fallback.length} track(s) from the last successful fetch.`,
+      error
+    );
+    return fallback;
   });
 }
